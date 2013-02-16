@@ -24,36 +24,36 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// make sure all sections are created
+// Make sure all sections are created.
 $course = course_get_format($course)->get_course();
 course_create_sections_if_missing($course, range(0, $course->numsections));
 
-// handle currentsection
+// Handle currentsection.
 if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
     $course->marker = $marker;
     course_set_marker($course->id, $marker);
 }
 
 if ($PAGE->user_is_editing()) {
-    //rely on the standard topics rendering
+    // Rely on the standard topics rendering.
     $PAGE->requires->js('/course/format/topics/format.js');
     $renderer = $PAGE->get_renderer('format_topics');
 } else {
-    //render using the masonry js
-    $PAGE->requires->js_init_call('M.masonry.init', 
-        array(array(
-           'node' => '#coursemasonry',
-           'itemSelector' => '.section.main',
-           'columnWidth' => 1,
-           'isRTL' => right_to_left(),
-           'gutterWidth' => 0
-        )),
-        true,
-        array(
-           'name' => 'course_format_masonry',
-           'fullpath' => '/course/format/masonry/format.js',
-           'requires' => array('base', 'node', 'transition', 'dd', 'event')
-        )
+    // Render using the masonry js.
+    $PAGE->requires->js_init_call('M.masonry.init',
+            array(array(
+               'node' => '#coursemasonry',
+               'itemSelector' => '.section.main',
+               'columnWidth' => 1,
+               'isRTL' => right_to_left(),
+               'gutterWidth' => 0
+            )),
+            false,
+            array(
+               'name' => 'course_format_masonry',
+               'fullpath' => '/course/format/masonry/format.js',
+               'requires' => array('base', 'node', 'transition', 'event')
+            )
     );
     $renderer = $PAGE->get_renderer('format_masonry');
 }

@@ -17,11 +17,10 @@ M.masonry.init = function(Y, cfg) {
                 var n = Y.one(node);
                 if (!n) {
                         var n = Y.one('#coursemasonry');
-                        //Y.fail('Masonry: Invalid Node Given: ' + node);
+                        // Y.fail('Masonry: Invalid Node Given: ' + node);
                 }
                 return n;
             }
-            
         },
         isResizable: {
             value: true
@@ -30,7 +29,7 @@ M.masonry.init = function(Y, cfg) {
             value: true
         },
         animationOptions: {
-            value: { duration: .5 } 
+            value: { duration: .5 }
         },
         gutterWidth: {
             value: 0
@@ -136,7 +135,7 @@ M.masonry.init = function(Y, cfg) {
 
         layout: function (bricks, callback) {
             var i, len, unusedCols, styleFn,  obj, style,
-                containerSize = {}, 
+                containerSize = {},
                 animOpts = this.get('animationOptions');
             bricks.each(function (node) {
                 this._placeBrick(node);
@@ -279,11 +278,6 @@ M.masonry.init = function(Y, cfg) {
     });
 
     Y.Masonry = Masonry;
-
     M.masonry = new Y.Masonry(cfg);
-   
-    //var dock = M.core_dock;
-    //dock.on('dock:itemschanged', M.masonry._reLayout());
 
-}; 
-
+};

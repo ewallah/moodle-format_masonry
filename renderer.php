@@ -83,13 +83,15 @@ class format_masonry_renderer extends format_section_renderer_base {
             $class .= ' hidden';
             $style .= ' opacity:0.3;filter:alpha(opacity=30);';
         } else {
-            //no need for empty first sections
+            // No need for empty first sections.
             if ($section->id == 0 && empty($section->sequence)) {
                 return '';
             }
         }
-        if ($course->marker == $section->section) {
-            $style .= 'border: 1px solid #0F0F0F;';
+        if (course_get_format($course)->is_section_current($section)) {
+            $style .= 'border: ' . 2 * $course->borderwidth . 'px solid '.  $course->bordercolor.';';
+        } else {
+            $style .= 'border: ' . $course->borderwidth . 'px solid '.  $course->bordercolor.';';
         }
         $o = html_writer::start_tag('li', array('id' => 'section-'.$section->section, 'class' => $class, 'style' => $style));
         $o .= html_writer::start_tag('div', array('class' => 'content'));
@@ -97,7 +99,8 @@ class format_masonry_renderer extends format_section_renderer_base {
         $o .= html_writer::start_tag('div', array('class' => 'summary'));
         $o .= $this->format_summary_text($section);
         $o .= html_writer::end_tag('div');
-        //$o .= $this->section_availability_message($section);
+        $context = context_course::instance($course->id);
+        $o .= $this->section_availability_message($section, has_capability('moodle/course:viewhiddensections', $context));
         return $o;
     }
 }

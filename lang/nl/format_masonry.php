@@ -23,22 +23,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['sectionname'] = 'Topic';
-$string['pluginname'] = 'Masonry Topics format';
+$string['sectionname'] = 'Sectie';
+$string['pluginname'] = 'Metselaars formaat';
 $string['package'] = 'Masonry Topics';
-$string['section0name'] = 'General';
-$string['currentsection'] = 'Current section';
-$string['backgroundcolor'] = 'Section Background color';
-$string['hidefromothers'] = 'Hide Topic';
-$string['showfromothers'] = 'Show Topic';
-$string['showalltopics'] = 'Show all topics';
-$string['defaultcolor'] = 'Default background color';
-$string['defaultcolordesc'] = 'The default background color for the section.';
-$string['maximagesize'] = 'Maximum image size';
-$string['maximagesizedesc'] = 'The maximum size (in bytes) for the button images';
-$string['colordisplay'] = 'Section background color';
+$string['section0name'] = 'Algemeen';
+$string['currentsection'] = 'Huidige sectie';
+$string['backgroundcolor'] = 'Achtergrondkleur Sectie';
+$string['hidefromothers'] = 'Verberg sectie';
+$string['showfromothers'] = 'Toon sectie';
+$string['showalltopics'] = 'Toon alle secties';
+$string['defaultcolor'] = 'Default achtergrondkleur';
+$string['defaultcolordesc'] = 'De default achtergrondkleur voor de sectie.';
+$string['colordisplay'] = 'Kleur achtergrond sectie';
 $string['colordisplay_help'] = '
 <ul><li>white</li><li>#FFF</li><li>#FFFFFF</li><li>rgb(200, 54, 54)</li><li>rgba(200, 54, 54, 0.2)</li>
 <li>transparent</li><li>currentColor</li><li>hsl(207,38%,47%)</li><li>hsla(207,38%,47%,0.8)<li>...</li></ul>';
-$string['borderwidth'] = 'Border width';
-$string['bordercolor'] = 'Border color';
+$string['borderwidth'] = 'Rand dikte';
+$string['bordercolor'] = 'Rand kleur';

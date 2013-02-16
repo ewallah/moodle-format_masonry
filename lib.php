@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot. '/course/format/lib.php');
 
@@ -50,7 +48,7 @@ class format_masonry extends format_base {
     public function get_section_name($section) {
         $section = $this->get_section($section);
         if ((string)$section->name !== '') {
-            return format_string($section->name, true,array('context' => context_course::instance($this->courseid)));
+            return format_string($section->name, true, array('context' => context_course::instance($this->courseid)));
         } else if ($section->section == 0) {
             return get_string('section0name', 'format_topics');
         } else {
@@ -58,9 +56,7 @@ class format_masonry extends format_base {
         }
     }
 
-
     /**
-     * NOT YET Available
      * Returns the information about the ajax support in the given source format
      *
      * The returned object's property (boolean)capable indicates that
@@ -69,21 +65,21 @@ class format_masonry extends format_base {
      *
      * @return stdClass
      */
-     public function supports_ajax() {
+    public function supports_ajax() {
         $ajaxsupport = new stdClass();
-        $ajaxsupport->capable = false;
+        $ajaxsupport->capable = true;
         $ajaxsupport->testedbrowsers = array('MSIE' => 6.0, 'Gecko' => 20061111, 'Safari' => 531, 'Chrome' => 6.0);
         return $ajaxsupport;
     }
 
     /**
-     * NOT YET Custom action after section has been moved in AJAX mode
+     * Custom action after section has been moved in AJAX mode
      *
      * Used in course/rest.php
      *
      * @return array This will be passed in ajax respose
      */
-    function ajax_section_move() {
+    public function ajax_section_move() {
         global $PAGE;
         $titles = array();
         $course = $this->get_course();
@@ -130,7 +126,7 @@ class format_masonry extends format_base {
      * @param bool $foreditform
      * @return array of options
      */
-     public function course_format_options($foreditform = false) {
+    public function course_format_options($foreditform = false) {
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
@@ -140,15 +136,22 @@ class format_masonry extends format_base {
                     'type' => PARAM_INT,
                 ),
                 'hiddensections' => array(
-                    'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
                     'default' => 1
                 ),
                 'coursedisplay' => array(
-                    'default' => $courseconfig->coursedisplay,
                     'type' => PARAM_INT,
                     'default' => 1
                 ),
+                'borderwidth' => array(
+                    'type' => PARAM_INT,
+                    'default' => 1
+                ),
+                'bordercolor' => array(
+                    'type' => PARAM_TEXT,
+                    'default' => '#F0F0F0'
+                )
+
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -172,8 +175,8 @@ class format_masonry extends format_base {
                     'element_type' => 'hidden',
                     'element_attributes' => array(
                         array(
-                            // disabled for Masonry course format 
-                            //0 => new lang_string('hiddensectionscollapsed'),
+                            // Disabled for Masonry course format.
+                            // 0 => new lang_string('hiddensectionscollapsed'),.
                             1 => new lang_string('hiddensectionsinvisible')
                         )
                     ),
@@ -184,10 +187,21 @@ class format_masonry extends format_base {
                     'element_attributes' => array(
                         array(
                             COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single')
-                            // disabled for Masonry course format 
-                            // COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi')
+                            // Disabled for Masonry course format.
+                            // COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi').
                         )
                     ),
+                ),
+                'borderwidth' => array(
+                    'label' => get_string('borderwidth', 'format_masonry'),
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(0 => '0', 1 => '1', 2 => '2')
+                    ),
+                ),
+                'bordercolor' => array(
+                    'label' => get_string('bordercolor', 'format_masonry'),
+                    'element_type' => 'text',
                 )
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
@@ -220,10 +234,12 @@ class format_masonry extends format_base {
                     } else if ($key === 'numsections') {
                         // If previous format does not have the field 'numsections'
                         // and $data['numsections'] is not set,
-                        // we fill it with the maximum section number from the DB
-                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?', array($this->courseid));
+                        // we fill it with the maximum section number from the DB.
+                        $maxsection = $DB->get_field_sql(
+                            'SELECT max(section) from {course_sections} WHERE course = ?', array($this->courseid)
+                        );
                         if ($maxsection) {
-                            // If there are no sections, or just default 0-section, 'numsections' will be set to default
+                            // If there are no sections, or just default 0-section, 'numsections' will be set to default.
                             $data['numsections'] = $maxsection;
                         }
                     }

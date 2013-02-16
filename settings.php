@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -27,13 +26,11 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-
-    // Page Background colour setting
+    // Page Background colour setting.
     $name = 'format_masonry_defaultbackgroundcolor';
-    $title = get_string('defaultcolor','format_masonry');
+    $title = get_string('defaultcolor', 'format_masonry');
     $description = get_string('defaultcolordesc', 'format_masonry');
     $default = '#F9F9F9';
     $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
     $settings->add($setting);
-
 }
