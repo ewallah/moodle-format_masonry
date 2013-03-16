@@ -93,7 +93,6 @@ class format_masonry extends format_base {
         return array('sectiontitles' => $titles, 'action' => 'move');
     }
 
-
     /**
      * Definitions of the additional options that this course format uses for section
      *

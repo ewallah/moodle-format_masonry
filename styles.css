@@ -117,6 +117,11 @@
     padding-right: 0;
 }
 
+#page-course-view-masonry .path-course-view li.activity span.autocompletion input,
+#coursemasonry form.togglecompletion input {
+    padding: 0;
+}
+
 #page-course-view-masonry .course-content .mod-indent-1,
 #page-course-view-masonry .course-content .mod-indent-2,
 #page-course-view-masonry .course-content .mod-indent-3,

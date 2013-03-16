@@ -25,11 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013021300;         // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2013031600;         // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2012110900;         // Requires this Moodle version (2.4).
 $plugin->component = 'format_masonry';   // Full name of the plugin (used for diagnostics).
-$plugin->release  = '1.0';
-$plugin->maturity = MATURITY_BETA;
+$plugin->release  = '1.1';
+$plugin->maturity = MATURITY_RC;
 $plugin->dependencies = array(
     'format_topics' => 2012112900,
 );
