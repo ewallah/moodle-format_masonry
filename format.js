@@ -16,8 +16,10 @@ M.masonry.init = function(Y, cfg) {
             setter: function (node) {
                 var n = Y.one(node);
                 if (!n) {
-                        var n = Y.one('#coursemasonry');
-                        // Y.fail('Masonry: Invalid Node Given: ' + node);
+                        n = Y.one('#coursemasonry');
+                }
+                if (!n) {
+                        Y.fail('Masonry: Invalid Node Given: ' + node);
                 }
                 return n;
             }
@@ -122,6 +124,12 @@ M.masonry.init = function(Y, cfg) {
             setTimeout(function () { instance.get('node').addClass('masonry'); }, 0);
             if (this.get('isResizable')) {
                 Y.on('masonry|windowresize', function () {
+                    instance.resize();
+                });
+
+            }
+            if (M.core.dock) {
+                Y.on('dock:itemschanged|dock:resizepanelcomplete', function () {
                     instance.resize();
                 });
             }
@@ -280,6 +288,4 @@ M.masonry.init = function(Y, cfg) {
     Y.Masonry = Masonry;
     M.masonry = new Y.Masonry(cfg);
 
-    M.core_dock.after('dock:itemschanged', M.masonry._reLayout());
-    //M.core_dock.on('dock:resizepanelcomplete', M.masonry._reLayout());
 };
