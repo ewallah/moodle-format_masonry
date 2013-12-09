@@ -1,13 +1,54 @@
-#page-course-view-masonry .course-content .content {
-    left: 0;
-    width: 85%;
+#page-course-view-masonry #coursemasonry {
+    margin: auto auto;
+    margin-bottom: 10px;
 }
-
 #page-course-view-masonry .course-content {
     border: 1px solid #ccc;
     background:#F3F3F3;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+#page-course-view-masonry .course-content .content {
+    left: 0;
+}
+
+#page-course-view-masonry .course-content .section,
+#page-course-view-masonry .course-content .section.main .content {
+    background:transparent;
+}
+
+#page-course-view-masonry .course-content .sectionname,
+#page-course-view-masonry .course-content .section .activity .instancename {
+    white-space:nowrap;
+}
+
+#page-course-view-masonry .section .activity .mod-indent {
+    padding-left: 0px;
+}
+
+#page-course-view-masonry .section .activity .mod-indent-outer {
+    display:inherit;
+    padding-left:0px;
+}
+
+#page-course-view-masonry .course-content .mod-indent-1,
+#page-course-view-masonry .course-content .mod-indent-2,
+#page-course-view-masonry .course-content .mod-indent-3,
+#page-course-view-masonry .course-content .mod-indent-4,
+#page-course-view-masonry .course-content .mod-indent-5,
+#page-course-view-masonry .course-content .mod-indent-6,
+#page-course-view-masonry .course-content .mod-indent-7,
+#page-course-view-masonry .course-content .mod-indent-8,
+#page-course-view-masonry .course-content .mod-indent-9,
+#page-course-view-masonry .course-content .mod-indent-10,
+#page-course-view-masonry .course-content .mod-indent-11,
+#page-course-view-masonry .course-content .mod-indent-12,
+#page-course-view-masonry .course-content .mod-indent-13,
+#page-course-view-masonry .course-content .mod-indent-14,
+#page-course-view-masonry .course-content .mod-indent-15,
+#page-course-view-masonry .course-content .mod-indent-huge {
+    margin-left: 0px;
 }
 
 #page-course-view-masonry .course-content ul.topics {
@@ -39,11 +80,6 @@
     margin:10px 10px;
 }
 
-#page-course-view-masonry .course-content .section,
-#page-course-view-masonry .course-content .section.main .content {
-    background:transparent;
-}
-
 #page-course-view-masonry .course-content ul.topics li.section .left {
     text-align: left;
     padding: 0px 0px;
@@ -52,11 +88,6 @@
 #page-course-view-masonry .course-content ul.topics li.section .right {
     text-align: right;
     padding: 0px 0px;
-}
-
-#page-course-view-masonry .course-content .sectionname,
-#page-course-view-masonry .course-content .section .activity .instancename {
-    white-space:nowrap;
 }
 
 #page-course-view-masonry .course-content .section-summary .section-summary-activities .activity-count {
@@ -75,13 +106,8 @@
 
 #page-course-view-masonry .item {
     width: auto;
-    margin: 10px 10px 0px 0px !important;
+    margin: 10px 10px 0px 0px;
     float: left;
-}
-
-#page-course-view-masonry #coursemasonry {
-    margin: auto auto !important;
-    margin-bottom: 10px !important;
 }
 
 #page-course-view-masonry #coursemasonry .section .content .summary .no-overflow {
@@ -119,24 +145,23 @@
 
 #page-course-view-masonry .path-course-view li.activity span.autocompletion input,
 #coursemasonry form.togglecompletion input {
-    padding: 0;
+    padding: 7px 0 0 5px;
 }
 
-#page-course-view-masonry .course-content .mod-indent-1,
-#page-course-view-masonry .course-content .mod-indent-2,
-#page-course-view-masonry .course-content .mod-indent-3,
-#page-course-view-masonry .course-content .mod-indent-4,
-#page-course-view-masonry .course-content .mod-indent-5,
-#page-course-view-masonry .course-content .mod-indent-6,
-#page-course-view-masonry .course-content .mod-indent-7,
-#page-course-view-masonry .course-content .mod-indent-8,
-#page-course-view-masonry .course-content .mod-indent-9,
-#page-course-view-masonry .course-content .mod-indent-10,
-#page-course-view-masonry .course-content .mod-indent-11,
-#page-course-view-masonry .course-content .mod-indent-12,
-#page-course-view-masonry .course-content .mod-indent-13,
-#page-course-view-masonry .course-content .mod-indent-14,
-#page-course-view-masonry .course-content .mod-indent-15,
-#page-course-view-masonry .course-content .mod-indent-huge {
-    margin-left: 0px;
+#page-course-view-masonry .path-course-view .completionprogress {
+    float: none;
+    margin-bottom: 5px;
+}
+
+#page-course-view-masonry ul.section.img-text {
+    margin: 1px;
+}
+#page-course-view-masonry #completionprogressid {
+    margin-top: -1.5em;
+}
+
+#page-course-view-masonry .admin_colourpicker .previewcolour,
+#page-course-view-masonry .admin_colourpicker .currentcolour,
+#page-course-view-masonry .admin_colourpicker .colourdialogue {
+    border-color: #9A9B9C;
 }
