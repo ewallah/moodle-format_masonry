@@ -94,6 +94,27 @@ class format_masonry extends format_base {
     }
 
     /**
+     * Loads all of the course sections into the navigation
+     *
+     * @param global_navigation $navigation
+     * @param navigation_node $node The course node within the navigation
+     */
+    public function extend_course_navigation($navigation, navigation_node $node) {
+        global $PAGE;
+        // If section is specified in course/view.php, make sure it is expanded in navigation.
+        if ($navigation->includesectionnum === false) {
+            $selectedsection = optional_param('section', null, PARAM_INT);
+            if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
+                    $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+                $navigation->includesectionnum = $selectedsection;
+            }
+        }
+
+        // Check if there are callbacks to extend course navigation.
+        parent::extend_course_navigation($navigation, $node);
+    }
+
+    /**
      * Definitions of the additional options that this course format uses for section
      *
      * @param bool $foreditform
@@ -103,17 +124,19 @@ class format_masonry extends format_base {
         global $CFG;
         return array(
             'backcolor' => array(
-                'type' => PARAM_TEXT,
-                'label' => get_string('backgroundcolor', 'format_masonry'),
-                'element_type' => 'text',
+                'type' => PARAM_RAW,
+                'name' => 'bordercolor',
+                'label' => get_string('bordercolor', 'format_masonry'),
+                'element_type' => 'masonrycolorpicker',
                 'default' => $CFG->format_masonry_defaultbackgroundcolor,
-                'cache' => false,
+                'cache' => true,
                 'help' => 'colordisplay',
                 'help_component' => 'format_masonry',
             )
         );
     }
 
+    
     /**
      * Definitions of the additional options that this course format uses for course
      *
@@ -201,12 +224,55 @@ class format_masonry extends format_base {
                 'bordercolor' => array(
                     'label' => get_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
+                    'element_type' => 'hidden'
+                ),
+                'backcolor' => array(
+                    'label' => get_string('bordercolor', 'format_masonry'),
+                    'element_type' => 'masonrycolorpicker',
+                    'element_attributes' => array(array('value' => $courseformatoptions['bordercolor']['default']))
                 )
+
             );
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
         }
         return $courseformatoptions;
     }
+
+    /**
+     * Adds format options elements to the course/section edit form.
+     *
+     * This function is called from {@link course_edit_form::definition_after_data()}.
+     *
+     * @param MoodleQuickForm $mform form the elements are added to.
+     * @param bool $forsection 'true' if this is a section edit form, 'false' if this is course edit form.
+     * @return array array of references to the added form elements.
+     */
+    public function create_edit_form_elements(&$mform, $forsection = false) {
+        global $CFG;
+        MoodleQuickForm::registerElementType(
+            "masonrycolorpicker",
+            "$CFG->dirroot/course/format/masonry/colorpicker.php",
+            "MoodleQuickForm_colorpicker");
+        $elements = parent::create_edit_form_elements($mform, $forsection);
+        // Increase the number of sections combo box values if the user has increased the number of sections
+        // using the icon on the course page beyond course 'maxsections' or course 'maxsections' has been
+        // reduced below the number of sections already set for the course on the site administration course
+        // defaults page.  This is so that the number of sections is not reduced leaving unintended orphaned
+        // activities / resources.
+        if (!$forsection) {
+            $maxsections = get_config('moodlecourse', 'maxsections');
+            $numsections = $mform->getElementValue('numsections');
+            $numsections = $numsections[0];
+            if ($numsections > $maxsections) {
+                $element = $mform->getElement('numsections');
+                for ($i = $maxsections + 1; $i <= $numsections; $i++) {
+                    $element->addOption("$i", $i);
+                }
+            }
+        }
+        return $elements;
+    }
+
 
     /**
      * Updates format options for a course
@@ -222,7 +288,10 @@ class format_masonry extends format_base {
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
+    public function update_course_format_options($data, $oldcourse = null) {
+        global $DB;
         if ($oldcourse !== null) {
+            $data->bordercolor = $data->backcolor;
             $data = (array)$data;
             $oldcourse = (array)$oldcourse;
             $options = $this->course_format_options();
@@ -234,9 +303,8 @@ class format_masonry extends format_base {
                         // If previous format does not have the field 'numsections'
                         // and $data['numsections'] is not set,
                         // we fill it with the maximum section number from the DB.
-                        $maxsection = $DB->get_field_sql(
-                            'SELECT max(section) from {course_sections} WHERE course = ?', array($this->courseid)
-                        );
+                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections}
+                            WHERE course = ?', array($this->courseid));
                         if ($maxsection) {
                             // If there are no sections, or just default 0-section, 'numsections' will be set to default.
                             $data['numsections'] = $maxsection;
@@ -248,4 +316,3 @@ class format_masonry extends format_base {
         return $this->update_format_options($data);
     }
 }
-
