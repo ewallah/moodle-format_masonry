@@ -26,11 +26,26 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    // Page Background colour setting.
+    global $CFG;
+    // Brick background colour setting.
+    if (empty($CFG->format_masonry_defaultbackgroundcolor)) {
+        $CFG->format_masonry_defaultbackgroundcolor = '#F9F9F9';
+    }
     $name = 'format_masonry_defaultbackgroundcolor';
     $title = get_string('defaultcolor', 'format_masonry');
     $description = get_string('defaultcolordesc', 'format_masonry');
     $default = '#F9F9F9';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+
+    // Brick border colour setting.
+    if (empty($CFG->format_masonry_defaultbordercolor)) {
+        $CFG->format_masonry_defaultbordercolor = '#9A9B9C';
+    }
+    $name = 'format_masonry_defaultbordercolor';
+    $title = get_string('defaultbordercolor', 'format_masonry');
+    $description = get_string('defaultbordercolordesc', 'format_masonry');
+    $default = '#9A9B9C';
     $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
     $settings->add($setting);
 }
