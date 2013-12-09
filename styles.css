@@ -165,3 +165,7 @@
 #page-course-view-masonry .admin_colourpicker .colourdialogue {
     border-color: #9A9B9C;
 }
+
+#page-course-view-masonry .course-content .section .activity .editing_move {
+    left:-16px;
+}
