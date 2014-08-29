@@ -24,9 +24,9 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/course/format/renderer.php');
+require_once($CFG->dirroot.'/course/format/topics/renderer.php');
 
-class format_masonry_renderer extends format_section_renderer_base {
+class format_masonry_renderer extends format_topics_renderer {
 
     /**
      * Generate the starting masonry container html for a list of brick sections
@@ -44,13 +44,6 @@ class format_masonry_renderer extends format_section_renderer_base {
         return html_writer::end_tag('ul');
     }
 
-    /**
-     * Generate the title for this section page
-     * @return string the page title
-     */
-    protected function page_title() {
-        return get_string('topicoutline');
-    }
 
     /**
      * Generate the content to displayed on the left part of a section
