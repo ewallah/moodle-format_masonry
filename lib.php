@@ -41,7 +41,7 @@ class format_masonry extends format_topics {
             'backcolor' => array(
                 'type' => PARAM_RAW,
                 'name' => 'bordercolor',
-                'label' => get_string('bordercolor', 'format_masonry'),
+                'label' => get_string('backgroundcolor', 'format_masonry'),
                 'element_type' => 'masonrycolorpicker',
                 'default' => $CFG->format_masonry_defaultbackgroundcolor,
                 'cache' => true,
