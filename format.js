@@ -122,17 +122,26 @@ M.masonry.init = function(Y, cfg) {
             this.horizontalDirection = this.horizontalDirection.toLowerCase();
             this.isFluid = columnWidth && typeof columnWidth === 'function';
             setTimeout(function () { instance.get('node').addClass('masonry'); }, 0);
-            if (this.get('isResizable')) {
-                Y.on('masonry|windowresize', function () {
-                    instance.resize();
-                });
 
-            }
-            if (M.core.dock) {
-                Y.on('dock:itemschanged|dock:resizepanelcomplete', function () {
-                    instance.resize();
-                });
-            }
+            /* when window size changed */
+            Y.on('masonry|windowresize', function () {
+                M.masonry.resize();
+            });
+
+            /* when document ready */
+            Y.after('domready', function () {
+                M.masonry.resize();
+            });
+
+            /* when block docked */
+            var dock = M.core.dock.get();
+            dock.after('dock:itemschanged', function() {
+                M.masonry.reload();
+            });
+
+            Y.all(".block_action").on("click", function () {
+                M.masonry._reLayout();
+            });
             this.reloadItems();
         },
 
