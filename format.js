@@ -127,15 +127,13 @@ M.masonry.init = function(Y, cfg) {
             Y.on('masonry|windowresize', function () {
                 M.masonry.resize();
             });
-            /* when document ready */
-            Y.after('domready', function () {
-                M.masonry.resize();
-            });
+
             /* when block received data and growed */
             Y.after('io:end', function () {
                 M.masonry._reLayout();
                 M.masonry.resize();
             });
+
             /* when block docked */
             var dock = M.core.dock.get();
             dock.after('dock:itemschanged', function() {
@@ -153,6 +151,7 @@ M.masonry.init = function(Y, cfg) {
             Y.all("ul.block_tree.list").after("click", function (e) {
                 setTimeout(function(){ M.masonry.reload()}, 100);
             });
+            this.reloadItems();
         },
 
         _init: function (callback) {
