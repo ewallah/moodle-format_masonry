@@ -123,26 +123,36 @@ M.masonry.init = function(Y, cfg) {
             this.isFluid = columnWidth && typeof columnWidth === 'function';
             setTimeout(function () { instance.get('node').addClass('masonry'); }, 0);
 
-            /* when window size changed */
+           /* when window size changed */
             Y.on('masonry|windowresize', function () {
                 M.masonry.resize();
             });
-
             /* when document ready */
             Y.after('domready', function () {
                 M.masonry.resize();
             });
-
+            /* when block received data and growed */
+            Y.after('io:end', function () {
+                M.masonry._reLayout();
+                M.masonry.resize();
+            });
             /* when block docked */
             var dock = M.core.dock.get();
             dock.after('dock:itemschanged', function() {
                 M.masonry.reload();
             });
 
-            Y.all(".block_action").on("click", function () {
+            /* when min max */
+            Y.all(".block_action").after("click", function () {
+                setTimeout(function(){ M.masonry.reload()}, 310);
                 M.masonry._reLayout();
+                M.masonry.resize();
             });
-            this.reloadItems();
+
+            /* wait a second when when expandable item clicked*/
+            Y.all("ul.block_tree.list").after("click", function (e) {
+                setTimeout(function(){ M.masonry.reload()}, 100);
+            });
         },
 
         _init: function (callback) {
