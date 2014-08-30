@@ -19,21 +19,21 @@
  *
  * @package    course format
  * @subpackage masonry
- * @copyright  2013 Renaat Debleu (www.eWallah.net)
+ * @copyright  2014 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/course/format/topics/renderer.php');
+require_once($CFG->dirroot.'/course/format/renderer.php');
 
-class format_masonry_renderer extends format_topics_renderer {
+class format_masonry_renderer extends format_section_renderer_base {
 
     /**
      * Generate the starting masonry container html for a list of brick sections
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('id'=>'coursemasonry', 'class' => "topics masonry"));
+        return html_writer::start_tag('ul', array('id' => 'coursemasonry', 'class' => "topics masonry"));
     }
 
     /**
@@ -44,6 +44,13 @@ class format_masonry_renderer extends format_topics_renderer {
         return html_writer::end_tag('ul');
     }
 
+    /**
+     * Generate the title for this section page
+     * @return string the page title
+     */
+    protected function page_title() {
+        return get_string('topicoutline');
+    }
 
     /**
      * Generate the content to displayed on the left part of a section
@@ -70,9 +77,8 @@ class format_masonry_renderer extends format_topics_renderer {
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
         global $PAGE;
-        $context = context_course::instance($course->id);
         $class = 'section main';
-        $style = 'background:' . $section->backcolor . ' !important;';
+        $style = 'background:' .$section->backcolor . ' !important;';
         if (!$section->visible) {
             $class .= ' hidden';
             $style .= ' opacity:0.3;filter:alpha(opacity=30);';
@@ -83,16 +89,17 @@ class format_masonry_renderer extends format_topics_renderer {
             }
         }
         if (course_get_format($course)->is_section_current($section)) {
-            $style .= 'border: ' . 2 * $course->borderwidth . 'px solid ' .  $course->bordercolor.';';
+            $style .= 'border: ' . 2 * $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
         } else {
-            $style .= 'border: ' . $course->borderwidth . 'px solid ' .  $course->bordercolor.';';
+            $style .= 'border: ' . $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
         }
-        $o = html_writer::start_tag('li', array('id' => 'section-' . $section->section, 'class' => $class, 'style' => $style));
+        $o = html_writer::start_tag('li', array('id' => 'section-'.$section->section, 'class' => $class, 'style' => $style));
         $o .= html_writer::start_tag('div', array('class' => 'content'));
         $o .= $this->output->heading($this->section_title($section, $course), 3, 'sectionname');
         $o .= html_writer::start_tag('div', array('class' => 'summary'));
         $o .= $this->format_summary_text($section);
         $o .= html_writer::end_tag('div');
+        $context = context_course::instance($course->id);
         $o .= $this->section_availability_message($section, has_capability('moodle/course:viewhiddensections', $context));
         return $o;
     }
