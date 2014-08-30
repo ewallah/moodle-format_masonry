@@ -146,7 +146,7 @@ class format_masonry extends format_topics {
                 'backcolor' => array(
                     'label' => get_string('bordercolor', 'format_masonry'),
                     'element_type' => 'masonrycolorpicker',
-                    'element_attributes' => array(array('value' => $courseformatoptions['backcolor']['default']))
+                    'element_attributes' => array(array('value' => $courseformatoptions['bordercolor']['default']))
                 )
 
             );
