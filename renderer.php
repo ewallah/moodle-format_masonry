@@ -88,7 +88,7 @@ class format_masonry_renderer extends format_section_renderer_base {
                 return '';
             }
         }
-        if (course_get_format($course)->is_section_current($section)) {
+        if ($course->marker == $section->section) {
             $style .= 'border: ' . 2 * $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
         } else {
             $style .= 'border: ' . $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
