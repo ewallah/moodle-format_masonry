@@ -89,8 +89,11 @@ class format_masonry extends format_topics {
                 'bordercolor' => array(
                     'type' => PARAM_TEXT,
                     'default' => '#F0F0F0'
+                ),
+                'backcolor' => array(
+                    'type' => PARAM_TEXT,
+                    'default' => '#F0F0F0'
                 )
-
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -146,7 +149,7 @@ class format_masonry extends format_topics {
                 'backcolor' => array(
                     'label' => get_string('bordercolor', 'format_masonry'),
                     'element_type' => 'masonrycolorpicker',
-                    'element_attributes' => array(array('value' => $courseformatoptions['backcolor']['default']))
+                    'element_attributes' => array(array('value' => $courseformatoptions['bordercolor']['default']))
                 )
 
             );
