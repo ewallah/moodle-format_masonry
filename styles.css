@@ -32,6 +32,27 @@
     padding-left:0px;
 }
 
+#page-course-view-masonry .sitetopic .section .label .contentwithoutlink .no-overflow,
+#page-course-view-masonry .course-content .section .label .contentwithoutlink .no-overflow {
+    overflow: visible;
+}
+
+#page-course-view-masonry .sitetopic .section .label .contentwithoutlink,
+#page-course-view-masonry .course-content .section .label .contentwithoutlink {
+    padding: 0px;
+}
+#page-course-view-masonry .course-content .section li.activity {
+    background-color:transparent;
+}
+
+#page-course-view-masonry #coursemasonry div.no-overflow {
+    overflow:visible;
+}
+
+#page-course-view-masonry #coursemasonry div.no-overflow img {
+    display: inline !important;
+}
+
 #page-course-view-masonry .course-content .mod-indent-1,
 #page-course-view-masonry .course-content .mod-indent-2,
 #page-course-view-masonry .course-content .mod-indent-3,
