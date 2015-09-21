@@ -62,7 +62,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         $content  = html_writer::start_tag('div', array('class' => 'form-colourpicker defaultsnext'));
         $content .= html_writer::tag('div',
             $OUTPUT->pix_icon('i/loading', get_string('loading', 'admin'), 'moodle', array('class' => 'loadingicon')),
-            array('class'=>'admin_colourpicker clearfix')
+            array('class' => 'admin_colourpicker clearfix')
         );
         $content .= html_writer::end_tag('div');
         $content .= '<input size="7" name="'.$this->getName().'" value="'.$this->getValue().'" id="'.$id.'" type="text" >';
@@ -96,7 +96,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         // TODO : no verification yet.
         return $data;
         if (preg_match('/^#?([a-fA-F0-9]{3}){1,2}$/', $data)) {
-            if (strpos($data, '#')!== 0) {
+            if (strpos($data, '#') !== 0) {
                 $data = '#'.$data;
             }
             return $data;

@@ -37,8 +37,9 @@ class format_masonry_renderer extends format_section_renderer_base {
     public function __construct(moodle_page $page, $target) {
         parent::__construct($page, $target);
 
-        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
-        // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
+        // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section'
+        // control when editing mode is on we need to be sure that the link 'Turn editing mode on' is
+        // available for a user who does not have any other managing capability.
         $page->set_other_editing_capability('moodle/course:setcurrentsection');
     }
 
@@ -77,34 +78,10 @@ class format_masonry_renderer extends format_section_renderer_base {
      */
     protected function section_left_content($section, $course, $onsectionpage) {
         global $PAGE;
-        //if ($PAGE->user_is_editing()) {
+        if ($PAGE->user_is_editing()) {
             return parent::section_left_content($section, $course, $onsectionpage);
-        //}
+        }
         return '';
-    }
-
-    /**
-     * Generate the edit controls of a section
-     *
-     * @param stdClass $course The course entry from DB
-     * @param stdClass $section The course_section entry from DB
-     * @param bool $onsectionpage true if being printed on a section page
-     * @return array of links with edit controls
-     */
-    //protected function section_edit_controls($course, $section, $onsectionpage = false) {
-    //    return parent::section_edit_controls($course, $section, $onsectionpage);
-    //}
-
-    /**
-     * Generate the edit controls of a section
-     *
-     * @param stdClass $course The course entry from DB
-     * @param stdClass $section The course_section entry from DB
-     * @param bool $onsectionpage true if being printed on a section page
-     * @return array of links with edit controls
-     */
-    protected function section_edit_controls($course, $section, $onsectionpage = false) {
-        return parent::section_edit_controls($course, $section, $onsectionpage);
     }
 
     /**

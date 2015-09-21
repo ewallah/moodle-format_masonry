@@ -51,7 +51,6 @@ class format_masonry extends format_topics {
         );
     }
 
-    
     /**
      * Definitions of the additional options that this course format uses for course
      *

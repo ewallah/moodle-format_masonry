@@ -31,7 +31,7 @@ $course = course_get_format($course)->get_course();
 $context = context_course::instance($course->id);
 
 // Handle currentsection.
-if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
+if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
     $course->marker = $marker;
     course_set_marker($course->id, $marker);
 }
