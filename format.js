@@ -73,8 +73,8 @@ M.masonry.init = function(Y, cfg) {
 
         _outerWidth: function (node) {
             if (node) {
-                l = parseInt(node.getStyle('marginLeft'), 10);
-                r = parseInt(node.getStyle('marginRight'), 10);
+                var l = parseInt(node.getStyle('marginLeft'), 10);
+                var r = parseInt(node.getStyle('marginRight'), 10);
                 return node.get('offsetWidth') + l + r;
             }
             return 0;
@@ -82,9 +82,9 @@ M.masonry.init = function(Y, cfg) {
 
         _outerHeight: function (node) {
             if (node) {
-                t = parseInt(node.getStyle('marginTop'), 10);
-                b = parseInt(node.getStyle('marginBottom'), 10);
-                return node.get('offsetHeight') + l + r;
+                var t = parseInt(node.getStyle('marginTop'), 10);
+                var b = parseInt(node.getStyle('marginBottom'), 10);
+                return node.get('offsetHeight') + t + b;
             }
             return 0;
         },
