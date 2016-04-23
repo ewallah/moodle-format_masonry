@@ -36,7 +36,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
 
     public $_helpbutton = '';
     protected $_hiddenlabel = false;
-
+    
 
     /**
      * Constructor
@@ -45,9 +45,8 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
      * @param string $elementlabel (optional) label
      * @param array $attributes (optional) Either a typical HTML attribute string
      *              or an associative array
-     * @param array $options set of options to initalize colorpicker
      */
-    public function __construct($elementname=null, $elementlabel=null, $attributes=null, $options=null) {
+    public function __construct($elementname=null, $elementlabel=null, $attributes=null) {
         parent::__construct($elementname, $elementlabel, $attributes);
     }
 
@@ -56,7 +55,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     }
 
     public function tohtml() {
-        global $CFG, $COURSE, $USER, $PAGE, $OUTPUT;
+        global $PAGE, $OUTPUT;
         $id = $this->getAttribute('id');
         $PAGE->requires->js_init_call('M.util.init_colour_picker', array($id));
         $content  = html_writer::start_tag('div', array('class' => 'form-colourpicker defaultsnext'));
@@ -65,7 +64,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
             array('class' => 'admin_colourpicker clearfix')
         );
         $content .= html_writer::end_tag('div');
-        $content .= '<input size="7" name="'.$this->getName().'" value="'.$this->getValue().'" id="'.$id.'" type="text" >';
+        $content .= '<input size="47" name="'.$this->getName().'" value="'.$this->getValue().'" id="'.$id.'" type="text" >';
         return $content;
     }
 

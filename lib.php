@@ -105,7 +105,7 @@ class format_masonry extends format_topics {
             for ($i = 0; $i <= $max; $i++) {
                 $sectionmenu[$i] = "$i";
             }
-            $courseformatoptionsedit = array(
+            $courseoptionsedit = array(
                 'numsections' => array(
                     'label' => new lang_string('numberweeks'),
                     'element_type' => 'select',
@@ -151,7 +151,7 @@ class format_masonry extends format_topics {
                 )
 
             );
-            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
+            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseoptionsedit);
         }
         return $courseformatoptions;
     }

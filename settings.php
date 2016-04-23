@@ -34,8 +34,7 @@ if ($ADMIN->fulltree) {
     $name = 'format_masonry_defaultbackgroundcolor';
     $title = get_string('defaultcolor', 'format_masonry');
     $description = get_string('defaultcolordesc', 'format_masonry');
-    $default = '#F9F9F9';
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#F9F9F9');
     $settings->add($setting);
 
     // Brick border colour setting.
@@ -45,7 +44,6 @@ if ($ADMIN->fulltree) {
     $name = 'format_masonry_defaultbordercolor';
     $title = get_string('defaultbordercolor', 'format_masonry');
     $description = get_string('defaultbordercolordesc', 'format_masonry');
-    $default = '#9A9B9C';
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#9A9B9C');
     $settings->add($setting);
 }

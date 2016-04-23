@@ -15,7 +15,7 @@ php:
 matrix:
  fast_finish: true
  exclude:
-    # MySQL - it's just too slow.
+    # MySQL - we do not use the database to store data
     - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
       php: 5.4
     - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
@@ -34,6 +34,8 @@ before_install:
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
+  # Disable xdebug. We aren't generating code coverage, and it has a huge impact upon test performance.
+  - rm /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - moodle-plugin-ci install
 
 script:

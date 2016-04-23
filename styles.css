@@ -157,7 +157,7 @@
     margin: 1px;
 }
 #page-course-view-masonry #completionprogressid {
-    margin-top: -1.5em;
+    display: none;
 }
 
 #page-course-view-masonry .admin_colourpicker .previewcolour,
