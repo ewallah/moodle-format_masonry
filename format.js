@@ -31,7 +31,7 @@ M.masonry.init = function(Y, cfg) {
             value: true
         },
         animationOptions: {
-            value: { duration: .5 }
+            value: { duration: 0.5 }
         },
         gutterWidth: {
             value: 0
@@ -72,11 +72,21 @@ M.masonry.init = function(Y, cfg) {
         },
 
         _outerWidth: function (node) {
-            return node ? node.get('offsetWidth') + parseInt(node.getStyle('marginLeft'), 10) + parseInt(node.getStyle('marginRight'), 10) : 0;
+            if (node) {
+                l = parseInt(node.getStyle('marginLeft'), 10);
+                r = parseInt(node.getStyle('marginRight'), 10);
+                return node.get('offsetWidth') + l + r;
+            }
+            return 0;
         },
 
         _outerHeight: function (node) {
-            return node ? node.get('offsetHeight') + parseInt(node.getStyle('marginTop'), 10) + parseInt(node.getStyle('marginBottom'), 10) : 0;
+            if (node) {
+                t = parseInt(node.getStyle('marginTop'), 10);
+                b = parseInt(node.getStyle('marginBottom'), 10);
+                return node.get('offsetHeight') + l + r;
+            }
+            return 0;
         },
 
         _filterFindBricks: function (elems) {
@@ -142,14 +152,18 @@ M.masonry.init = function(Y, cfg) {
 
             /* when min max */
             Y.all(".block_action").after("click", function () {
-                setTimeout(function(){ M.masonry.reload()}, 310);
+                setTimeout(function(){
+                    M.masonry.reload();
+                }, 310);
                 M.masonry._reLayout();
                 M.masonry.resize();
             });
 
-            /* wait a second when when expandable item clicked*/
-            Y.all("ul.block_tree.list").after("click", function (e) {
-                setTimeout(function(){ M.masonry.reload()}, 100);
+            /* wait a second when when expandable item clicked */
+            Y.all("ul.block_tree.list").after("click", function () {
+                setTimeout(function(){
+                    M.masonry.reload();
+                }, 100);
             });
             this.reloadItems();
         },
@@ -209,7 +223,8 @@ M.masonry.init = function(Y, cfg) {
                 containerWidth = parseInt(container.getStyle('width'), 10) || 0,
                 columnWidth = this.get('columnWidth'),
                 gutterWidth = this.get('gutterWidth');
-            this.columnWidth = this.isFluid ? columnWidth(containerWidth) : columnWidth || this._outerWidth(this.bricks.item(0)) || containerWidth;
+            this.columnWidth = this.isFluid ? columnWidth(containerWidth) : columnWidth ||
+                this._outerWidth(this.bricks.item(0)) || containerWidth;
             this.columnWidth += gutterWidth;
             this.cols = Math.floor((containerWidth + gutterWidth) / this.columnWidth);
             this.cols = Math.max(this.cols, 1);

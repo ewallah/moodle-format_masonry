@@ -24,12 +24,12 @@
 }
 
 #page-course-view-masonry .section .activity .mod-indent {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #page-course-view-masonry .section .activity .mod-indent-outer {
     display:inherit;
-    padding-left:0px;
+    padding-left:0;
 }
 
 #page-course-view-masonry .course-content .mod-indent-1,
@@ -48,7 +48,7 @@
 #page-course-view-masonry .course-content .mod-indent-14,
 #page-course-view-masonry .course-content .mod-indent-15,
 #page-course-view-masonry .course-content .mod-indent-huge {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 #page-course-view-masonry .course-content ul.topics {
@@ -67,9 +67,9 @@
 }
 
 #page-course-view-masonry .course-content ul.topics li.section.main.clearfix {
-    border: 0px solid #ccc;
+    border: 0 solid #ccc;
     list-style: none;
-    margin:10px 0px 20px 0px;
+    margin:10px 0 20px 0;
     padding:0;
     background:#F0F0F0;
     -moz-border-radius: 5px;
@@ -82,12 +82,12 @@
 
 #page-course-view-masonry .course-content ul.topics li.section .left {
     text-align: left;
-    padding: 0px 0px;
+    padding: 0 0;
 }
 
 #page-course-view-masonry .course-content ul.topics li.section .right {
     text-align: right;
-    padding: 0px 0px;
+    padding: 0 0;
 }
 
 #page-course-view-masonry .course-content .section-summary .section-summary-activities .activity-count {
@@ -106,17 +106,17 @@
 
 #page-course-view-masonry .item {
     width: auto;
-    margin: 10px 10px 0px 0px;
+    margin: 10px 10px 0 0;
     float: left;
 }
 
 #page-course-view-masonry #coursemasonry .section .content .summary .no-overflow {
     overflow: visible;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 #page-course-view-masonry .course-content .section .content {
-    padding: 0px 5px 0px 2px;
+    padding: 0 5px 0 2px;
 }
 
 #page-course-view-masonry .course-content .section .activity .mod-indent {
@@ -132,14 +132,14 @@
 }
 
 #page-course-view-masonry .course-content .section .activity .mod-indent .activityinstance {
-    margin-right: 0em;
+    margin-right: 0;
     padding-right: 1em;
 }
 
 #page-course-view-masonry .course-content .section .activity .mod-indent .instancename,
 #page-course-view-masonry .course-content .section .activity .mod-indent .resourcelinkdetails {
     vertical-align: 3px;
-    margin-right: 0em;
+    margin-right: 0;
     padding-right: 0;
 }
 

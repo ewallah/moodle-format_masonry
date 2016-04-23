@@ -41,21 +41,21 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     /**
      * Constructor
      *
-     * @param string $elementName (optional) name of the colorpicker
-     * @param string $elementLabel (optional) label
+     * @param string $elementname (optional) name of the colorpicker
+     * @param string $elementlabel (optional) label
      * @param array $attributes (optional) Either a typical HTML attribute string
      *              or an associative array
      * @param array $options set of options to initalize colorpicker
      */
-    function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::__construct($elementName, $elementLabel, $attributes);
+    public function __construct($elementname=null, $elementlabel=null, $attributes=null, $options=null) {
+        parent::__construct($elementname, $elementlabel, $attributes);
     }
 
-    function setHiddenLabel($hiddenlabel) {
+    public function sethiddenlabel($hiddenlabel) {
         $this->_hiddenlabel = $hiddenlabel;
     }
 
-    function toHtml() {
+    public function tohtml() {
         global $CFG, $COURSE, $USER, $PAGE, $OUTPUT;
         $id = $this->getAttribute('id');
         $PAGE->requires->js_init_call('M.util.init_colour_picker', array($id));
@@ -69,22 +69,22 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         return $content;
     }
 
-    function _generateId() {
+    public function _generateid() {
         static $idx = 1;
         if (!$this->getAttribute('id')) {
             $this->updateAttributes(array('id' => 'id_'. substr(md5(microtime() . $idx++), 0, 6)));
         }
     }
 
-    function setHelpButton($helpbuttonargs, $function='helpbutton') {
+    public function sethelpbutton($helpbuttonargs, $function='helpbutton') {
         debugging('component setHelpButton() is not used any more, please use $mform->setHelpButton() instead');
     }
 
-    function getHelpButton() {
+    public function gethelpbutton() {
         return $this->_helpbutton;
     }
 
-    function getElementTemplateType() {
+    public function getelementtemplatetype() {
         if ($this->_flagFrozen) {
             return 'static';
         } else {
