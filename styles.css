@@ -169,3 +169,10 @@
 #page-course-view-masonry .course-content .section .activity .editing_move {
     left:-16px;
 }
+
+#page-course-view-masonry  li.activity {
+    background: transparent;
+}
+#page-course-view-masonry .sitetopic .section .activity .contentwithoutlink, .course-content .section .activity .contentwithoutlink .no-overflow {
+    overflow:visible;
+}

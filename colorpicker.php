@@ -47,8 +47,8 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
      *              or an associative array
      * @param array $options set of options to initalize colorpicker
      */
-    function MoodleQuickForm_colorpicker($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::HTML_QuickForm_text($elementName, $elementLabel, $attributes);
+    function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $attributes);
     }
 
     function setHiddenLabel($hiddenlabel) {
