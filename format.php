@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Masonry topics course format.  
+ * Masonry topics course format.
  * Display the course topics as bricks using a dynamic grid layout.
  * @package format_masonry
  * @copyright Renaat Debleu info@ewallah.net

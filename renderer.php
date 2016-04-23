@@ -69,7 +69,7 @@ class format_masonry_renderer extends format_section_renderer_base {
 
     /**
      * Generate the content to displayed on the left part of a section
-     * before course modules are included 
+     * before course modules are included
      *
      * @param stdClass $section The course_section entry from DB
      * @param stdClass $course The course entry from DB

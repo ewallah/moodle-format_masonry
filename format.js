@@ -1,5 +1,5 @@
 // Javascript functions for Masonry topics course format
-// based on YUI Masonry (http://yui-masonry.appspot.com/)
+// based on YUI Masonry (http://yui-masonry.appspot.com/).
 
 M.masonry = {};
 
@@ -123,7 +123,7 @@ M.masonry.init = function(Y, cfg) {
             this.isFluid = columnWidth && typeof columnWidth === 'function';
             setTimeout(function () { instance.get('node').addClass('masonry'); }, 0);
 
-           /* when window size changed */
+            /* when window size changed */
             Y.on('masonry|windowresize', function () {
                 M.masonry.resize();
             });

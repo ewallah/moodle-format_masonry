@@ -57,7 +57,7 @@ class format_masonry extends format_topics {
      * Topics format uses the following options:
      * - coursedisplay : hidden and forced to be single_page_view
      * - numsections
-     * - hiddensections : hidden and forced to be 1 
+     * - hiddensections : hidden and forced to be 1
      * - borderwith
      * - backgroundcolor
      *
@@ -116,8 +116,7 @@ class format_masonry extends format_topics {
                     'element_type' => 'hidden',
                     'element_attributes' => array(
                         array(
-                            // Disabled for Masonry course format.
-                            // 0 => new lang_string('hiddensectionscollapsed'),.
+                            // Forced for Masonry course format.
                             1 => new lang_string('hiddensectionsinvisible')
                         )
                     ),
