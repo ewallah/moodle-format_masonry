@@ -14,11 +14,18 @@ php:
 
 matrix:
  fast_finish: true
+ exclude:
+    # MySQL - it's just too slow.
+    - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
+      php: 5.4
+    - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
+      php: 7.0
 
 env:
  global:
   - MOODLE_BRANCH=MOODLE_30_STABLE
-  - IGNORE_NAMES=colorpicker.php
+ matrix:
+  - DB=mysqli
 
 before_install:
   - cd ../..
