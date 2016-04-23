@@ -17,8 +17,7 @@
 /**
  * Renderer for outputting the masonry course format.
  *
- * @package    course format
- * @subpackage masonry
+ * @package    format_masonry
  * @copyright  2013 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

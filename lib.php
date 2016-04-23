@@ -17,8 +17,7 @@
 /**
  * lib for masonry course format.
  *
- * @package    course format
- * @subpackage masonry
+ * @package    format_masonry
  * @copyright  2013 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,8 +25,14 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot. '/course/format/topics/lib.php');
 
+/**
+ * Main class for the masonry course format
+ *
+ * @package    format_masonry
+ * @copyright  Renaat Debleu (www.eWallah.net)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class format_masonry extends format_topics {
-
 
     /**
      * Definitions of the additional options that this course format uses for section

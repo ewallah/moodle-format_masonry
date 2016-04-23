@@ -17,8 +17,7 @@
 /**
  * Colorpicker for the masonry course format.
  *
- * @package    course format
- * @subpackage masonry
+ * @package    format_masonry
  * @copyright  2013 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,34 +25,41 @@
 require_once("HTML/QuickForm/text.php");
 
 /**
- * HTML class for a url type element
+ * Colorpicker type form element
  *
- * @author Jamie Pratt
- * @access public
+ * HTML class for a colorpicker type element
+ *
+ * @package    format_masonry
+ * @copyright  2013 Jamie Pratt
+ * @author     Renaat Debleu - modified from ColourPicker by Jamie Pratt [thanks]
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
 
+    /** @var string html for help button, if empty then no help */
     public $_helpbutton = '';
+
+    /** @var bool if true label will be hidden */
     protected $_hiddenlabel = false;
-    
 
     /**
-     * Constructor
+     * Sets label to be hidden
      *
-     * @param string $elementname (optional) name of the colorpicker
-     * @param string $elementlabel (optional) label
-     * @param array $attributes (optional) Either a typical HTML attribute string
-     *              or an associative array
+     * @param bool $hiddenlabel sets if label should be hidden
      */
-    public function __construct($elementname=null, $elementlabel=null, $attributes=null) {
-        parent::__construct($elementname, $elementlabel, $attributes);
-    }
-
     public function sethiddenlabel($hiddenlabel) {
         $this->_hiddenlabel = $hiddenlabel;
     }
 
+    /**
+     * Automatically generates and assigns an 'id' attribute for the element.
+     *
+     * Currently used to ensure that labels work on radio buttons and
+     * checkboxes. Per idea of Alexander Radivanovich.
+     * Overriden in moodleforms to remove qf_ prefix.
+     *
+     * @return void
+     */
     public function tohtml() {
         global $PAGE, $OUTPUT;
         $id = $this->getAttribute('id');
@@ -68,6 +74,15 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         return $content;
     }
 
+    /**
+     * Automatically generates and assigns an 'id' attribute for the element.
+     *
+     * Currently used to ensure that labels work on radio buttons and
+     * checkboxes. Per idea of Alexander Radivanovich.
+     * Overriden in moodleforms to remove qf_ prefix.
+     *
+     * @return void
+     */
     public function _generateid() {
         static $idx = 1;
         if (!$this->getAttribute('id')) {
@@ -75,14 +90,32 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         }
     }
 
-    public function sethelpbutton($helpbuttonargs, $function='helpbutton') {
+    /**
+     * set html for help button
+     *
+     * @param array $helpargs array of arguments to make a help button
+     * @param string $function function name to call to get html
+     */
+    public function sethelpbutton($helpargs, $function='helpbutton') {
         debugging('component setHelpButton() is not used any more, please use $mform->setHelpButton() instead');
     }
 
+    /**
+     * get html for help button
+     *
+     * @return  string html for help button
+     */
     public function gethelpbutton() {
         return $this->_helpbutton;
     }
 
+    /**
+     * Slightly different container template when frozen. Don't want to use a label tag
+     * with a for attribute in that case for the element label but instead use a div.
+     * Templates are defined in renderer constructor.
+     *
+     * @return string
+     */
     public function getelementtemplatetype() {
         if ($this->_flagFrozen) {
             return 'static';
@@ -91,6 +124,12 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
         }
     }
 
+    /**
+     * Checks input and challenged field
+     *
+     * @param string $data color to be verified
+     * @return bool
+     */
     public function verify($data) {
         // TODO : no verification yet.
         return $data;

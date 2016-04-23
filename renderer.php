@@ -17,8 +17,7 @@
 /**
  * Renderer for outputting the masonry course format.
  *
- * @package    course format
- * @subpackage masonry
+ * @package    format_masonry
  * @copyright  2014 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,6 +25,12 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/course/format/renderer.php');
 
+/**
+ * Basic renderer for masonry format.
+ *
+ * @copyright 2014 Renaat Debleu (www.eWallah.net)
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class format_masonry_renderer extends format_section_renderer_base {
 
     /**
