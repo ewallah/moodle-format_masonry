@@ -18,10 +18,11 @@
  * Colorpicker for the masonry course format.
  *
  * @package    format_masonry
- * @copyright  2013 Renaat Debleu (www.eWallah.net)
+ * @copyright  2016 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
 require_once("HTML/QuickForm/text.php");
 
 /**

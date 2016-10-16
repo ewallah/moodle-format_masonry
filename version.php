@@ -18,16 +18,16 @@
  * Version details
  *
  * @package    format_masonry
- * @copyright  2014 Renaat Debleu (www.eWallah.net)
+ * @copyright  2016 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016042300;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2015050500;         // Requires this Moodle version (2.9).
-$plugin->component = 'format_masonry';   // Full name of the plugin (used for diagnostics).
-$plugin->release  = '2.1';
+$plugin->version   = 2016101500;
+$plugin->requires  = 2015050500;
+$plugin->component = 'format_masonry';
+$plugin->release  = '2.2';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
     'format_topics' => 2015051100,

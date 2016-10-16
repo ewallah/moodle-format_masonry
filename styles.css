@@ -148,6 +148,21 @@
     padding: 7px 0 0 5px;
 }
 
+#page-course-view-masonry .course-content .section  li.activity.label,
+#page-course-view-masonry .course-content .section  .label .mod-indent {
+    padding-left: 34px;
+    padding-top: 4px;
+}
+
+#page-course-view-masonry .course-content .section .label .contentwithoutlink,
+#page-course-view-masonry .course-content .section .label .activityinstance {
+    display: table-cell;
+}
+
+#page-course-view-masonry .sitetopic .section li.activity,
+#page-course-view-masonry .course-content .section li.activity {
+    background-color:transparent;
+}
 #page-course-view-masonry .path-course-view .completionprogress {
     float: none;
     margin-bottom: 5px;
