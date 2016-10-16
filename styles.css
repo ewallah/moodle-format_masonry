@@ -32,6 +32,17 @@
     padding-left:0px;
 }
 
+#page-course-view-masonry .course-content .section  li.activity.label,
+#page-course-view-masonry .course-content .section  .label .mod-indent {
+    padding-left: 34px;
+    padding-top: 4px;
+}
+
+#page-course-view-masonry .course-content .section .label .contentwithoutlink,
+#page-course-view-masonry .course-content .section .label .activityinstance {
+    display: table-cell;
+}
+
 #page-course-view-masonry .course-content .mod-indent-1,
 #page-course-view-masonry .course-content .mod-indent-2,
 #page-course-view-masonry .course-content .mod-indent-3,
