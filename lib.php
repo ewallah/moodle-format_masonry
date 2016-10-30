@@ -18,7 +18,7 @@
  * lib for masonry course format.
  *
  * @package    format_masonry
- * @copyright  2013 Renaat Debleu (www.eWallah.net)
+ * @copyright  2016 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,6 +42,9 @@ class format_masonry extends format_topics {
      */
     public function section_format_options($foreditform = false) {
         global $CFG;
+        if (empty($CFG->format_masonry_defaultbordercolor)) {
+            $CFG->format_masonry_defaultbordercolor = '#9A9B9C';
+        }
         return array(
             'backcolor' => array(
                 'type' => PARAM_RAW,
