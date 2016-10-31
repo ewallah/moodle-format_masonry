@@ -27,13 +27,10 @@
       | choice     | choice 2               | Test choice description       | C1     | choice2     | 4       |
       | choice     | choice 3               | Test choice description       | C1     | choice3     | 4       |
 
-  @javascript
-  Scenario: Modify section summary - title - background color in masonry format
-    # Empty section 0 stays hidden.
-    When I log in as "teacher1"
+  Scenario: Empty section 0 stays hidden
+    Given I log in as "teacher1"
     And I follow "Course 1"
     Then I should not see "General"
-    # Section 0 with 1 element is shown.
     When I turn editing mode on
     And I add a "Page" to section "0"
     And I set the following fields to these values:
@@ -43,8 +40,12 @@
     And I click on "Save and return to course" "button"
     And I turn editing mode off
     Then I should see "General" in the "li#section-0" "css_element"
-    # Modify section summary.
-    When I turn editing mode on
+  
+  @javascript
+  Scenario: Modify section summary - title - background color in masonry format
+    Given I log in as "teacher1"
+    And I follow "Course 1"
+    And I turn editing mode on
     And I click on "Edit" "link" in the "li#section-1" "css_element"
     And I click on "Edit section" "link" in the "li#section-1" "css_element"
     And I set the following fields to these values:
@@ -79,4 +80,3 @@
     And I dock "Navigation" block
     And I dock "Administration" block
     Then I should see "first" in the "li#section-1" "css_element"
-    

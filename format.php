@@ -20,7 +20,7 @@
  * Display the course topics as bricks using a dynamic grid layout.
  *
  * @package format_masonry
- * @copyright 2013 Renaat Debleu info@ewallah.net
+ * @copyright 2016 Renaat Debleu info@ewallah.net
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

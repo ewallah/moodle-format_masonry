@@ -18,31 +18,23 @@
  * Settings used by the animbuttons format
  *
  * @package    format_masonry
- * @copyright  2013 Renaat Debleu www.eWallah.net
+ * @copyright  2016 Renaat Debleu www.eWallah.net
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or late
  **/
 
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    global $CFG;
-    // Brick background colour setting.
-    if (empty($CFG->format_masonry_defaultbackgroundcolor)) {
-        $CFG->format_masonry_defaultbackgroundcolor = '#F9F9F9';
-    }
-    $name = 'format_masonry_defaultbackgroundcolor';
-    $title = get_string('defaultcolor', 'format_masonry');
-    $description = get_string('defaultcolordesc', 'format_masonry');
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#F9F9F9');
-    $settings->add($setting);
-
-    // Brick border colour setting.
-    if (empty($CFG->format_masonry_defaultbordercolor)) {
-        $CFG->format_masonry_defaultbordercolor = '#9A9B9C';
-    }
-    $name = 'format_masonry_defaultbordercolor';
-    $title = get_string('defaultbordercolor', 'format_masonry');
-    $description = get_string('defaultbordercolordesc', 'format_masonry');
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#9A9B9C');
-    $settings->add($setting);
+        $settings->add(new admin_setting_configcolourpicker(
+        'format_masonry_defaultbackgroundcolor',
+        get_string('defaultcolor', 'format_masonry'),
+        get_string('defaultcolordesc', 'format_masonry'),
+        '#F9F9F9')
+    );
+    $settings->add(new admin_setting_configcolourpicker(
+        'format_masonry_defaultbordercolor',
+        get_string('defaultbordercolor', 'format_masonry'),
+        get_string('defaultbordercolordesc', 'format_masonry'),
+        '#9A9B9C')
+    );
 }

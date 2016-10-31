@@ -32,7 +32,7 @@ Installation
 Todo
 --------------------------------------------------------------------------------
 1. Move to AMD (when Moodle docking events are AMD)
-2. verify input
+2. Verify input
 
 --------------------------------------------------------------------------------
 Done
@@ -40,3 +40,4 @@ Done
 1. Re-layout on docking events
 2. Travis integration
 3. PHP 7.0
+4. Behat integration
