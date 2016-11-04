@@ -35,6 +35,21 @@ require_once($CFG->dirroot. '/course/format/topics/lib.php');
 class format_masonry extends format_topics {
 
     /**
+     * The URL to use for the specified course (with section)
+     *
+     * @param int|stdClass $section Section object from database or just field course_sections.section
+     *     if omitted the course view page is returned
+     * @param array $options options for view URL. At the moment core uses:
+     *     'navigation' (bool) if true and section has no separate page, the function returns null
+     *     'sr' (int) used by multipage formats to specify to which section to return
+     * @return null|moodle_url
+     */
+    public function get_view_url($section, $options = array()) {
+        $course = $this->get_course();
+        return new moodle_url('/course/view.php', array('id' => $course->id));
+    }
+
+    /**
      * Definitions of the additional options that this course format uses for section
      *
      * @param bool $foreditform
@@ -42,8 +57,11 @@ class format_masonry extends format_topics {
      */
     public function section_format_options($foreditform = false) {
         global $CFG;
+        $color = '#9A9B9C';
         if (empty($CFG->format_masonry_defaultbordercolor)) {
-            $CFG->format_masonry_defaultbordercolor = '#9A9B9C';
+            $CFG->format_masonry_defaultbordercolor = $color;
+        } else {
+            $color = $CFG->format_masonry_defaultbordercolor;
         }
         return array(
             'backcolor' => array(
@@ -51,7 +69,7 @@ class format_masonry extends format_topics {
                 'name' => 'bordercolor',
                 'label' => get_string('backgroundcolor', 'format_masonry'),
                 'element_type' => 'masonrycolorpicker',
-                'default' => $CFG->format_masonry_defaultbackgroundcolor,
+                'default' => $color,
                 'cache' => true,
                 'help' => 'colordisplay',
                 'help_component' => 'format_masonry',
@@ -211,13 +229,6 @@ class format_masonry extends format_topics {
      */
     public function inplace_editable_render_section_name($section, $linkifneeded = true,
                                                          $editable = null, $edithint = null, $editlabel = null) {
-        if (empty($edithint)) {
-            $edithint = new lang_string('editsectionname', 'format_topics');
-        }
-        if (empty($editlabel)) {
-            $title = get_section_name($section->course, $section);
-            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
-        }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }
 }
