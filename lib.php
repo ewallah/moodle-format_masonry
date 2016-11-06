@@ -56,13 +56,7 @@ class format_masonry extends format_topics {
      * @return array
      */
     public function section_format_options($foreditform = false) {
-        global $CFG;
-        $color = '#9A9B9C';
-        if (empty($CFG->format_masonry_defaultbordercolor)) {
-            $CFG->format_masonry_defaultbordercolor = $color;
-        } else {
-            $color = $CFG->format_masonry_defaultbordercolor;
-        }
+        $color = get_config('format_masonry', 'defaultbordercolor');
         return array(
             'backcolor' => array(
                 'type' => PARAM_RAW,

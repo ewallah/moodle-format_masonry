@@ -5,7 +5,7 @@
   Background:
     Given the following "courses" exist:
       | fullname | shortname | format  | coursedisplay | numsections |
-      | Course 1 | C1        | masonry | 0             | 5           |
+      | Course 1 | C1        | masonry | 0             | 4           |
     And the following "users" exist:
       | username |
       | teacher1 |
@@ -31,6 +31,7 @@
     Given I log in as "teacher1"
     And I follow "Course 1"
     Then I should not see "General"
+
     When I turn editing mode on
     And I add a "Page" to section "0"
     And I set the following fields to these values:
@@ -41,7 +42,6 @@
     And I turn editing mode off
     Then I should see "General" in the "li#section-0" "css_element"
   
-  @javascript
   Scenario: Modify section summary - title - background color in masonry format
     Given I log in as "teacher1"
     And I follow "Course 1"
@@ -52,6 +52,7 @@
       | Summary | Welcome |
     And I press "Save changes"
     Then I should see "Welcome" in the "li#section-1" "css_element"
+
     # Change some section background colors.
     When I click on "Edit" "link" in the "li#section-1" "css_element"
     And I click on "Edit section" "link" in the "li#section-1" "css_element"
@@ -76,7 +77,21 @@
       | Section Background color | transparent  |
     And I press "Save changes"
     And I turn editing mode off
-    # The page should be reloaded when the left block items are docked. 
+    Then I should see "first" in the "li#section-1" "css_element"
+    
+  @javascript
+  Scenario: The masonry should reorder after a docking event
+    Given I log in as "admin"
+    And I am on site homepage
+    And I navigate to "Theme settings" node in "Site administration > Appearance > Themes"
+    And I click on "Allow course themes" "checkbox"
+    And I press "Save changes"
+    And I am on site homepage
+    And I follow "Course 1"
+    And I navigate to "Edit settings" node in "Course administration"
+    And I expand all fieldsets
+    And I set the field "Force theme" to "Clean"
+    And I press "Save and display"
     And I dock "Navigation" block
     And I dock "Administration" block
-    Then I should see "first" in the "li#section-1" "css_element"
+    Then I should see "assignment 1" in the "li#section-1" "css_element"
