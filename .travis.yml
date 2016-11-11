@@ -7,8 +7,8 @@ cache:
     - $HOME/.composer/cache
 
 php:
- - 5.4
- #- 5.5
+ #- 5.4
+ - 5.5
  #- 5.6
  - 7.0
 
@@ -17,13 +17,13 @@ matrix:
  exclude:
     # MySQL - we do not use the database to store data
     - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
-      php: 5.4
+      php: 5.5
     - env: DB=mysqli   PHPUNIT=true    INSTALL=false   CITEST=false
       php: 7.0
 
 env:
  global:
-  - MOODLE_BRANCH=MOODLE_31_STABLE
+  - MOODLE_BRANCH=master
  matrix:
   - DB=mysqli
 
@@ -45,4 +45,4 @@ script:
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci csslint
   - moodle-plugin-ci jshint
-  - moodle-plugin-ci phpunit
+  - moodle-plugin-ci behat
