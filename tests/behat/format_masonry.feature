@@ -92,6 +92,8 @@
     And I expand all fieldsets
     And I set the field "Force theme" to "Clean"
     And I press "Save and display"
+    And I am on site homepage
+    And I follow "Course 1"
     And I dock "Navigation" block
     And I dock "Administration" block
     Then I should see "assignment 1" in the "li#section-1" "css_element"

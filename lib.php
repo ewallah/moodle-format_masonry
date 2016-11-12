@@ -223,6 +223,13 @@ class format_masonry extends format_topics {
      */
     public function inplace_editable_render_section_name($section, $linkifneeded = true,
                                                          $editable = null, $edithint = null, $editlabel = null) {
+        if (empty($edithint)) {
+            $edithint = new lang_string('editsectionname', 'format_topics');
+        }
+        if (empty($editlabel)) {
+            $title = get_section_name($section->course, $section);
+            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
+        }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }
 }

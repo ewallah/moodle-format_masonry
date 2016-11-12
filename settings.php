@@ -26,13 +26,13 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
         $settings->add(new admin_setting_configcolourpicker(
-        'format_masonry_defaultbackgroundcolor',
+        'format_masonry/defaultbackgroundcolor',
         get_string('defaultcolor', 'format_masonry'),
         get_string('defaultcolordesc', 'format_masonry'),
         '#F9F9F9')
     );
     $settings->add(new admin_setting_configcolourpicker(
-        'format_masonry_defaultbordercolor',
+        'format_masonry/defaultbordercolor',
         get_string('defaultbordercolor', 'format_masonry'),
         get_string('defaultbordercolordesc', 'format_masonry'),
         '#9A9B9C')

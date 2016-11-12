@@ -97,7 +97,6 @@
 #page-course-view-masonry .sitetopic .section li.activity:hover,
 #page-course-view-masonry .course-content .section li.activity:hover {
     opacity:0.6;
-    filter:alpha(opacity=60);
 }
 
 #page-course-view-masonry .jumpmenu {
