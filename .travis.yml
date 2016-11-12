@@ -46,3 +46,5 @@ script:
   - moodle-plugin-ci csslint
   - moodle-plugin-ci jshint
   - moodle-plugin-ci behat
+  - moodle-plugin-ci phpunit
+ 
