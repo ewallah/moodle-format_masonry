@@ -47,7 +47,6 @@
     margin-left: 0;
 }
 
-
 #page-course-view-masonry .course-content .section,
 #page-course-view-masonry .course-content .section.main .content {
     background:transparent;
@@ -59,19 +58,11 @@
 
 #page-course-view-masonry .course-content .section .activity .mod-indent {
     padding-left: 0;
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent {
     width:100%;
     overflow:hidden;
     text-overflow: ellipsis;
     white-space:nowrap;
     padding-right: 1em;
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent-outer {
-    display:inherit;
-    padding-left:0;
 }
 
 #page-course-view-masonry .course-content .section .activity .mod-indent .activityinstance {
@@ -88,6 +79,11 @@
 
 #page-course-view-masonry .course-content .section .activity .mod-indent .p {
     white-space:normal
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent-outer {
+    display:inherit;
+    padding-left:0;
 }
 
 #page-course-view-masonry .course-content .section .content {
@@ -129,16 +125,6 @@
     border-radius: 5px;
 }
 
-#page-course-view-masonry .course-content ul.topics li.section.main.clearfix {
-    border: 0 solid #ccc;
-    list-style: none;
-    margin:10px 0 20px 0;
-    padding:0;
-    background:#F0F0F0;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
 #page-course-view-masonry .course-content ul.topics li.section .content {
     margin:10px 10px;
 }
@@ -153,15 +139,24 @@
     padding: 0 0;
 }
 
-
-#page-course-view-masonry .jumpmenu {
-    text-align:center;
+#page-course-view-masonry .course-content ul.topics li.section.main.clearfix {
+    border: 0 solid #ccc;
+    list-style: none;
+    margin:10px 0 20px 0;
+    padding:0;
+    background:#F0F0F0;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 #page-course-view-masonry .item {
     width: auto;
     margin: 10px 10px 0 0;
     float: left;
+}
+
+#page-course-view-masonry .jumpmenu {
+    text-align:center;
 }
 
 #page-course-view-masonry .path-course-view li.activity span.autocompletion input,

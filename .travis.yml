@@ -35,7 +35,7 @@ before_install:
 
 install:
   # Disable xdebug. We aren't generating code coverage, and it has a huge impact upon test performance.
-  - rm /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+  # - rm /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - moodle-plugin-ci install
 
 script:
