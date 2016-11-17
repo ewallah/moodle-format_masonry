@@ -1,7 +1,22 @@
+#page-course-view-masonry #completionprogressid {
+    display: none;
+}
+
 #page-course-view-masonry #coursemasonry {
     margin: auto auto;
     margin-bottom: 10px;
 }
+#page-course-view-masonry #coursemasonry .section .content .summary .no-overflow {
+    overflow: visible;
+    padding-bottom: 0;
+}
+
+#page-course-view-masonry .admin_colourpicker .previewcolour,
+#page-course-view-masonry .admin_colourpicker .currentcolour,
+#page-course-view-masonry .admin_colourpicker .colourdialogue {
+    border-color: #9A9B9C;
+}
+
 #page-course-view-masonry .course-content {
     border: 1px solid #ccc;
     background:#F3F3F3;
@@ -11,25 +26,6 @@
 
 #page-course-view-masonry .course-content .content {
     left: 0;
-}
-
-#page-course-view-masonry .course-content .section,
-#page-course-view-masonry .course-content .section.main .content {
-    background:transparent;
-}
-
-#page-course-view-masonry .course-content .sectionname,
-#page-course-view-masonry .course-content .section .activity .instancename {
-    white-space:nowrap;
-}
-
-#page-course-view-masonry .section .activity .mod-indent {
-    padding-left: 0;
-}
-
-#page-course-view-masonry .section .activity .mod-indent-outer {
-    display:inherit;
-    padding-left:0;
 }
 
 #page-course-view-masonry .course-content .mod-indent-1,
@@ -49,6 +45,73 @@
 #page-course-view-masonry .course-content .mod-indent-15,
 #page-course-view-masonry .course-content .mod-indent-huge {
     margin-left: 0;
+}
+
+
+#page-course-view-masonry .course-content .section,
+#page-course-view-masonry .course-content .section.main .content {
+    background:transparent;
+}
+
+#page-course-view-masonry .course-content .section .activity .editing_move {
+    left:-16px;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent {
+    padding-left: 0;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent {
+    width:100%;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    padding-right: 1em;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent-outer {
+    display:inherit;
+    padding-left:0;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent .activityinstance {
+    margin-right: 0;
+    padding-right: 1em;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent .instancename,
+#page-course-view-masonry .course-content .section .activity .mod-indent .resourcelinkdetails {
+    vertical-align: 3px;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+#page-course-view-masonry .course-content .section .activity .mod-indent .p {
+    white-space:normal
+}
+
+#page-course-view-masonry .course-content .section .content {
+    padding: 0 5px 0 2px;
+}
+
+#page-course-view-masonry .course-content .section .label .contentwithoutlink,
+#page-course-view-masonry .course-content .section .label .activityinstance {
+    display: table-cell;
+}
+
+#page-course-view-masonry .course-content .section-summary .section-summary-activities .activity-count {
+    color: #000;
+}
+
+#page-course-view-masonry .course-content .section  li.activity.label,
+#page-course-view-masonry .course-content .section  .label .mod-indent {
+    padding-left: 34px;
+    padding-top: 4px;
+}
+
+#page-course-view-masonry .course-content .sectionname,
+#page-course-view-masonry .course-content .section .activity .instancename {
+    white-space:nowrap;
 }
 
 #page-course-view-masonry .course-content ul.topics {
@@ -90,14 +153,6 @@
     padding: 0 0;
 }
 
-#page-course-view-masonry .course-content .section-summary .section-summary-activities .activity-count {
-    color: #000;
-}
-
-#page-course-view-masonry .sitetopic .section li.activity:hover,
-#page-course-view-masonry .course-content .section li.activity:hover {
-    opacity:0.6;
-}
 
 #page-course-view-masonry .jumpmenu {
     text-align:center;
@@ -109,59 +164,11 @@
     float: left;
 }
 
-#page-course-view-masonry #coursemasonry .section .content .summary .no-overflow {
-    overflow: visible;
-    padding-bottom: 0;
-}
-
-#page-course-view-masonry .course-content .section .content {
-    padding: 0 5px 0 2px;
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent {
-    width:100%;
-    overflow:hidden;
-    text-overflow: ellipsis;
-    white-space:nowrap;
-    padding-right: 1em;
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent p {
-    white-space:normal
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent .activityinstance {
-    margin-right: 0;
-    padding-right: 1em;
-}
-
-#page-course-view-masonry .course-content .section .activity .mod-indent .instancename,
-#page-course-view-masonry .course-content .section .activity .mod-indent .resourcelinkdetails {
-    vertical-align: 3px;
-    margin-right: 0;
-    padding-right: 0;
-}
-
 #page-course-view-masonry .path-course-view li.activity span.autocompletion input,
 #coursemasonry form.togglecompletion input {
     padding: 7px 0 0 5px;
 }
 
-#page-course-view-masonry .course-content .section  li.activity.label,
-#page-course-view-masonry .course-content .section  .label .mod-indent {
-    padding-left: 34px;
-    padding-top: 4px;
-}
-
-#page-course-view-masonry .course-content .section .label .contentwithoutlink,
-#page-course-view-masonry .course-content .section .label .activityinstance {
-    display: table-cell;
-}
-
-#page-course-view-masonry .sitetopic .section li.activity,
-#page-course-view-masonry .course-content .section li.activity {
-    background-color:transparent;
-}
 #page-course-view-masonry .path-course-view .completionprogress {
     float: none;
     margin-bottom: 5px;
@@ -169,17 +176,4 @@
 
 #page-course-view-masonry ul.section.img-text {
     margin: 1px;
-}
-#page-course-view-masonry #completionprogressid {
-    display: none;
-}
-
-#page-course-view-masonry .admin_colourpicker .previewcolour,
-#page-course-view-masonry .admin_colourpicker .currentcolour,
-#page-course-view-masonry .admin_colourpicker .colourdialogue {
-    border-color: #9A9B9C;
-}
-
-#page-course-view-masonry .course-content .section .activity .editing_move {
-    left:-16px;
 }
