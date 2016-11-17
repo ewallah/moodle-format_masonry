@@ -28,7 +28,6 @@ env:
   - DB=mysqli
 
 install:
-  - composer install
   - moodle-plugin-ci install
 
 script:
