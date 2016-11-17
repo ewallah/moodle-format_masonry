@@ -27,15 +27,8 @@ env:
  matrix:
   - DB=mysqli
 
-before_install:
-  - cd ../..
-  - composer selfupdate
-  - composer create-project -n --no-dev moodlerooms/moodle-plugin-ci ci ^1
-  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-
 install:
-  # Disable xdebug. We aren't generating code coverage, and it has a huge impact upon test performance.
-  # - rm /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+  - composer install
   - moodle-plugin-ci install
 
 script:
