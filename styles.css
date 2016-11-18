@@ -49,11 +49,7 @@
 
 #page-course-view-masonry .course-content .section,
 #page-course-view-masonry .course-content .section.main .content {
-    background:transparent;
-}
-
-#page-course-view-masonry .course-content .section .activity .editing_move {
-    left:-16px;
+    background-color: transparent;
 }
 
 #page-course-view-masonry .course-content .section .activity .mod-indent {
@@ -99,6 +95,9 @@
     color: #000;
 }
 
+#page-course-view-masonry .course-content .section li.activity {
+    background-color: transparent;
+}
 #page-course-view-masonry .course-content .section  li.activity.label,
 #page-course-view-masonry .course-content .section  .label .mod-indent {
     padding-left: 34px;
