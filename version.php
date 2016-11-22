@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016111801;
+$plugin->version   = 2016111802;
 $plugin->requires  = 2016052300;
 $plugin->component = 'format_masonry';
 $plugin->release  = '3.2';
