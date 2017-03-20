@@ -99,3 +99,13 @@
     And I dock "Navigation" block
     And I dock "Administration" block
     Then I should see "assignment 1" in the "li#section-1" "css_element"
+    
+  @javascript
+  Scenario: The masonry should not generate an error during backup
+    Given I log in as "admin"
+    And I am on site homepage
+    And I follow "Course 1"
+    And I backup "Course 1" course using this options:
+      | Confirmation | Filename | test_backup.mbz |
+    Then I should see "Restore"    
+  
