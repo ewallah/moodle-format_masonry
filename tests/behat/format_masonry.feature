@@ -56,6 +56,7 @@
     # Change some section background colors.
     When I click on "Edit" "link" in the "li#section-1" "css_element"
     And I click on "Edit section" "link" in the "li#section-1" "css_element"
+    And I wait "2" seconds
     And I set the following fields to these values:
       | Use default section name | 0     |
       | name                     | first |
@@ -90,10 +91,11 @@
     And I follow "Course 1"
     And I navigate to "Edit settings" node in "Course administration"
     And I expand all fieldsets
-    And I set the field "Force theme" to "Clean"
+    And I set the field "Force theme" to "More"
     And I press "Save and display"
     And I am on site homepage
     And I follow "Course 1"
+    And I wait "2" seconds
     And I dock "Navigation" block
     And I dock "Administration" block
     Then I should see "assignment 1" in the "li#section-1" "css_element"

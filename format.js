@@ -16,41 +16,23 @@ M.masonry.init = function(Y, cfg) {
             setter: function (node) {
                 var n = Y.one(node);
                 if (!n) {
-                        n = Y.one('#coursemasonry');
+                    n = Y.one('#coursemasonry');
                 }
                 if (!n) {
-                        Y.fail('Masonry: Invalid Node Given: ' + node);
+                    Y.fail('Masonry: Invalid Node Given: ' + node);
                 }
                 return n;
             }
         },
-        isResizable: {
-            value: true
-        },
-        isAnimated: {
-            value: true
-        },
-        animationOptions: {
-            value: { duration: 0.5 }
-        },
-        gutterWidth: {
-            value: 0
-        },
-        isRTL: {
-            value: false
-        },
-        isFitWidth: {
-            value: true
-        },
-        containerStyle: {
-            value: { position: 'relative' }
-        },
-        columnWidth: {
-            value: 2
-        },
-        itemSelector: {
-            value: '.section.main'
-        }
+        isResizable: {value: true},
+        isAnimated: {value: true},
+        animationOptions: {value: {duration: 0.5}},
+        gutterWidth: {value: 0},
+        isRTL: {value: false},
+        isFitWidth: {value: true},
+        containerStyle: {value: {position: 'relative'}},
+        columnWidth: {value: 2},
+        itemSelector: {value: '.section.main'}
     };
 
     Y.extend(Masonry, Y.Base, {

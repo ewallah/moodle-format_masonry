@@ -10,18 +10,26 @@ php:
  #- 5.4
  #- 5.5
  - 5.6
- - 7.0
+ - 7.1
  #- nightly
 
 env:
  global:
   #- MOODLE_BRANCH=MOODLE_30_STABLE
-  #- MOODLE_BRANCH=MOODLE_31_STABLE
+  - MOODLE_BRANCH=MOODLE_32_STABLE
   - MOODLE_BRANCH=master
- matrix:
-  #- DB=pgsql
-  - DB=mysqli
 
+matrix:
+ fast_finish: true
+ exclude:
+    # MySQL - we do not use the database to store data
+    - env: DB=mysqli   PHPUNIT=false    INSTALL=false   CITEST=false
+      php: 5.6
+    - env: DB=mysqli   PHPUNIT=false    INSTALL=false   CITEST=false
+      php: 7.1
+ allow_failures:
+    - php: 5.6 # travis seems to fail on login as - doesn't fail when running behat locally.
+ 
 before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
@@ -41,5 +49,5 @@ script:
   - moodle-plugin-ci shifter
   - moodle-plugin-ci jshint
   - moodle-plugin-ci validate
-  - moodle-plugin-ci phpunit
+  #- moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
