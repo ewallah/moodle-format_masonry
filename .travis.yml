@@ -7,17 +7,8 @@ cache:
     - $HOME/.composer/cache
 
 php:
- #- 5.4
- #- 5.5
  - 5.6
  - 7.1
- #- nightly
-
-env:
- global:
-  #- MOODLE_BRANCH=MOODLE_30_STABLE
-  - MOODLE_BRANCH=MOODLE_32_STABLE
-  - MOODLE_BRANCH=master
 
 matrix:
  fast_finish: true
@@ -29,7 +20,14 @@ matrix:
       php: 7.1
  allow_failures:
     - php: 5.6 # travis seems to fail on login as - doesn't fail when running behat locally.
- 
+
+env:
+ global:
+  - MOODLE_BRANCH=MOODLE_32_STABLE
+  - MOODLE_BRANCH=master
+ matrix:
+  - DB=mysqli
+    
 before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
