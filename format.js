@@ -13,7 +13,7 @@ M.masonry.init = function(Y, cfg) {
 
     Masonry.ATTRS = {
         node: {
-            setter: function (node) {
+            setter: function(node) {
                 var n = Y.one(node);
                 if (!n) {
                     n = Y.one('#coursemasonry');
@@ -37,12 +37,12 @@ M.masonry.init = function(Y, cfg) {
 
     Y.extend(Masonry, Y.Base, {
 
-        initializer: function () {
+        initializer: function() {
             this._create();
             this._init();
         },
 
-        destructor: function () {
+        destructor: function() {
             this.bricks
                 .removeClass('masonry-brick')
                 .setStyles({ position: '', top: '', left: '' });
@@ -53,7 +53,7 @@ M.masonry.init = function(Y, cfg) {
             Y.detach('masonry|*');
         },
 
-        _outerWidth: function (node) {
+        _outerWidth: function(node) {
             if (node) {
                 var l = parseInt(node.getStyle('marginLeft'), 10);
                 var r = parseInt(node.getStyle('marginRight'), 10);
@@ -62,7 +62,7 @@ M.masonry.init = function(Y, cfg) {
             return 0;
         },
 
-        _outerHeight: function (node) {
+        _outerHeight: function(node) {
             if (node) {
                 var t = parseInt(node.getStyle('marginTop'), 10);
                 var b = parseInt(node.getStyle('marginBottom'), 10);
@@ -71,12 +71,12 @@ M.masonry.init = function(Y, cfg) {
             return 0;
         },
 
-        _filterFindBricks: function (elems) {
+        _filterFindBricks: function(elems) {
             var selector = this.get('itemSelector'),
                 result = elems;
             if (selector) {
                 result = new Y.NodeList();
-                elems.each(function (node) {
+                elems.each(function(node) {
                     result = result.concat(node, node.all(selector));
                 });
                 result = result.filter(selector);
@@ -84,14 +84,14 @@ M.masonry.init = function(Y, cfg) {
             return result;
         },
 
-        _getBricks: function (elems) {
+        _getBricks: function(elems) {
             var bricks = this._filterFindBricks(elems)
                              .setStyle('position', 'absolute')
                              .addClass('masonry-brick');
             return bricks;
         },
 
-        _create: function () {
+        _create: function() {
             this.styleQueue = [];
             var node = this.get('node'),
                 elemStyle = node.getDOMNode().style,
@@ -113,15 +113,17 @@ M.masonry.init = function(Y, cfg) {
             };
             this.horizontalDirection = this.horizontalDirection.toLowerCase();
             this.isFluid = columnWidth && typeof columnWidth === 'function';
-            setTimeout(function () { instance.get('node').addClass('masonry'); }, 0);
+            setTimeout(function() {
+                instance.get('node').addClass('masonry');
+            }, 0);
 
             /* when window size changed */
-            Y.on('masonry|windowresize', function () {
+            Y.on('masonry|windowresize', function() {
                 M.masonry.resize();
             });
 
             /* when block received data and growed */
-            Y.after('io:end', function () {
+            Y.after('io:end', function() {
                 M.masonry._reLayout();
                 M.masonry.resize();
             });
@@ -133,7 +135,7 @@ M.masonry.init = function(Y, cfg) {
             });
 
             /* when min max */
-            Y.all(".block_action").after("click", function () {
+            Y.all(".block_action").after("click", function() {
                 setTimeout(function(){
                     M.masonry.reload();
                 }, 310);
@@ -142,7 +144,7 @@ M.masonry.init = function(Y, cfg) {
             });
 
             /* wait a second when when expandable item clicked */
-            Y.all("ul.block_tree.list").after("click", function () {
+            Y.all("ul.block_tree.list").after("click", function() {
                 setTimeout(function(){
                     M.masonry.reload();
                 }, 100);
@@ -150,16 +152,16 @@ M.masonry.init = function(Y, cfg) {
             this.reloadItems();
         },
 
-        _init: function (callback) {
+        _init: function(callback) {
             this._getColumns();
             this._reLayout(callback);
         },
 
-        layout: function (bricks, callback) {
+        layout: function(bricks, callback) {
             var i, len, unusedCols, styleFn,  obj, style,
                 containerSize = {},
                 animOpts = this.get('animationOptions');
-            bricks.each(function (node) {
+            bricks.each(function(node) {
                 this._placeBrick(node);
             }, this);
             containerSize.height = Math.max.apply(Math, this.colYs) + 'px';
@@ -199,7 +201,7 @@ M.masonry.init = function(Y, cfg) {
             this.isLaidOut = true;
         },
 
-        _getColumns: function () {
+        _getColumns: function() {
             var node = this.get('node'),
                 container = this.get('isFitWidth') ? node.get('parentNode') : node,
                 containerWidth = parseInt(container.getStyle('width'), 10) || 0,
@@ -212,7 +214,7 @@ M.masonry.init = function(Y, cfg) {
             this.cols = Math.max(this.cols, 1);
         },
 
-        _placeBrick: function (brick) {
+        _placeBrick: function(brick) {
             var colSpan, groupCount, groupY, groupColY, j, minimumY, shortCol, i, len, position, setHeight, setSpan;
             colSpan = Math.ceil(this._outerWidth(brick) / this.columnWidth);
             colSpan = Math.min(colSpan, this.cols);
@@ -244,7 +246,7 @@ M.masonry.init = function(Y, cfg) {
             }
         },
 
-        resize: function () {
+        resize: function() {
             var prevColCount = this.cols;
             this._getColumns();
             if (this.isFluid || this.cols !== prevColCount) {
@@ -252,7 +254,7 @@ M.masonry.init = function(Y, cfg) {
             }
         },
 
-        _reLayout: function (callback) {
+        _reLayout: function(callback) {
             var i = this.cols;
             this.colYs = [];
             while (i--) {
@@ -261,22 +263,24 @@ M.masonry.init = function(Y, cfg) {
             this.layout(this.bricks, callback);
         },
 
-        reloadItems: function () {
+        reloadItems: function() {
             this.bricks = this._getBricks(this.get('node').get('children'));
             return this;
         },
 
-        reload: function (callback) {
+        reload: function(callback) {
             this.reloadItems();
             this._init(callback);
             return this;
         },
 
-        appended: function (content, isAnimatedFromBottom, callback) {
+        appended: function(content, isAnimatedFromBottom, callback) {
             if (isAnimatedFromBottom) {
                 this._filterFindBricks(content).setStyles({top: this.get('node').get('region').height});
                 var instance = this;
-                setTimeout(function () { instance._appended(content, callback); }, 1);
+                setTimeout(function() {
+                    instance._appended(content, callback);
+                }, 1);
             } else {
                 this._appended(content, callback);
             }
