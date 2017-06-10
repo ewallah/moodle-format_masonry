@@ -29,7 +29,7 @@
 
   Scenario: Empty section 0 stays hidden
     Given I log in as "teacher1"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     Then I should not see "General"
 
     When I turn editing mode on
@@ -42,10 +42,10 @@
     And I turn editing mode off
     Then I should see "General" in the "li#section-0" "css_element"
   
+  @javascript
   Scenario: Modify section summary - title - background color in masonry format
     Given I log in as "teacher1"
-    And I follow "Course 1"
-    And I turn editing mode on
+    And I am on "Course 1" course homepage with editing mode on
     And I click on "Edit" "link" in the "li#section-1" "css_element"
     And I click on "Edit section" "link" in the "li#section-1" "css_element"
     And I set the following fields to these values:
@@ -56,10 +56,9 @@
     # Change some section background colors.
     When I click on "Edit" "link" in the "li#section-1" "css_element"
     And I click on "Edit section" "link" in the "li#section-1" "css_element"
-    And I wait "2" seconds
     And I set the following fields to these values:
-      | Use default section name | 0     |
-      | name                     | first |
+      | Custom                   | true  |
+      | Section name             | first |
       | Section Background color | #000  |
     And I press "Save changes"
     And I click on "Edit" "link" in the "li#section-2" "css_element"
@@ -91,21 +90,10 @@
     And I follow "Course 1"
     And I navigate to "Edit settings" node in "Course administration"
     And I expand all fieldsets
-    And I set the field "Force theme" to "More"
+    And I set the field "Force theme" to "Clean"
     And I press "Save and display"
     And I am on site homepage
     And I follow "Course 1"
-    And I wait "2" seconds
     And I dock "Navigation" block
     And I dock "Administration" block
     Then I should see "assignment 1" in the "li#section-1" "css_element"
-    
-  @javascript
-  Scenario: The masonry should not generate an error during backup
-    Given I log in as "admin"
-    And I am on site homepage
-    And I follow "Course 1"
-    And I backup "Course 1" course using this options:
-      | Confirmation | Filename | test_backup.mbz |
-    Then I should see "Restore"    
-  
