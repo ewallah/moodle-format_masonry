@@ -92,16 +92,6 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     }
 
     /**
-     * set html for help button
-     *
-     * @param array $helpargs array of arguments to make a help button
-     * @param string $function function name to call to get html
-     */
-    public function sethelpbutton($helpargs, $function='helpbutton') {
-        debugging('component setHelpButton() is not used any more, please use $mform->setHelpButton() instead');
-    }
-
-    /**
      * get html for help button
      *
      * @return  string html for help button

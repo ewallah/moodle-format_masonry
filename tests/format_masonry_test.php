@@ -102,7 +102,7 @@ class format_masonry_testcase extends advanced_testcase {
      * Test web service updating section name
      */
     public function test_update_inplace_editable() {
-        global $CFG, $DB, $PAGE;
+        global $CFG, $DB;
         require_once($CFG->dirroot . '/lib/external/externallib.php');
 
         $this->resetAfterTest();
@@ -110,16 +110,13 @@ class format_masonry_testcase extends advanced_testcase {
         $user = $generator->create_user();
         $this->setUser($user);
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
-        $coursesections = $DB->get_records('course_sections', ['course' => $course->id]);
-        $courseformat = course_get_format($course);
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
 
         try {
             core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
             $this->fail('Exception expected');
         } catch (moodle_exception $e) {
-            $this->assertEquals('Course or activity not accessible. (Not enrolled)',
-                    $e->getMessage());
+            $this->assertEquals('Course or activity not accessible. (Not enrolled)', $e->getMessage());
         }
 
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
