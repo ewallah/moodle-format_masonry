@@ -23,7 +23,7 @@ matrix:
 
 env:
  global:
-  - MOODLE_BRANCH=MOODLE_32_STABLE
+  - MOODLE_BRANCH=MOODLE_33_STABLE
  matrix:
   - DB=mysqli
     
@@ -42,9 +42,9 @@ script:
   - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
   - moodle-plugin-ci codechecker
-  - moodle-plugin-ci csslint
+  #- moodle-plugin-ci csslint
   - moodle-plugin-ci shifter
   - moodle-plugin-ci jshint
   - moodle-plugin-ci validate
-  #- moodle-plugin-ci phpunit
+  - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat

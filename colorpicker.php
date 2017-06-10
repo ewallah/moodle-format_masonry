@@ -64,11 +64,11 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     public function tohtml() {
         global $PAGE, $OUTPUT;
         $id = $this->getAttribute('id');
-        $PAGE->requires->js_init_call('M.util.init_colour_picker', array($id));
-        $content  = html_writer::start_tag('div', array('class' => 'form-colourpicker defaultsnext'));
+        $PAGE->requires->js_init_call('M.util.init_colour_picker', [$id]);
+        $content  = html_writer::start_tag('div', ['class' => 'form-colourpicker defaultsnext']);
         $content .= html_writer::tag('div',
-            $OUTPUT->pix_icon('i/loading', get_string('loading', 'admin'), 'moodle', array('class' => 'loadingicon')),
-            array('class' => 'admin_colourpicker clearfix')
+            $OUTPUT->pix_icon('i/loading', get_string('loading', 'admin'), 'moodle', ['class' => 'loadingicon']),
+            ['class' => 'admin_colourpicker clearfix']
         );
         $content .= html_writer::end_tag('div');
         $content .= '<input size="47" name="'.$this->getName().'" value="'.$this->getValue().'" id="'.$id.'" type="text" >';
@@ -87,7 +87,7 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     public function _generateid() {
         static $idx = 1;
         if (!$this->getAttribute('id')) {
-            $this->updateAttributes(array('id' => 'id_'. substr(md5(microtime() . $idx++), 0, 6)));
+            $this->updateAttributes(['id' => 'id_'. substr(md5(microtime() . $idx++), 0, 6)]);
         }
     }
 
