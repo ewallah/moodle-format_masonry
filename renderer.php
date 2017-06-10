@@ -53,7 +53,7 @@ class format_masonry_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('id' => 'coursemasonry', 'class' => "topics masonry"));
+        return html_writer::start_tag('ul', ['id' => 'coursemasonry', 'class' => "topics masonry"]);
     }
 
     /**
@@ -116,10 +116,10 @@ class format_masonry_renderer extends format_section_renderer_base {
         } else {
             $style .= 'border: ' . $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
         }
-        $o = html_writer::start_tag('li', array('id' => 'section-'.$section->section, 'class' => $class, 'style' => $style));
-        $o .= html_writer::start_tag('div', array('class' => 'content'));
+        $o = html_writer::start_tag('li', ['id' => 'section-'.$section->section, 'class' => $class, 'style' => $style]);
+        $o .= html_writer::start_tag('div', ['class' => 'content']);
         $o .= $this->output->heading($this->section_title($section, $course), 3, 'sectionname');
-        $o .= html_writer::start_tag('div', array('class' => 'summary'));
+        $o .= html_writer::start_tag('div', ['class' => 'summary']);
         $o .= $this->format_summary_text($section);
         $o .= html_writer::end_tag('div');
         $context = context_course::instance($course->id);
