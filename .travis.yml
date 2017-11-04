@@ -1,3 +1,12 @@
+language: php
+
+notifications:
+  email:
+    recipients:
+        - rdebleu@eWallah.net
+
+sudo: false
+
 addons:
   firefox: "47.0.1"
   postgresql: "9.6"
@@ -14,7 +23,7 @@ cache:
 php:
  - 7.0
  - 7.1
- #- 7.2
+ - 7.2
 
 env:
   - DB=pgsql MOODLE_BRANCH=master
@@ -27,7 +36,7 @@ before_install:
   - nvm install 8.9
   - nvm use 8.9
   - cd ../..
-  - composer create-project -n --no-dev --prefer-source moodlerooms/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
