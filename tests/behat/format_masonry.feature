@@ -1,6 +1,7 @@
 @format @format_masonry
 
-  Feature: format_masonry
+Feature: format_masonry
+  In order to view my course contents I have to browse
 
   Background:
     Given the following "courses" exist:
@@ -41,7 +42,7 @@
     And I click on "Save and return to course" "button"
     And I turn editing mode off
     Then I should see "General" in the "li#section-0" "css_element"
-  
+
   @javascript
   Scenario: Modify section summary - title - background color in masonry format
     Given I log in as "teacher1"
@@ -78,7 +79,7 @@
     And I press "Save changes"
     And I turn editing mode off
     Then I should see "first" in the "li#section-1" "css_element"
-    
+
   @javascript
   Scenario: The masonry should reorder after a docking event
     Given I log in as "admin"
