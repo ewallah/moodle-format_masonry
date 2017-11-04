@@ -39,5 +39,5 @@ Done
 --------------------------------------------------------------------------------
 1. Re-layout on docking events
 2. Travis integration
-3. PHP 7.0
+3. PHP 7+
 4. Behat integration
