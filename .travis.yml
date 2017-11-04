@@ -27,7 +27,7 @@ php:
 
 env:
   - DB=pgsql MOODLE_BRANCH=master
-  #- DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
+  - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
   #- DB=mysqli MOODLE_BRANCH=master
   #- DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
  
@@ -48,8 +48,8 @@ script:
   - moodle-plugin-ci phpmd
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci validate
-  - moodle-plugin-ci savepoints
-  - moodle-plugin-ci mustache
+  # Free pass - moodle-plugin-ci savepoints
+  # Free pass - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
-  # Free pass - moodle-plugin-ci phpunit
+  - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat

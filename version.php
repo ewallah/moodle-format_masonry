@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017061000;
-$plugin->requires  = 2017051500;
+$plugin->version = 2017110300;
+$plugin->requires = 2017050500;
 $plugin->component = 'format_masonry';
-$plugin->release  = '3.3';
+$plugin->release  = '3.3+';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
     'format_topics' => 2017051500,
