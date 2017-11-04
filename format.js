@@ -3,6 +3,12 @@
 
 M.masonry = {};
 
+/**
+ * Masonry format
+ *
+ * @param {YUI} Y YUI3 instance
+ * @param {object} cfg
+ */
 M.masonry.init = function(Y, cfg) {
 
     function Masonry() {
@@ -45,7 +51,7 @@ M.masonry.init = function(Y, cfg) {
         destructor: function() {
             this.bricks
                 .removeClass('masonry-brick')
-                .setStyles({ position: '', top: '', left: '' });
+                .setStyles({position: '', top: '', left: ''});
             this.get('node')
                 .detach('masonry|*')
                 .removeClass('masonry')
@@ -117,24 +123,24 @@ M.masonry.init = function(Y, cfg) {
                 instance.get('node').addClass('masonry');
             }, 0);
 
-            /* when window size changed */
+            /* When window size changed. */
             Y.on('masonry|windowresize', function() {
                 M.masonry.resize();
             });
 
-            /* when block received data and growed */
+            /* When block received data and growed. */
             Y.after('io:end', function() {
                 M.masonry._reLayout();
                 M.masonry.resize();
             });
 
-            /* when block docked */
+            /* When block docked. */
             var dock = M.core.dock.get();
             dock.after('dock:itemschanged', function() {
                 M.masonry.reload();
             });
 
-            /* when min max */
+            /* When min max. */
             Y.all(".block_action").after("click", function() {
                 setTimeout(function(){
                     M.masonry.reload();
@@ -143,9 +149,9 @@ M.masonry.init = function(Y, cfg) {
                 M.masonry.resize();
             });
 
-            /* wait a second when when expandable item clicked */
+            /* Wait a second when when expandable item clicked. */
             Y.all("ul.block_tree.list").after("click", function() {
-                setTimeout(function(){
+                setTimeout(function() {
                     M.masonry.reload();
                 }, 100);
             });
@@ -158,7 +164,7 @@ M.masonry.init = function(Y, cfg) {
         },
 
         layout: function(bricks, callback) {
-            var i, len, unusedCols, styleFn,  obj, style,
+            var i, len, unusedCols, styleFn, obj, style,
                 containerSize = {},
                 animOpts = this.get('animationOptions');
             bricks.each(function(node) {
@@ -236,7 +242,7 @@ M.masonry.init = function(Y, cfg) {
                     break;
                 }
             }
-            position = { top: minimumY + this.offset.y };
+            position = {top: minimumY + this.offset.y};
             position[this.horizontalDirection] = this.columnWidth * shortCol + this.offset.x;
             this.styleQueue.push({el: brick, style: position});
             setHeight = minimumY + this._outerHeight(brick);
@@ -287,15 +293,15 @@ M.masonry.init = function(Y, cfg) {
             return this;
         },
 
-        _appended: function (content, callback) {
+        _appended: function(content, callback) {
             var newBricks = this._getBricks(content);
             this.bricks = this.bricks.concat(newBricks);
             this.layout(newBricks, callback);
         },
 
-        remove: function (content) {
+        remove: function(content) {
             var self = this;
-            content.each(function () {
+            content.each(function() {
                 self.bricks.splice(self.bricks.indexOf(this), 1);
                 this.remove(true);
             });

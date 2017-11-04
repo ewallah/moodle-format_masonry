@@ -41,3 +41,6 @@ Done
 2. Travis integration
 3. PHP 7.0
 4. Behat integration
+
+
+![travis](https://travis-ci.org/ewallah/moodle-format_masonry.svg?branch=master)
