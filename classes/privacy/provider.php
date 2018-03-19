@@ -17,9 +17,9 @@
 /**
  * Privacy main class.
  *
- * @format masonry
+ * @package   format_masonry
  * @copyright 2018 Renaat Debleu (www.eWallah.net)
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace format_masonry\privacy;
@@ -29,9 +29,9 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy main class.
  *
- * @format masonry
+ * @package   format_masonry
  * @copyright 2018 Renaat Debleu (www.eWallah.net)
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
 
