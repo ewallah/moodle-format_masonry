@@ -5,7 +5,7 @@ notifications:
     recipients:
         - rdebleu@eWallah.net
 
-sudo: false
+sudo: required
 
 addons:
   firefox: "47.0.1"
@@ -14,6 +14,7 @@ addons:
     packages:
       - oracle-java8-installer
       - oracle-java8-set-default
+      - chromium-chromedriver
 
 cache:
   directories:
@@ -22,8 +23,7 @@ cache:
 
 php:
  - 7.0
- - 7.1
- #- 7.2
+ - 7.2
 
 env:
   - DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
@@ -48,8 +48,9 @@ script:
   - moodle-plugin-ci phpmd
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci validate
-  # Free pass - moodle-plugin-ci savepoints
-  # Free pass - moodle-plugin-ci mustache
+  - moodle-plugin-ci savepoints
+  - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
   - moodle-plugin-ci phpunit
   - moodle-plugin-ci behat
+  - moodle-plugin-ci behat --profile chrome
