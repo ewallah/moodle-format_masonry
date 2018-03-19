@@ -15,20 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Upgrade scripts for course format "masonry"
  *
  * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
+ * @copyright  2018 eWallah.net
+ * @author     Renaat Debleu (www.ewallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018031900;
-$plugin->requires = 2017050500;
-$plugin->component = 'format_masonry';
-$plugin->release  = '3.3+';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'format_topics' => 2017051500,
-);
+/**
+ * Upgrade script for format_masonry
+ *
+ * @param int $oldversion the version we are upgrading from
+ * @return bool result
+ */
+function xmldb_format_masonry_upgrade($oldversion) {
+    global $DB;
+
+    if ($oldversion < 2018031900) {
+        // During upgrade to Moodle 3.3 it could happen that general section (section 0) became 'invisible'.
+        // It should always be visible.
+        $DB->execute("UPDATE {course_sections} SET visible=1 WHERE visible=0 AND section=0 AND course IN
+        (SELECT id FROM {course} WHERE format=?)", ['masonry']);
+
+        upgrade_plugin_savepoint(true, 2018031900, 'format', 'masonry');
+    }
+    return true;
+}
