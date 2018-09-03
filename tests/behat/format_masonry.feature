@@ -84,12 +84,12 @@ Feature: format_masonry
   Scenario: The masonry should reorder after a docking event
     Given I log in as "admin"
     And I am on site homepage
-    And I navigate to "Theme settings" node in "Site administration > Appearance > Themes"
+    And I navigate to "Appearance > Themes > Theme settings" in site administration
     And I click on "Allow course themes" "checkbox"
     And I press "Save changes"
     And I am on site homepage
     And I follow "Course 1"
-    And I navigate to "Edit settings" node in "Course administration"
+    And I navigate to "Edit settings" in current page administration
     And I expand all fieldsets
     And I set the field "Force theme" to "Clean"
     And I press "Save and display"
