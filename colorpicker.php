@@ -124,17 +124,5 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
     public function verify($data) {
         // TODO : no verification yet.
         return $data;
-        if (preg_match('/^#?([a-fA-F0-9]{3}){1,2}$/', $data)) {
-            if (strpos($data, '#') !== 0) {
-                $data = '#'.$data;
-            }
-            return $data;
-        } else if (preg_match('/^[a-zA-Z]{3, 25}$/', $data)) {
-            return $data;
-        } else if (empty($data)) {
-            return $this->defaultsetting;
-        } else {
-            return false;
-        }
     }
 }

@@ -110,7 +110,8 @@ class format_masonry_testcase extends advanced_testcase {
         $user = $generator->create_user();
         $this->setUser($user);
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
-        $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
+        $modinfo = get_fast_modinfo($course);
+        $section = $modinfo->get_section_info(2);
 
         try {
             core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
@@ -141,7 +142,8 @@ class format_masonry_testcase extends advanced_testcase {
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
         $generator->enrol_user($user->id, $course->id, $teacherrole->id);
         $this->setUser($user);
-        $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
+        $modinfo = get_fast_modinfo($course);
+        $section = $modinfo->get_section_info(2);
 
         // Call callback format_masonry_inplace_editable() directly.
         $tmpl = component_callback('format_masonry', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
@@ -193,6 +195,87 @@ class format_masonry_testcase extends advanced_testcase {
 
         $weeksformat = course_get_format($course->id);
         $this->assertEquals($enddate, $weeksformat->get_default_course_enddate($courseform->get_quick_form()));
+
+    }
+
+    /**
+     * Test renderer.
+     */
+    public function test_renderer() {
+        global $CFG, $USER;
+        $this->resetAfterTest(true);
+        require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $page = new moodle_page();
+        $page->set_context(context_course::instance($course->id));
+        $page->set_course($course);
+        $page->set_pagelayout('standard');
+        $page->set_pagetype('course-view');
+        $page->set_url('/enrol/index.php?id=' . $course->id);
+        $renderer = new \format_masonry_renderer($page, null);
+        ob_start();
+        $renderer->print_single_section_page($course, null, null, null, null, 1);
+        $renderer->print_multiple_section_page($course, null, null, null, null, null);
+        ob_end_clean();
+        $modinfo = get_fast_modinfo($course);
+        $section = $modinfo->get_section_info(1);
+        $this->assertContains('Topic 1', $renderer->section_title($section, $course));
+        $section = $modinfo->get_section_info(2);
+        $this->assertContains('Topic 2', $renderer->section_title_without_link($section, $course));
+        set_section_visible($course->id, 2, 0);
+        $USER->editing = true;
+        ob_start();
+        $renderer->print_single_section_page($course, null, null, null, null, 2);
+        $renderer->print_multiple_section_page($course, null, null, null, null, null);
+        ob_end_clean();
+    }
+
+    /**
+     * Test upgrade.
+     */
+    public function test_upgrade() {
+        global $CFG;
+        $this->resetAfterTest(true);
+        require_once($CFG->dirroot . '/course/format/masonry/db/upgrade.php');
+        require_once($CFG->libdir . '/upgradelib.php');
+        try {
+            $this->assertTrue(xmldb_format_masonry_upgrade(time()));
+            $this->fail('Exception expected');
+        } catch (moodle_exception $e) {
+            $this->assertEquals(1, preg_match('/^Cannot downgrade/', $e->getMessage()));
+        }
+    }
+
+    /**
+     * Test privacy.
+     */
+    public function test_privacy() {
+        $privacy = new format_masonry\privacy\provider();
+        $this->assertEquals($privacy->get_reason(), 'privacy:metadata');
+    }
+
+    /**
+     * Test ohter.
+     */
+    public function test_other() {
+        $this->resetAfterTest(true);
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $format = course_get_format($course);
+        $data = new stdClass();
+        $data->bordercolor = '#FFF';
+        $data->backcolor = '#000';
+        $format->update_course_format_options($data, $course);
+
+        $form = new \MoodleQuickForm_colorpicker();
+        $form->sethiddenlabel('icon');
+        $this->assertContains('loading', $form->tohtml());
+        $form->_generateid();
+        $form->gethelpbutton();
+        $form->getelementtemplatetype();
+        $form->verify(null);
 
     }
 }
