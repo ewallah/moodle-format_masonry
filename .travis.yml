@@ -75,6 +75,8 @@ script:
   - moodle-plugin-ci behat
   - moodle-plugin-ci behat --profile chrome
   - moodle-plugin-ci phpunit --coverage-clover
+  - phpdbg -qrr bin/behat run
+  - bin/behat
 
 after_success:
   - moodle-plugin-ci coveralls-upload
