@@ -217,7 +217,7 @@ class format_masonry_testcase extends advanced_testcase {
         $page->requires->js_init_call('M.masonry.init', [[
             'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left()]],
             false,
-            ['name' => 'course_format_masonry','fullpath' => '/course/format/masonry/format.js',
+            ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
              'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io', 'moodle-core-dock']]);
         $renderer = new \format_masonry_renderer($page, null);
         ob_start();
