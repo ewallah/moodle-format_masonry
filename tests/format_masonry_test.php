@@ -208,6 +208,11 @@ class format_masonry_testcase extends advanced_testcase {
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $course->id]);
+        $generator->get_plugin_generator('mod_wiki')->create_instance(['course' => $course->id]);
+        set_section_visible($course->id, 0, 0);
+        set_section_visible($course->id, 2, 0);
+        //course_set_marker($course->id, 3);
         $page = new moodle_page();
         $page->set_context(context_course::instance($course->id));
         $page->set_course($course);
