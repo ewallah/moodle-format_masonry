@@ -202,7 +202,7 @@ class format_masonry_testcase extends advanced_testcase {
      * Test renderer.
      */
     public function test_renderer() {
-        global $CFG, $USER;
+        global $CFG, $PAGE, $USER;
         $this->resetAfterTest(true);
         require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
         $this->setAdminUser();
@@ -213,12 +213,21 @@ class format_masonry_testcase extends advanced_testcase {
         $page->set_course($course);
         $page->set_pagelayout('standard');
         $page->set_pagetype('course-view');
-        $page->set_url('/enrol/index.php?id=' . $course->id);
+        $page->set_url('/course/view.php?id=' . $course->id);
+        $page->requires->js_init_call('M.masonry.init', [[
+            'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left()]],
+            false,
+            ['name' => 'course_format_masonry','fullpath' => '/course/format/masonry/format.js',
+             'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io', 'moodle-core-dock']]);
         $renderer = new \format_masonry_renderer($page, null);
         ob_start();
         $renderer->print_single_section_page($course, null, null, null, null, 1);
+        $out1 = ob_get_contents();
         $renderer->print_multiple_section_page($course, null, null, null, null, null);
+        $out2 = ob_get_contents();
         ob_end_clean();
+        $this->assertContains('Topic 1', $out1);
+        $this->assertContains('Topic 1', $out2);
         $modinfo = get_fast_modinfo($course);
         $section = $modinfo->get_section_info(1);
         $this->assertContains('Topic 1', $renderer->section_title($section, $course));
@@ -226,10 +235,22 @@ class format_masonry_testcase extends advanced_testcase {
         $this->assertContains('Topic 2', $renderer->section_title_without_link($section, $course));
         set_section_visible($course->id, 2, 0);
         $USER->editing = true;
+        $PAGE->set_context(context_course::instance($course->id));
+        $PAGE->set_pagelayout('standard');
+        $PAGE->set_pagetype('course-view');
+        $PAGE->set_url('/course/view.php?id=' . $course->id);
+        $PAGE->requires->js('/course/format/topics/format.js');
+        $renderer = $PAGE->get_renderer('format_topics');
         ob_start();
-        $renderer->print_single_section_page($course, null, null, null, null, 2);
+        $renderer->print_single_section_page($course, null, null, null, null, 0);
+        $out1 = ob_get_contents();
         $renderer->print_multiple_section_page($course, null, null, null, null, null);
+        $out2 = ob_get_contents();
         ob_end_clean();
+        $this->assertContains(' Add an activity', $out1);
+        $this->assertContains('Topic 1', $out2);
+        $course->marker = 2;
+        course_set_marker($course->id, 2);
     }
 
     /**
@@ -268,7 +289,6 @@ class format_masonry_testcase extends advanced_testcase {
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $course);
-
         $form = new \MoodleQuickForm_colorpicker();
         $form->sethiddenlabel('icon');
         $this->assertContains('loading', $form->tohtml());
@@ -276,6 +296,5 @@ class format_masonry_testcase extends advanced_testcase {
         $form->gethelpbutton();
         $form->getelementtemplatetype();
         $form->verify(null);
-
     }
 }

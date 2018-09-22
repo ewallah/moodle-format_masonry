@@ -48,19 +48,19 @@ if ($PAGE->user_is_editing()) {
 } else {
     // Render using the masonry js.
     $PAGE->requires->js_init_call('M.masonry.init',
-            array(array(
+            [[
                'node' => '#coursemasonry',
                'itemSelector' => '.section.main',
                'columnWidth' => 1,
                'isRTL' => right_to_left(),
                'gutterWidth' => 0
-            )),
+            ]],
             false,
-            array(
+            [
                'name' => 'course_format_masonry',
                'fullpath' => '/course/format/masonry/format.js',
-               'requires' => array('base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io', 'moodle-core-dock')
-            )
+               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io', 'moodle-core-dock']
+            ]
     );
     $renderer = $PAGE->get_renderer('format_masonry');
 }
