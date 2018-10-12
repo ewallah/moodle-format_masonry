@@ -44,9 +44,9 @@ class format_masonry extends format_topics {
      *     'sr' (int) used by multipage formats to specify to which section to return
      * @return null|moodle_url
      */
-    public function get_view_url($section, $options = array()) {
+    public function get_view_url($section, $options = []) {
         $course = $this->get_course();
-        return new moodle_url('/course/view.php', array('id' => $course->id));
+        return new moodle_url('/course/view.php', ['id' => $course->id]);
     }
 
     /**
@@ -57,8 +57,7 @@ class format_masonry extends format_topics {
      */
     public function section_format_options($foreditform = false) {
         $color = get_config('format_masonry', 'defaultbordercolor');
-        return array(
-            'backcolor' => array(
+        return ['backcolor' => [
                 'type' => PARAM_RAW,
                 'name' => 'bordercolor',
                 'label' => get_string('backgroundcolor', 'format_masonry'),
@@ -66,9 +65,7 @@ class format_masonry extends format_topics {
                 'default' => $color,
                 'cache' => true,
                 'help' => 'colordisplay',
-                'help_component' => 'format_masonry',
-            )
-        );
+                'help_component' => 'format_masonry']];
     }
 
     /**
@@ -88,89 +85,46 @@ class format_masonry extends format_topics {
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
-            $courseformatoptions = array(
-                'numsections' => array(
-                    'default' => $courseconfig->numsections,
-                    'type' => PARAM_INT,
-                ),
-                'hiddensections' => array(
-                    'type' => PARAM_INT,
-                    'default' => 1
-                ),
-                'coursedisplay' => array(
-                    'type' => PARAM_INT,
-                    'default' => 1
-                ),
-                'borderwidth' => array(
-                    'type' => PARAM_INT,
-                    'default' => 1
-                ),
-                'bordercolor' => array(
-                    'type' => PARAM_TEXT,
-                    'default' => '#F0F0F0'
-                ),
-                'backcolor' => array(
-                    'type' => PARAM_TEXT,
-                    'default' => '#F0F0F0'
-                )
-            );
+            $courseformatoptions = [
+                'numsections' => ['default' => $courseconfig->numsections, 'type' => PARAM_INT],
+                'hiddensections' => ['type' => PARAM_INT, 'default' => 1],
+                'coursedisplay' => ['type' => PARAM_INT, 'default' => 1],
+                'borderwidth' => ['type' => PARAM_INT, 'default' => 1],
+                'bordercolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0'],
+                'backcolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0']];
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseconfig = get_config('moodlecourse');
-            $max = $courseconfig->maxsections;
-            if (!isset($max) || !is_numeric($max)) {
-                $max = 100;
-            }
-            $sectionmenu = array();
+            $max = (int)$courseconfig->maxsections;
+            $sectionmenu = [];
             for ($i = 0; $i <= $max; $i++) {
                 $sectionmenu[$i] = "$i";
             }
-            $courseoptionsedit = array(
-                'numsections' => array(
+            $courseoptionsedit = [
+                'numsections' => [
                     'label' => new lang_string('numberweeks'),
                     'element_type' => 'select',
-                    'element_attributes' => array($sectionmenu),
-                ),
-                'hiddensections' => array(
+                    'element_attributes' => [$sectionmenu]],
+                'hiddensections' => [
                     'label' => 'hidden1',
                     'element_type' => 'hidden',
-                    'element_attributes' => array(
-                        array(
-                            // Forced for Masonry course format.
-                            1 => new lang_string('hiddensectionsinvisible')
-                        )
-                    ),
-                ),
-                'coursedisplay' => array(
+                    'element_attributes' => [[1 => new lang_string('hiddensectionsinvisible')]]],
+                'coursedisplay' => [
                     'label' => 'hidden2',
                     'element_type' => 'hidden',
-                    'element_attributes' => array(
-                        array(
-                            COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single')
-                            // Disabled for Masonry course format.
-                            // COURSE_DISPLAY_MULTIPAGE => new lang_string('coursedisplay_multi').
-                        )
-                    ),
-                ),
-                'borderwidth' => array(
+                    'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single')]]],
+                'borderwidth' => [
                     'label' => get_string('borderwidth', 'format_masonry'),
                     'element_type' => 'select',
-                    'element_attributes' => array(
-                        array(0 => '0', 1 => '1', 2 => '2')
-                    ),
-                ),
-                'bordercolor' => array(
+                    'element_attributes' => [[0 => '0', 1 => '1', 2 => '2']]],
+                'bordercolor' => [
                     'label' => get_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
-                    'element_type' => 'hidden'
-                ),
-                'backcolor' => array(
+                    'element_type' => 'hidden'],
+                'backcolor' => [
                     'label' => get_string('bordercolor', 'format_masonry'),
                     'element_type' => 'masonrycolorpicker',
-                    'element_attributes' => array(array('value' => $courseformatoptions['bordercolor']['default']))
-                )
-
-            );
+                    'element_attributes' => [['value' => $courseformatoptions['bordercolor']['default']]]]];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseoptionsedit);
         }
         return $courseformatoptions;
@@ -248,7 +202,7 @@ function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
-            array($itemid, 'masonry'), MUST_EXIST);
+            [$itemid, 'masonry'], MUST_EXIST);
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

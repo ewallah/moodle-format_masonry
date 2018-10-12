@@ -208,9 +208,8 @@ class format_masonry_testcase extends advanced_testcase {
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
-        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $course->id]);
-        $generator->get_plugin_generator('mod_wiki')->create_instance(['course' => $course->id]);
-        set_section_visible($course->id, 0, 0);
+        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $course->id, 'section' => 1]);
+        $generator->get_plugin_generator('mod_wiki')->create_instance(['course' => $course->id, 'section' => 1]);
         set_section_visible($course->id, 2, 0);
         $page = new moodle_page();
         $page->set_context(context_course::instance($course->id));
@@ -244,6 +243,7 @@ class format_masonry_testcase extends advanced_testcase {
         $PAGE->set_pagetype('course-view');
         $PAGE->set_url('/course/view.php?id=' . $course->id);
         $PAGE->requires->js('/course/format/topics/format.js');
+
         $renderer = $PAGE->get_renderer('format_topics');
         ob_start();
         $renderer->print_single_section_page($course, null, null, null, null, 0);
@@ -255,6 +255,16 @@ class format_masonry_testcase extends advanced_testcase {
         $this->assertContains('Topic 1', $out2);
         $course->marker = 2;
         course_set_marker($course->id, 2);
+
+        $renderer = $PAGE->get_renderer('format_masonry');
+        ob_start();
+        $renderer->print_single_section_page($course, null, null, null, null, 0);
+        $out3 = ob_get_contents();
+        $renderer->print_multiple_section_page($course, null, null, null, null, null);
+        $out4 = ob_get_contents();
+        ob_end_clean();
+        $this->assertContains(' Add an activity', $out3);
+        $this->assertContains('Topic 1', $out4);
     }
 
     /**
@@ -282,7 +292,7 @@ class format_masonry_testcase extends advanced_testcase {
     }
 
     /**
-     * Test ohter.
+     * Test other.
      */
     public function test_other() {
         $this->resetAfterTest(true);

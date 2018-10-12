@@ -73,23 +73,6 @@ class format_masonry_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Generate the content to displayed on the left part of a section
-     * before course modules are included
-     *
-     * @param stdClass $section The course_section entry from DB
-     * @param stdClass $course The course entry from DB
-     * @param bool $onsectionpage true if being printed on a section page
-     * @return string HTML to output.
-     */
-    protected function section_left_content($section, $course, $onsectionpage) {
-        global $PAGE;
-        if ($PAGE->user_is_editing()) {
-            return parent::section_left_content($section, $course, $onsectionpage);
-        }
-        return '';
-    }
-
-    /**
      * Generate the display of the header part of a section before
      * course modules are included
      *
@@ -107,7 +90,7 @@ class format_masonry_renderer extends format_section_renderer_base {
             $style .= ' opacity:0.3;filter:alpha(opacity=30);';
         } else {
             // No need for empty first sections.
-            if ($section->id == 0 && empty($section->sequence)) {
+            if ($section->section == 0 && empty($section->sequence)) {
                 return '';
             }
         }
