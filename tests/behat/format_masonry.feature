@@ -63,33 +63,29 @@ Feature: format_masonry
   Scenario: Modify section summary - title - background color in masonry format
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    And I click on "Edit" "link" in the "li#section-1" "css_element"
-    And I click on "Edit section" "link" in the "li#section-1" "css_element"
+    And I edit the section "1"
     And I set the following fields to these values:
       | Summary | Welcome |
     And I press "Save changes"
     Then I should see "Welcome" in the "li#section-1" "css_element"
 
     # Change some section background colors.
-    When I click on "Edit" "link" in the "li#section-1" "css_element"
-    And I click on "Edit section" "link" in the "li#section-1" "css_element"
+    # When I click on "Edit" "link" in the "li#section-1" "css_element"
+    When I edit the section "1"
     And I set the following fields to these values:
       | Custom                   | true  |
       | Section name             | first |
       | Section Background color | #000  |
     And I press "Save changes"
-    And I click on "Edit" "link" in the "li#section-2" "css_element"
-    And I click on "Edit section" "link" in the "li#section-2" "css_element"
+    And I edit the section "2"
     And I set the following fields to these values:
       | Section Background color | #FFFFFF  |
     And I press "Save changes"
-    And I click on "Edit" "link" in the "li#section-3" "css_element"
-    And I click on "Edit section" "link" in the "li#section-3" "css_element"
+    And I edit the section "3"
     And I set the following fields to these values:
       | Section Background color | hsla(207,38%,47%,0.8)  |
     And I press "Save changes"
-    And I click on "Edit" "link" in the "li#section-4" "css_element"
-    And I click on "Edit section" "link" in the "li#section-4" "css_element"
+    And I edit the section "4"
     And I set the following fields to these values:
       | Section Background color | transparent  |
     And I press "Save changes"
@@ -103,8 +99,7 @@ Feature: format_masonry
     And I navigate to "Appearance > Themes > Theme settings" in site administration
     And I click on "Allow course themes" "checkbox"
     And I press "Save changes"
-    And I am on site homepage
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     And I navigate to "Edit settings" in current page administration
     And I expand all fieldsets
     And I set the field "Force theme" to "Clean"
