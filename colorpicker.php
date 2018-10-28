@@ -108,11 +108,8 @@ class MoodleQuickForm_colorpicker extends HTML_QuickForm_text {
      * @return string
      */
     public function getelementtemplatetype() {
-        if ($this->_flagFrozen) {
-            return 'static';
-        } else {
-            return 'default';
-        }
+        $return = ($this->_flagFrozen) ? 'static' : 'default';
+        return $return;
     }
 
     /**

@@ -58,7 +58,7 @@ Feature: format_masonry
     Then I should see "book 1"
     And I should see "book 2"
     And I should not see "book 3"
-    
+
   @javascript
   Scenario: Modify section summary - title - background color in masonry format
     Given I log in as "teacher1"
