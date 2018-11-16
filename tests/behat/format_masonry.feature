@@ -33,7 +33,7 @@ Feature: format_masonry
   Scenario: Empty section 0 stays hidden
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    Then I should not see "General"
+    Then I should not see "General" in the ".course-content" "css_element"
 
     When I turn editing mode on
     And I add a "Page" to section "0"

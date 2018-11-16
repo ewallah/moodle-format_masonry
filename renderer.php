@@ -83,22 +83,17 @@ class format_masonry_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
+        if ($section->section == 0 && empty($section->sequence)) {
+            return '';
+        }
         $class = 'section main';
         $style = 'background:' .$section->backcolor . ' !important;';
         if (!$section->visible) {
             $class .= ' hidden';
             $style .= ' opacity:0.3;filter:alpha(opacity=30);';
-        } else {
-            // No need for empty first sections.
-            if ($section->section == 0 && empty($section->sequence)) {
-                return '';
-            }
         }
-        if ($course->marker == $section->section) {
-            $style .= 'border: ' . 2 * $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
-        } else {
-            $style .= 'border: ' . $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
-        }
+        $x = ($course->marker == $section->section) ? 2 : 1;
+        $style .= 'border: ' . $x * $course->borderwidth . 'px solid '.  $course->bordercolor.' !important;';
         $o = html_writer::start_tag('li', ['id' => 'section-'.$section->section, 'class' => $class, 'style' => $style]);
         $o .= html_writer::start_tag('div', ['class' => 'content']);
         $o .= $this->output->heading($this->section_title($section, $course), 3, 'sectionname');
