@@ -277,7 +277,6 @@ class format_masonry_testcase extends advanced_testcase {
         require_once($CFG->libdir . '/upgradelib.php');
         try {
             $this->assertTrue(xmldb_format_masonry_upgrade(time()));
-            $this->fail('Exception expected');
         } catch (moodle_exception $e) {
             $this->assertEquals(1, preg_match('/^Cannot downgrade/', $e->getMessage()));
         }
