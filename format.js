@@ -142,7 +142,7 @@ M.masonry.init = function(Y, cfg) {
 
             /* When min max. */
             Y.all(".block_action").after("click", function() {
-                setTimeout(function(){
+                setTimeout(function() {
                     M.masonry.reload();
                 }, 310);
                 M.masonry._reLayout();
