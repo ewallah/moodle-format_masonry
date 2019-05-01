@@ -89,21 +89,3 @@ Feature: format_masonry
     And I press "Save changes"
     And I turn editing mode off
     Then I should see "first" in the "li#section-1" "css_element"
-
-  @javascript
-  Scenario: The masonry should reorder after a docking event
-    Given I log in as "admin"
-    And I am on site homepage
-    And I navigate to "Appearance > Themes > Theme settings" in site administration
-    And I click on "Allow course themes" "checkbox"
-    And I press "Save changes"
-    And I am on "Course 1" course homepage
-    And I navigate to "Edit settings" in current page administration
-    And I expand all fieldsets
-    And I set the field "Force theme" to "Clean"
-    And I press "Save and display"
-    And I am on site homepage
-    And I follow "Course 1"
-    And I dock "Navigation" block
-    And I dock "Administration" block
-    Then I should see "lesson 1" in the "li#section-1" "css_element"
