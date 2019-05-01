@@ -134,11 +134,11 @@ M.masonry.init = function(Y, cfg) {
                 M.masonry.resize();
             });
 
-            /* When block docked. */
+            /* When block docked. 
             var dock = M.core.dock.get();
             dock.after('dock:itemschanged', function() {
                 M.masonry.reload();
-            });
+            }); */
 
             /* When min max. */
             Y.all(".block_action").after("click", function() {
