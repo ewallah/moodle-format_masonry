@@ -16,19 +16,19 @@ Feature: format_masonry
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity   | name                   | intro                         | course | idnumber    | section | visible |
-      | assign     | assignment 1           | Test assignment description   | C1     | assign1     | 1       | 1       |
-      | assign     | assignment 2           | Test assignment description   | C1     | assign2     | 1       | 1       |
-      | assign     | assignment 3           | Test assignment description   | C1     | assign3     | 1       | 0       |
-      | book       | book 1                 | Test book description         | C1     | book1       | 2       | 1       |
-      | book       | book 2                 | Test book description         | C1     | book2       | 2       | 1       |
-      | book       | book 3                 | Test book description         | C1     | book3       | 2       | 0       |
-      | chat       | chat 1                 | Test chat description         | C1     | chat1       | 3       | 1       |
-      | chat       | chat 2                 | Test chat description         | C1     | chat2       | 3       | 1       |
-      | chat       | chat 3                 | Test chat description         | C1     | chat3       | 3       | 0       |
-      | choice     | choice 1               | Test choice description       | C1     | choice1     | 4       | 1       |
-      | choice     | choice 2               | Test choice description       | C1     | choice2     | 4       | 1       |
-      | choice     | choice 3               | Test choice description       | C1     | choice3     | 4       | 0       |
+      | activity | name      | intro                    | course | idnumber    | section | visible |
+      | lesson   | lesson 1  | Test lesson description  | C1     | lesson1     | 1       | 1       |
+      | lesson   | lesson 2  | Test lesson description  | C1     | lesson2     | 1       | 1       |
+      | lesson   | lesson 3  | Test lesson description  | C1     | lesson3     | 1       | 0       |
+      | book     | book 1    | Test book description    | C1     | book1       | 2       | 1       |
+      | book     | book 2    | Test book description    | C1     | book2       | 2       | 1       |
+      | book     | book 3    | Test book description    | C1     | book3       | 2       | 0       |
+      | chat     | chat 1    | Test chat description    | C1     | chat1       | 3       | 1       |
+      | chat     | chat 2    | Test chat description    | C1     | chat2       | 3       | 1       |
+      | chat     | chat 3    | Test chat description    | C1     | chat3       | 3       | 0       |
+      | choice   | choice 1  | Test choice description  | C1     | choice1     | 4       | 1       |
+      | choice   | choice 2  | Test choice description  | C1     | choice2     | 4       | 1       |
+      | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
 
   Scenario: Empty section 0 stays hidden
     Given I log in as "teacher1"
@@ -49,9 +49,9 @@ Feature: format_masonry
   Scenario: The modules should be visible and hidden in masonry format
     Given I log in as "teacher1"
     And I am on "Course 1" course homepage
-    Then I should see "assignment 1"
-    And I should see "assignment 2"
-    And I should see "assignment 3"
+    Then I should see "lesson 1"
+    And I should see "lesson 2"
+    And I should see "lesson 3"
     And I log out
     When I log in as "student1"
     And I am on "Course 1" course homepage
@@ -69,8 +69,6 @@ Feature: format_masonry
     And I press "Save changes"
     Then I should see "Welcome" in the "li#section-1" "css_element"
 
-    # Change some section background colors.
-    # When I click on "Edit" "link" in the "li#section-1" "css_element"
     When I edit the section "1"
     And I set the following fields to these values:
       | Custom                   | true  |
@@ -108,4 +106,4 @@ Feature: format_masonry
     And I follow "Course 1"
     And I dock "Navigation" block
     And I dock "Administration" block
-    Then I should see "assignment 1" in the "li#section-1" "css_element"
+    Then I should see "lesson 1" in the "li#section-1" "css_element"
