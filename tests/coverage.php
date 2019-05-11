@@ -26,10 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 return new class extends phpunit_coverage_info {
     /** @var array The list of folders relative to the plugin root to whitelist in coverage generation. */
-    protected $whitelistfolders = ['classes'];
+    protected $whitelistfolders = ['classes', 'db'];
 
     /** @var array The list of files relative to the plugin root to whitelist in coverage generation. */
-    protected $whitelistfiles = ['lib.php', 'locallib.php'];
+    protected $whitelistfiles = ['lib.php', 'format.php', 'locallib.php', 'renderer.php'];
 
     /** @var array The list of folders relative to the plugin root to excludelist in coverage generation. */
     protected $excludelistfolders = [];

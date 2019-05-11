@@ -33,12 +33,13 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @package    format_masonry
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass \course\format\masonry
+ * @coversDefaultClass format_masonry
  */
 class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
+     * @covers format_masonry
      */
     public function test_get_section_name() {
         global $DB;
@@ -55,6 +56,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
+     * @covers format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -80,6 +82,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_default_section_name.
+     * @covers format_masonry
      */
     public function test_get_default_section_name() {
         global $DB;
@@ -101,6 +104,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test web service updating section name
+     * @covers format_masonry
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB;
@@ -132,6 +136,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test callback updating section name
+     * @covers format_masonry
      */
     public function test_inplace_editable() {
         global $DB, $PAGE;
@@ -201,6 +206,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test renderer.
+     * @covers format_masonry_renderer
      */
     public function test_renderer() {
         global $CFG, $PAGE, $USER;
@@ -270,6 +276,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test upgrade.
+     * @covers format_masonry
      */
     public function test_upgrade() {
         global $CFG;
@@ -285,6 +292,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test privacy.
+     * @covers format_masonry\privacy\provider
      */
     public function test_privacy() {
         $privacy = new format_masonry\privacy\provider();
@@ -292,10 +300,40 @@ class format_masonry_testcase extends advanced_testcase {
     }
 
     /**
+     * Test colorpicker.
+     * @covers MoodleQuickForm_colorpicker
+     */
+    public function test_colorpicker() {
+        $form = new \MoodleQuickForm_colorpicker();
+        $form->sethiddenlabel('icon');
+        $this->assertContains('loading', $form->tohtml());
+        $form->_generateid();
+        $form->gethelpbutton();
+        $form->getelementtemplatetype();
+        $form->verify(null);
+    }
+
+    /**
+     * Test format.
+     * @covers MoodleQuickForm_colorpicker
+     */
+    public function test_format() {
+        global $CFG, $PAGE;
+        $this->resetAfterTest(true);
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $this->setAdminUser();
+        $PAGE->get_renderer('core');
+        ob_start();
+        include($CFG->dirroot . '/course/format/masonry/format.php');
+        ob_end_clean();
+    }
+
+    /**
      * Test other.
+     * @covers format_masonry
      */
     public function test_other() {
-        global $CFG, $PAGE;
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
@@ -304,16 +342,6 @@ class format_masonry_testcase extends advanced_testcase {
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $course);
-        $form = new \MoodleQuickForm_colorpicker();
-        $form->sethiddenlabel('icon');
-        $this->assertContains('loading', $form->tohtml());
-        $form->_generateid();
-        $form->gethelpbutton();
-        $form->getelementtemplatetype();
-        $form->verify(null);
-        $PAGE->get_renderer('core');
-        ob_start();
-        require($CFG->dirroot . '/course/format/masonry/format.php');
-        ob_end_clean();
+        $this->assertEquals(6, count($format->course_format_options()));
     }
 }
