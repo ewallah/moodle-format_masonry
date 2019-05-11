@@ -33,6 +33,7 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @package    format_masonry
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversDefaultClass \course\format\masonry
  */
 class format_masonry_testcase extends advanced_testcase {
 
