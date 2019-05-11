@@ -294,6 +294,7 @@ class format_masonry_testcase extends advanced_testcase {
      * Test other.
      */
     public function test_other() {
+        global $CFG, $PAGE;
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
@@ -309,5 +310,9 @@ class format_masonry_testcase extends advanced_testcase {
         $form->gethelpbutton();
         $form->getelementtemplatetype();
         $form->verify(null);
+        $PAGE->get_renderer('core');
+        ob_start();
+        require($CFG->dirroot . '/course/format/masonry/format.php');
+        ob_end_clean();
     }
 }
