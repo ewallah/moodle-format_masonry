@@ -157,7 +157,7 @@ class format_masonry_testcase extends advanced_testcase {
             $tmpl = component_callback('format_weeks', 'inplace_editable', ['sectionname', $section->id, 'New name']);
             $this->fail('Exception expected');
         } catch (moodle_exception $e) {
-            $this->assertEquals(1, preg_match('/^Can not find data record in database/', $e->getMessage()));
+            $this->assertEquals(1, preg_match('/^Can\'t find data record in database/', $e->getMessage()));
         }
     }
 
