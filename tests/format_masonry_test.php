@@ -104,7 +104,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test web service updating section name
-     * @covers format_masonry
+     * @coversNothing
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB;
@@ -114,7 +114,7 @@ class format_masonry_testcase extends advanced_testcase {
         $generator = $this->getDataGenerator();
         $user = $generator->create_user();
         $this->setUser($user);
-        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $course = $generator->create_course(['numsections' => 2, 'format' => 'masonry'], ['createsections' => true]);
         $modinfo = get_fast_modinfo($course);
         $section = $modinfo->get_section_info(2);
 
@@ -132,6 +132,10 @@ class format_masonry_testcase extends advanced_testcase {
         $res = external_api::clean_returnvalue(core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New section name', $res['value']);
         $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
+
+        $section = $modinfo->get_section_info(1);
+        format_masonry_inplace_editable('sectionname', $section->id, 'New section name twice');
+        $this->assertEquals('New section name twice', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
     }
 
     /**

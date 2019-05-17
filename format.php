@@ -59,7 +59,7 @@ if ($PAGE->user_is_editing()) {
             [
                'name' => 'course_format_masonry',
                'fullpath' => '/course/format/masonry/format.js',
-               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io', 'moodle-core-dock']
+               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']
             ]
     );
     $renderer = $PAGE->get_renderer('format_masonry');

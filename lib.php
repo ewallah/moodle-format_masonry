@@ -198,8 +198,8 @@ class format_masonry extends format_topics {
  */
 function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
     global $DB, $CFG;
-    require_once($CFG->dirroot . '/course/lib.php');
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
+        require_once($CFG->dirroot . '/course/lib.php');
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
             [$itemid, 'masonry'], MUST_EXIST);
