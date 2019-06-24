@@ -204,7 +204,12 @@ class format_masonry_testcase extends advanced_testcase {
         $enddate = $params['startdate'] + get_config('moodlecourse', 'courseduration');
 
         $weeksformat = course_get_format($course->id);
-        $this->assertEquals($enddate, $weeksformat->get_default_course_enddate($courseform->get_quick_form()));
+        $form = $courseform->get_quick_form();
+        $this->assertEquals($enddate, $weeksformat->get_default_course_enddate($form));
+        $format = course_get_format($course);
+        $format->create_edit_form_elements($form, $course);
+        $format->create_edit_form_elements($form, null);
+        $this->assertEquals(6, count($format->course_format_options()));
 
     }
 
@@ -324,8 +329,7 @@ class format_masonry_testcase extends advanced_testcase {
     public function test_format() {
         global $CFG, $PAGE;
         $this->resetAfterTest(true);
-        $generator = $this->getDataGenerator();
-        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $this->getDataGenerator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
         $this->setAdminUser();
         $PAGE->get_renderer('core');
         ob_start();
