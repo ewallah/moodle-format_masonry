@@ -329,7 +329,10 @@ class format_masonry_testcase extends advanced_testcase {
     public function test_format() {
         global $CFG, $PAGE;
         $this->resetAfterTest(true);
-        $this->getDataGenerator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $format = course_get_format($course);
+        $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
         $PAGE->get_renderer('core');
         ob_start();
