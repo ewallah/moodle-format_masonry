@@ -11,6 +11,9 @@ M.masonry = {};
  */
 M.masonry.init = function(Y, cfg) {
 
+    /**
+     * Main constructor.
+     */
     function Masonry() {
          Masonry.superclass.constructor.apply(this, arguments);
     }
@@ -183,9 +186,11 @@ M.masonry.init = function(Y, cfg) {
                 containerSize.width = (this.cols - unusedCols) * this.columnWidth - this.get('gutterWidth') + 'px';
             }
             this.styleQueue.push({el: this.get('node'), style: containerSize});
-            styleFn = !this.isLaidOut ? 'setStyles' : (
-                this.get('isAnimated') ? 'transition' : 'setStyles'
-            );
+            if (this.isLaidOut) {
+                styleFn = this.get('isAnimated') ? 'transition' : 'setStyles';
+            } else {
+                styleFn = 'setStyles';
+            }
             for (i = 0, len = this.styleQueue.length; i < len; i++) {
                 obj = this.styleQueue[i];
                 style = obj.style;

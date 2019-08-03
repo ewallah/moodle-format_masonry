@@ -39,9 +39,7 @@ class format_masonry extends format_topics {
      *
      * @param int|stdClass $section Section object from database or just field course_sections.section
      *     if omitted the course view page is returned
-     * @param array $options options for view URL. At the moment core uses:
-     *     'navigation' (bool) if true and section has no separate page, the function returns null
-     *     'sr' (int) used by multipage formats to specify to which section to return
+     * @param array $options options for view URL. ignored
      * @return null|moodle_url
      */
     public function get_view_url($section, $options = []) {
@@ -57,13 +55,15 @@ class format_masonry extends format_topics {
      */
     public function section_format_options($foreditform = false) {
         $color = get_config('format_masonry', 'defaultbordercolor');
-        return ['backcolor' => [
+        return [
+            'backcolor' => [
                 'type' => PARAM_RAW,
                 'name' => 'bordercolor',
                 'label' => get_string('backgroundcolor', 'format_masonry'),
-                'element_type' => 'masonrycolorpicker',
+                'element_type' => 'text',
                 'default' => $color,
                 'cache' => true,
+                'cachedefault' => $color,
                 'help' => 'colordisplay',
                 'help_component' => 'format_masonry']];
     }
@@ -123,31 +123,14 @@ class format_masonry extends format_topics {
                     'element_type' => 'hidden'],
                 'backcolor' => [
                     'label' => get_string('bordercolor', 'format_masonry'),
-                    'element_type' => 'masonrycolorpicker',
+                    'element_type' => 'text',
+                    'help' => 'colordisplay',
+                    'help_component' => 'format_masonry',
                     'element_attributes' => [['value' => $courseformatoptions['bordercolor']['default']]]]];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseoptionsedit);
         }
         return $courseformatoptions;
     }
-
-    /**
-     * Adds format options elements to the course/section edit form.
-     *
-     * This function is called from {@link course_edit_form::definition_after_data()}.
-     *
-     * @param MoodleQuickForm $mform form the elements are added to.
-     * @param bool $forsection 'true' if this is a section edit form, 'false' if this is course edit form.
-     * @return array array of references to the added form elements.
-     */
-    public function create_edit_form_elements(&$mform, $forsection = false) {
-        global $CFG;
-        MoodleQuickForm::registerElementType(
-            "masonrycolorpicker",
-            "$CFG->dirroot/course/format/masonry/colorpicker.php",
-            "MoodleQuickForm_colorpicker");
-        return parent::create_edit_form_elements($mform, $forsection);
-    }
-
 
     /**
      * Updates format options for a course
@@ -185,6 +168,29 @@ class format_masonry extends format_topics {
             $editlabel = new lang_string('newsectionname', 'format_topics', $title);
         }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
+    }
+
+    /**
+     * Returns whether this course format allows the activity to
+     * have "triple visibility state" - visible always, hidden on course page but available, hidden.
+     *
+     * @param stdClass|cm_info $cm course module (may be null if we are displaying a form for adding a module)
+     * @param stdClass|section_info $section section where this module is located or will be added to
+     * @return bool
+     */
+    public function allow_stealth_module_visibility($cm, $section) {
+        return true;
+    }
+
+    /**
+     * Return the plugin configs for external functions.
+     *
+     * @return array the list of configuration settings
+     * @since Moodle 3.5
+     */
+    public function get_config_for_external() {
+        // Return everything (nothing to hide).
+        return $this->get_format_options();
     }
 }
 

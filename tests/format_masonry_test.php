@@ -309,22 +309,8 @@ class format_masonry_testcase extends advanced_testcase {
     }
 
     /**
-     * Test colorpicker.
-     * @covers MoodleQuickForm_colorpicker
-     */
-    public function test_colorpicker() {
-        $form = new \MoodleQuickForm_colorpicker();
-        $form->sethiddenlabel('icon');
-        $this->assertContains('loading', $form->tohtml());
-        $form->_generateid();
-        $form->gethelpbutton();
-        $form->getelementtemplatetype();
-        $form->verify(null);
-    }
-
-    /**
      * Test format.
-     * @covers MoodleQuickForm_colorpicker
+     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
