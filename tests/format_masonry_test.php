@@ -310,7 +310,6 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format.
-     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -320,9 +319,10 @@ class format_masonry_testcase extends advanced_testcase {
         $format = course_get_format($course);
         $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
-        $PAGE->get_renderer('core');
+        $PAGE->get_renderer('core', 'course');
+        $PAGE->set_context(context_course::instance($course->id));
         ob_start();
-        include($CFG->dirroot . '/course/format/masonry/format.php');
+        include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
     }
 
