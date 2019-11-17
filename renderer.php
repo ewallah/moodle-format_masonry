@@ -87,7 +87,7 @@ class format_masonry_renderer extends format_section_renderer_base {
             return '';
         }
         $class = 'section main';
-        $style = 'background:' .$section->backcolor . ' !important;';
+        $style = 'background:' . $section->backcolor . ' !important;';
         if (!$section->visible) {
             $class .= ' hidden';
             $style .= ' opacity:0.3;filter:alpha(opacity=30);';
