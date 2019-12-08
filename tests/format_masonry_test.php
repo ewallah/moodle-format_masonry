@@ -104,7 +104,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test web service updating section name
-     * @coversNothing
+     * @covers format_masonry
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB;
@@ -210,7 +210,6 @@ class format_masonry_testcase extends advanced_testcase {
         $format->create_edit_form_elements($form, $course);
         $format->create_edit_form_elements($form, null);
         $this->assertEquals(6, count($format->course_format_options()));
-
     }
 
     /**
@@ -340,5 +339,7 @@ class format_masonry_testcase extends advanced_testcase {
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $course);
         $this->assertEquals(6, count($format->course_format_options()));
+        $this->assertTrue($format->allow_stealth_module_visibility(null, null));
+        $this->assertEquals(6, count($format->get_config_for_external()));
     }
 }
