@@ -11,10 +11,6 @@ services:
 addons:
   firefox: "47.0.1"
   postgresql: "9.6"
-  chrome: stable
-  apt:
-    packages:
-      - chromium-chromedriver
 
 cache:
   directories:
@@ -41,7 +37,6 @@ before_install:
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://127.0.0.1 &>/dev/null &
 
 install:
   - moodle-plugin-ci install
@@ -49,8 +44,7 @@ install:
 script:
   - moodle-plugin-ci phpunit --coverage-text --coverage-clover
   - moodle-plugin-ci behat
-  - moodle-plugin-ci behat --profile chrome
-  - moodle-plugin-ci behat --profile chrome --dump /home/travis/build/moodle/blocks/admin_bookmarks
+  - moodle-plugin-ci behat --dump /home/travis/build/moodle/blocks/admin_bookmarks
   - moodle-plugin-ci phplint
   - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
@@ -67,7 +61,6 @@ script:
         then
             php /home/travis/build/moodle/admin/tool/behat/cli/init.php -a="classic"
             moodle-plugin-ci behat --suite="classic"
-            moodle-plugin-ci behat --suite="classic" --profile chrome
         fi
 
 after_success:
