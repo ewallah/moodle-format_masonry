@@ -135,9 +135,8 @@ class format_masonry extends format_topics {
     /**
      * Updates format options for a course
      *
-     * @param stdClass|array $data return value from {@link moodleform::get_data()} or array with data
-     * @param stdClass $oldcourse if this function is called from {@link update_course()}
-     *     this object contains information about the course before update
+     * @param stdClass | array $data
+     * @param stdClass $oldcourse information about the course before update
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
