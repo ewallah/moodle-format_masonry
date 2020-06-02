@@ -135,7 +135,7 @@ class format_masonry extends format_topics {
     /**
      * Updates format options for a course
      *
-     * @param stdClass | array $data
+     * @param stdClass|array $data
      * @param stdClass $oldcourse information about the course before update
      * @return bool whether there were any changes to the options values
      */
