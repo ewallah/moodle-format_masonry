@@ -174,7 +174,6 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
-     * @covers format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -309,7 +308,6 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format.
-     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -328,7 +326,6 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format editing.
-     * @covers format_masonry
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
