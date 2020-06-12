@@ -31,7 +31,7 @@ Installation
 --------------------------------------------------------------------------------
 Todo
 --------------------------------------------------------------------------------
-1. Move to AMD (when Moodle docking events are AMD)
+1. Move to AMD
 2. Verify input
 
 --------------------------------------------------------------------------------
@@ -41,6 +41,7 @@ Done
 2. Travis integration
 3. PHP 7.0
 4. Behat integration
+5. Docking event removed
 
 
 ![travis](https://travis-ci.org/ewallah/moodle-format_masonry.svg?branch=master)
