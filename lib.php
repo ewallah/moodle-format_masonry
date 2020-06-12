@@ -135,9 +135,8 @@ class format_masonry extends format_topics {
     /**
      * Updates format options for a course
      *
-     * @param stdClass|array $data return value from {@link moodleform::get_data()} or array with data
-     * @param stdClass $oldcourse if this function is called from {@link update_course()}
-     *     this object contains information about the course before update
+     * @param stdClass|array $data
+     * @param stdClass $oldcourse
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
@@ -205,7 +204,7 @@ class format_masonry extends format_topics {
  */
 function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
     global $DB, $CFG;
-    if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
+    if ($itemtype === 'sectionname' or $itemtype === 'sectionnamenl') {
         require_once($CFG->dirroot . '/course/lib.php');
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',

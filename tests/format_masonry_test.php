@@ -134,6 +134,7 @@ class format_masonry_testcase extends advanced_testcase {
         $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
 
         $section = $modinfo->get_section_info(1);
+        core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
         format_masonry_inplace_editable('sectionname', $section->id, 'New section name twice');
         $this->assertEquals('New section name twice', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
     }
@@ -173,8 +174,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
-     *
-     * @return void
+     * @covers format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -309,6 +309,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format.
+     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -320,6 +321,28 @@ class format_masonry_testcase extends advanced_testcase {
         $this->setAdminUser();
         $PAGE->get_renderer('core', 'course');
         $PAGE->set_context(context_course::instance($course->id));
+        ob_start();
+        include_once($CFG->dirroot . '/course/format/masonry/format.php');
+        ob_end_clean();
+    }
+
+    /**
+     * Test format editing.
+     * @covers format_masonry
+     */
+    public function test_format_editing() {
+        global $CFG, $PAGE, $USER;
+        $this->resetAfterTest(true);
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
+        $format = course_get_format($course);
+        $this->assertEquals('masonry', $format->get_format());
+        $this->setAdminUser();
+        $USER->editing = true;
+        $PAGE->get_renderer('core', 'course');
+        $PAGE->set_context(context_course::instance($course->id));
+        sesskey();
+        $_POST['marker'] = 2;
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
