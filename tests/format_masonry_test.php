@@ -24,9 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->dirroot . '/course/lib.php');
-
 /**
  * format_masonry related unit tests
  *

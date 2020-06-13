@@ -31,8 +31,7 @@ Feature: format_masonry
       | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
 
   Scenario: Empty section 0 stays hidden
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage
+    Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should not see "General" in the ".course-content" "css_element"
 
     When I turn editing mode on
@@ -45,24 +44,20 @@ Feature: format_masonry
     And I turn editing mode off
     Then I should see "General" in the "li#section-0" "css_element"
 
-  @javascript
   Scenario: The modules should be visible and hidden in masonry format
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage
+    Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should see "lesson 1"
     And I should see "lesson 2"
     And I should see "lesson 3"
     And I log out
-    When I log in as "student1"
-    And I am on "Course 1" course homepage
+    When I am on the "C1" "Course" page logged in as "student1"
     Then I should see "book 1"
     And I should see "book 2"
     And I should not see "book 3"
 
-  @javascript
   Scenario: Modify section summary - title - background color in masonry format
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
+    Given I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
     And I edit the section "1"
     And I set the following fields to these values:
       | Summary | Welcome |
@@ -89,3 +84,17 @@ Feature: format_masonry
     And I press "Save changes"
     And I turn editing mode off
     Then I should see "first" in the "li#section-1" "css_element"
+
+  @javascript
+  Scenario: Inline edit section name in masonry format
+    Given I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
+    And I click on "Edit topic name" "link" in the "li#section-1" "css_element"
+    And I set the field "New name for topic Topic 1" to "Masonry"
+    And I press key "13" in the field "New name for topic Topic 1"
+    Then I should not see "Topic 1" in the "region-main" "region"
+    And "New name for topic" "field" should not exist
+    And I should see "Masonry" in the "li#section-1" "css_element"
+    And I am on "Course 1" course homepage
+    And I should not see "Topic 1" in the "region-main" "region"
+    And I should see "Masonry" in the "li#section-1" "css_element"
