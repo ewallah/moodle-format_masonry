@@ -1,4 +1,4 @@
-@format @format_masonry
+@ewallah @format @format_masonry
 
 Feature: format_masonry
   In order to view my course contents I have to browse
