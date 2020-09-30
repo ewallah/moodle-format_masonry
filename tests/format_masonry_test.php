@@ -30,13 +30,12 @@ defined('MOODLE_INTERNAL') || die();
  * @package    format_masonry
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass format_masonry
  */
 class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_get_section_name() {
         global $DB;
@@ -53,7 +52,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -79,7 +78,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_default_section_name.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_get_default_section_name() {
         global $DB;
@@ -101,7 +100,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test web service updating section name
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB;
@@ -138,7 +137,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test callback updating section name
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_inplace_editable() {
         global $DB, $PAGE;
@@ -171,6 +170,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
+     * @covers \format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -210,7 +210,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test renderer.
-     * @covers format_masonry_renderer
+     * @coversDefaultClass \format_masonry_renderer
      */
     public function test_renderer() {
         global $CFG, $PAGE, $USER;
@@ -280,7 +280,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test upgrade.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_upgrade() {
         global $CFG;
@@ -296,15 +296,16 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test privacy.
-     * @covers format_masonry\privacy\provider
+     * @coversDefaultClass \format_masonry\privacy\provider
      */
     public function test_privacy() {
-        $privacy = new format_masonry\privacy\provider();
+        $privacy = new \format_masonry\privacy\provider();
         $this->assertEquals($privacy->get_reason(), 'privacy:metadata');
     }
 
     /**
      * Test format.
+     * @covers \format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -323,6 +324,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format editing.
+     * @coversDefaultClass \format_masonry
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -344,7 +346,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test other.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_other() {
         $this->resetAfterTest(true);
