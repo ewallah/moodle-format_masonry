@@ -24,18 +24,22 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
+
 /**
  * format_masonry related unit tests
  *
  * @package    format_masonry
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers format_masonry
  */
 class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_get_section_name() {
         global $DB;
@@ -52,7 +56,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -78,7 +82,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_default_section_name.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_get_default_section_name() {
         global $DB;
@@ -100,10 +104,10 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test web service updating section name
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_update_inplace_editable() {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         require_once($CFG->dirroot . '/lib/external/externallib.php');
 
         $this->resetAfterTest();
@@ -113,6 +117,7 @@ class format_masonry_testcase extends advanced_testcase {
         $course = $generator->create_course(['numsections' => 2, 'format' => 'masonry'], ['createsections' => true]);
         $modinfo = get_fast_modinfo($course);
         $section = $modinfo->get_section_info(2);
+        $USER->editing = true;
 
         try {
             core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
@@ -137,10 +142,10 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test callback updating section name
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_inplace_editable() {
-        global $DB, $PAGE;
+        global $DB, $PAGE, $USER;
 
         $this->resetAfterTest();
         $generator = $this->getDataGenerator();
@@ -149,6 +154,7 @@ class format_masonry_testcase extends advanced_testcase {
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
         $generator->enrol_user($user->id, $course->id, $teacherrole->id);
         $this->setUser($user);
+        $USER->editing = true;
         $modinfo = get_fast_modinfo($course);
         $section = $modinfo->get_section_info(2);
 
@@ -170,7 +176,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -210,12 +216,11 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test renderer.
-     * @coversDefaultClass \format_masonry_renderer
+     * @covers format_masonry_renderer
      */
     public function test_renderer() {
-        global $CFG, $PAGE, $USER;
+        global $PAGE, $USER;
         $this->resetAfterTest(true);
-        require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(['numsections' => 5, 'format' => 'masonry'], ['createsections' => true]);
@@ -280,7 +285,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test upgrade.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_upgrade() {
         global $CFG;
@@ -296,7 +301,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test privacy.
-     * @coversDefaultClass \format_masonry\privacy\provider
+     * @covers format_masonry\privacy\provider
      */
     public function test_privacy() {
         $privacy = new \format_masonry\privacy\provider();
@@ -305,7 +310,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -324,7 +329,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test format editing.
-     * @coversDefaultClass \format_masonry
+     * @covers format_masonry
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -346,7 +351,7 @@ class format_masonry_testcase extends advanced_testcase {
 
     /**
      * Test other.
-     * @covers \format_masonry
+     * @covers format_masonry
      */
     public function test_other() {
         $this->resetAfterTest(true);

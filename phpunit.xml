@@ -39,6 +39,11 @@
             <directory suffix=".php">.</directory>
             <exclude>
                 <directory suffix="_test.php">tests/</directory>
+                <directory suffix=".php">lang/en/</directory>
+                <directory suffix=".php">db/</directory>
+                <file>version.php</file>
+                <file>format.php</file>
+                <file>settings.php</file>
             </exclude>
         </whitelist>
     </filter>

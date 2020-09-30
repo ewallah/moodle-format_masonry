@@ -44,4 +44,4 @@ Done
 5. Docking event removed
 
 
-![travis](https://travis-ci.org/ewallah/moodle-format_masonry.svg?branch=master)
+![travis](https://travis-ci.com/ewallah/moodle-format_masonry.svg?branch=master)
