@@ -211,7 +211,7 @@ class format_masonry_testcase extends advanced_testcase {
         $format = course_get_format($course);
         $format->create_edit_form_elements($form, $course);
         $format->create_edit_form_elements($form, null);
-        $this->assertEquals(6, count($format->course_format_options()));
+        $this->assertCount(6, $format->course_format_options());
     }
 
     /**
@@ -245,13 +245,13 @@ class format_masonry_testcase extends advanced_testcase {
         $renderer->print_multiple_section_page($course, null, null, null, null, null);
         $out2 = ob_get_contents();
         ob_end_clean();
-        $this->assertContains('Topic 1', $out1);
-        $this->assertContains('Topic 1', $out2);
+        $this->assertStringContainsString('Topic 1', $out1);
+        $this->assertStringContainsString('Topic 1', $out2);
         $modinfo = get_fast_modinfo($course);
         $section = $modinfo->get_section_info(1);
-        $this->assertContains('Topic 1', $renderer->section_title($section, $course));
+        $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $course));
         $section = $modinfo->get_section_info(2);
-        $this->assertContains('Topic 2', $renderer->section_title_without_link($section, $course));
+        $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $course));
         set_section_visible($course->id, 2, 0);
         $USER->editing = true;
         $PAGE->set_context(context_course::instance($course->id));
@@ -267,8 +267,8 @@ class format_masonry_testcase extends advanced_testcase {
         $renderer->print_multiple_section_page($course, null, null, null, null, null);
         $out2 = ob_get_contents();
         ob_end_clean();
-        $this->assertContains(' Add an activity', $out1);
-        $this->assertContains('Topic 1', $out2);
+        $this->assertStringContainsString(' Add an activity', $out1);
+        $this->assertStringContainsString('Topic 1', $out2);
         $course->marker = 2;
         course_set_marker($course->id, 2);
 
@@ -279,8 +279,8 @@ class format_masonry_testcase extends advanced_testcase {
         $renderer->print_multiple_section_page($course, null, null, null, null, null);
         $out4 = ob_get_contents();
         ob_end_clean();
-        $this->assertContains(' Add an activity', $out3);
-        $this->assertContains('Topic 1', $out4);
+        $this->assertStringContainsString(' Add an activity', $out3);
+        $this->assertStringContainsString('Topic 1', $out4);
     }
 
     /**
@@ -362,8 +362,8 @@ class format_masonry_testcase extends advanced_testcase {
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $course);
-        $this->assertEquals(6, count($format->course_format_options()));
+        $this->assertCount(6, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
-        $this->assertEquals(6, count($format->get_config_for_external()));
+        $this->assertCount(6, $format->get_config_for_external());
     }
 }
