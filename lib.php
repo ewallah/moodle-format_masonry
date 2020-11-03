@@ -44,7 +44,7 @@ class format_masonry extends format_topics {
      */
     public function get_view_url($section, $options = []) {
         $course = $this->get_course();
-        return new moodle_url('/course/view.php', ['id' => $course->id]);
+        return new \moodle_url('/course/view.php', ['id' => $course->id]);
     }
 
     /**
@@ -102,17 +102,17 @@ class format_masonry extends format_topics {
             }
             $courseoptionsedit = [
                 'numsections' => [
-                    'label' => new lang_string('numberweeks'),
+                    'label' => new \lang_string('numberweeks'),
                     'element_type' => 'select',
                     'element_attributes' => [$sectionmenu]],
                 'hiddensections' => [
                     'label' => 'hidden1',
                     'element_type' => 'hidden',
-                    'element_attributes' => [[1 => new lang_string('hiddensectionsinvisible')]]],
+                    'element_attributes' => [[1 => new \lang_string('hiddensectionsinvisible')]]],
                 'coursedisplay' => [
                     'label' => 'hidden2',
                     'element_type' => 'hidden',
-                    'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new lang_string('coursedisplay_single')]]],
+                    'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new \lang_string('coursedisplay_single')]]],
                 'borderwidth' => [
                     'label' => get_string('borderwidth', 'format_masonry'),
                     'element_type' => 'select',
@@ -158,14 +158,15 @@ class format_masonry extends format_topics {
      * @param null|lang_string|string $editlabel
      * @return \core\output\inplace_editable
      */
-    public function inplace_editable_render_section_name($section, $linkifneeded = true,
-                                                         $editable = null, $edithint = null, $editlabel = null) {
+    public function inplace_editable_render_section_name(
+        $section, $linkifneeded = true, $editable = null, $edithint = null, $editlabel = null) {
+
         if (empty($edithint)) {
-            $edithint = new lang_string('editsectionname', 'format_topics');
+            $edithint = new \lang_string('editsectionname', 'format_topics');
         }
         if (empty($editlabel)) {
             $title = get_section_name($section->course, $section);
-            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
+            $editlabel = new \lang_string('newsectionname', 'format_topics', $title);
         }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }
