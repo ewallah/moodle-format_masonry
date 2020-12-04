@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_masonry;
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -32,9 +30,9 @@ defined('MOODLE_INTERNAL') || die();
  * @package    format_masonry
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers format_masonry
+ * @coversDefaultClass format_masonry
  */
-class masonry_testcase extends \advanced_testcase {
+class course_format_masonry_testcase extends \advanced_testcase {
 
     /**
      * Load required classes.
@@ -48,6 +46,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
+     * @covers format_masonry
      */
     public function test_get_section_name() {
         $generator = $this->getDataGenerator();
@@ -69,6 +68,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
+     * @covers format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -156,6 +156,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
+     * @covers format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -195,7 +196,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test renderer.
-     * @covers \format_masonry_renderer
+     * @covers format_masonry_renderer
      */
     public function test_renderer() {
         global $PAGE, $USER;
@@ -264,6 +265,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test upgrade.
+     * @covers format_masonry
      */
     public function test_upgrade() {
         global $CFG;
@@ -276,6 +278,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test format.
+     * @covers format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE;
@@ -293,6 +296,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test format editing.
+     * @covers format_masonry
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -313,6 +317,7 @@ class masonry_testcase extends \advanced_testcase {
 
     /**
      * Test other.
+     * @covers format_masonry
      */
     public function test_other() {
         $this->setAdminUser();

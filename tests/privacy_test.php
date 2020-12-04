@@ -34,9 +34,9 @@ use \core_privacy\tests\provider_testcase;
  * @package   format_masonry
  * @copyright 2017 eWallah.net <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass format_masonry
+ * @coversDefaultClass format_masonry\privacy\provider
  */
-class priv_testcase extends provider_testcase {
+class privacy_testcase extends provider_testcase {
 
     /**
      * Test returning metadata.
