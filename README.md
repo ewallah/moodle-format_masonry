@@ -42,6 +42,7 @@ Done
 3. PHP 7.0
 4. Behat integration
 5. Docking event removed
+6. Prepare for PHPUnit 9
 
 
 [![Build Status](https://github.com/ewallah/moodle-format_masonry/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-format_masonry/actions)
