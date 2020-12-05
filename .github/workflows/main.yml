@@ -107,7 +107,7 @@ jobs:
 
       - name: coveralls
         env:
-          COVERALLS_REPO_TOKEN = ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           base-path: /home/runner/work/moodle-availability_language/moodle-availability_language/moodle/availability/condition/language
         run: moodle-plugin-ci coveralls-upload
         if: matrix.moodle-branch == 'master'
