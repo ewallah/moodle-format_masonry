@@ -89,9 +89,7 @@ Feature: format_masonry
   Scenario: Inline edit section name in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
     And I turn editing mode on
-    And I click on "Edit topic name" "link" in the "li#section-1" "css_element"
-    And I set the field "New name for topic Topic 1" to "Masonry"
-    And I press key "13" in the field "New name for topic Topic 1"
+    And I set the field "Edit topic name" in the "li#section-1" "css_element" to "Masonry"
     Then I should not see "Topic 1" in the "region-main" "region"
     And "New name for topic" "field" should not exist
     And I should see "Masonry" in the "li#section-1" "css_element"
