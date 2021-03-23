@@ -93,6 +93,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
 
     /**
      * Test web service updating section name
+     * @covers format_masonry
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB, $USER;
@@ -126,6 +127,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
 
     /**
      * Test callback updating section name
+     * @covers format_masonry
      */
     public function test_inplace_editable() {
         global $DB, $PAGE, $USER;
