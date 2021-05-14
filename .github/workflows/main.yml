@@ -10,22 +10,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_311_STABLE']
-        php: ['8.0', '7.4']
+        moodle-branch: ['master', 'MOODLE_311_STABLE', 'MOODLE_310_STABLE', 'MOODLE_39_STABLE']
+        php: ['7.4']
         database: ['mysqli']
         include:
-        - php: 7.4
-          moodle-branch: MOODLE_310_STABLE
-          database: mysqli
-        - php: 7.4
-          moodle-branch: MOODLE_39_STABLE
+        - php: 8.0
+          moodle-branch: master
           database: mysqli
 
     steps:
       - name: checkout plugin
         uses: actions/checkout@v2
+        if: ${{ matrix.moodle-branch == 'MOODLE_310_STABLE' || matrix.moodle-branch == 'MOODLE_39_STABLE''}}
         with:
           path: this-plugin
+          ref: main
+
+      - name: checkout plugin
+        uses: actions/checkout@v2
+        if: ${{ matrix.moodle-branch == 'mster' || matrix.moodle-branch == 'MOODLE_311_STABLE''}}
+        with:
+          path: this-plugin
+          ref: dev
 
       - name: setup PHP
         uses: shivammathur/setup-php@v2
@@ -76,7 +82,7 @@ jobs:
         run: moodle-plugin-ci --ansi grunt
 
       - name: phpunit 
-        run: moodle-plugin-ci --ansi phpunit || true
+        run: moodle-plugin-ci --ansi phpunit
 
       - name: firefox
         run: moodle-plugin-ci --ansi behat
