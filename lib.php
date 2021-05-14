@@ -59,7 +59,7 @@ class format_masonry extends format_topics {
             'backcolor' => [
                 'type' => PARAM_RAW,
                 'name' => 'bordercolor',
-                'label' => get_string('backgroundcolor', 'format_masonry'),
+                'label' => new \lang_string('backgroundcolor', 'format_masonry'),
                 'element_type' => 'text',
                 'default' => $color,
                 'cache' => true,
@@ -114,15 +114,15 @@ class format_masonry extends format_topics {
                     'element_type' => 'hidden',
                     'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new \lang_string('coursedisplay_single')]]],
                 'borderwidth' => [
-                    'label' => get_string('borderwidth', 'format_masonry'),
+                    'label' => new \lang_string('borderwidth', 'format_masonry'),
                     'element_type' => 'select',
                     'element_attributes' => [[0 => '0', 1 => '1', 2 => '2']]],
                 'bordercolor' => [
-                    'label' => get_string('bordercolor', 'format_masonry'),
+                    'label' => new \lang_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
                     'element_type' => 'hidden'],
                 'backcolor' => [
-                    'label' => get_string('bordercolor', 'format_masonry'),
+                    'label' => new \lang_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
                     'help' => 'colordisplay',
                     'help_component' => 'format_masonry',
@@ -141,8 +141,8 @@ class format_masonry extends format_topics {
      */
     public function update_course_format_options($data, $oldcourse = null) {
         if ($oldcourse !== null) {
-            $data->backcolor = '#F0F0F0';
-            $data->bordercolor = $data->backcolor;
+            $data->backcolor = get_config('format_masonry', 'defaultbackgroundcolor');
+            $data->bordercolor = get_config('format_masonry', 'defaultbordercolor');
             return parent::update_course_format_options($data, $oldcourse);
         }
         return $this->update_format_options($data);
@@ -187,7 +187,6 @@ class format_masonry extends format_topics {
      * Return the plugin configs for external functions.
      *
      * @return array the list of configuration settings
-     * @since Moodle 3.5
      */
     public function get_config_for_external() {
         // Return everything (nothing to hide).

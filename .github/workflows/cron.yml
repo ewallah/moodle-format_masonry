@@ -7,24 +7,14 @@ on:
 jobs:
   ci:
     name: ci
-    runs-on: ubuntu-18.04
-
-    services:
-      mariadb:
-        image: mariadb
-        env:
-          MYSQL_USER: 'root'
-          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
-        ports:
-          - 3306:3306
+    runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_311_STABLE']
+        moodle-branch: ['master']
         php: ['7.4']
-        database: ['mariadb']
+        database: ['mysqli']
 
     steps:
       - name: checkout plugin
@@ -36,19 +26,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, pgsql, mysqli
-          tools: composer, behat, phpunit, phpmd, phpcbf, phpcpd, psalm, phpcs
-          coverage: xdebug
+          extensions: mbstring, mysqli, gd, zip
 
       - name: composer
         run: |
-          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
-          echo $(cd ci/bin; pwd) >> $GITHUB_PATH
-          echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
-          sudo locale-gen en_AU.UTF-8
+           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
+           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
+           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
+           sudo locale-gen en_AU.UTF-8
+           sudo systemctl start mysql.service
 
       - name: install Moodle
-        run: moodle-plugin-ci install --db-host=127.0.0.1 --plugin this-plugin
+        run: moodle-plugin-ci install -v  --db-user=root --db-pass=root --db-host=127.0.0.1 --plugin this-plugin
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
@@ -91,4 +80,3 @@ jobs:
           COVERALLS_RUN_LOCALLY: true
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: moodle-plugin-ci --ansi coveralls-upload
-        if: matrix.moodle-branch == 'master'
