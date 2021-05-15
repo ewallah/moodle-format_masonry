@@ -21,14 +21,14 @@ jobs:
     steps:
       - name: checkout plugin
         uses: actions/checkout@v2
-        if: ${{ matrix.moodle-branch == 'MOODLE_310_STABLE' || matrix.moodle-branch == 'MOODLE_39_STABLE' }}
+        if: ${{ matrix.moodle-branch != 'master' }}
         with:
           path: this-plugin
           ref: main
 
       - name: checkout plugin
         uses: actions/checkout@v2
-        if: ${{ matrix.moodle-branch == 'master' || matrix.moodle-branch == 'MOODLE_311_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'master' }}
         with:
           path: this-plugin
           ref: dev

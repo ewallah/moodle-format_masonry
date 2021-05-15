@@ -30,11 +30,14 @@ Feature: format_masonry
       | choice   | choice 2  | Test choice description  | C1     | choice2     | 4       | 1       |
       | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
 
-  Scenario: Empty section 0 stays hidden
+  Scenario: Empty section 0 stays hidden in masonry topics
     Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should not see "General" in the ".course-content" "css_element"
 
-    When I turn editing mode on
+  @javascript
+  Scenario: Non empty section 0 is shown in masonry topics
+    Given I log in as "teacher1"
+    And I am on "Course 1" course homepage with editing mode on
     And I add a "Page" to section "0"
     And I set the following fields to these values:
       | Name         | P1 |

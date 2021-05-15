@@ -235,34 +235,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
         $section = $modinfo->get_section_info(2);
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $course));
         set_section_visible($course->id, 2, 0);
-        $USER->editing = true;
-        $PAGE->set_context(\context_course::instance($course->id));
-        $PAGE->set_pagelayout('standard');
-        $PAGE->set_pagetype('course-view');
-        $PAGE->set_url('/course/view.php?id=' . $course->id);
-        $PAGE->requires->js('/course/format/topics/format.js');
-
-        $renderer = $PAGE->get_renderer('format_topics');
-        ob_start();
-        $renderer->print_single_section_page($course, null, null, null, null, 0);
-        $out1 = ob_get_contents();
-        $renderer->print_multiple_section_page($course, null, null, null, null, null);
-        $out2 = ob_get_contents();
-        ob_end_clean();
-        $this->assertStringContainsString(' Add an activity', $out1);
-        $this->assertStringContainsString('Topic 1', $out2);
-        $course->marker = 2;
-        course_set_marker($course->id, 2);
-
-        $renderer = $PAGE->get_renderer('format_masonry');
-        ob_start();
-        $renderer->print_single_section_page($course, null, null, null, null, 0);
-        $out3 = ob_get_contents();
-        $renderer->print_multiple_section_page($course, null, null, null, null, null);
-        $out4 = ob_get_contents();
-        ob_end_clean();
-        $this->assertStringContainsString(' Add an activity', $out3);
-        $this->assertStringContainsString('Topic 1', $out4);
+        $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $course));
     }
 
     /**
