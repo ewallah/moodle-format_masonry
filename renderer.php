@@ -41,7 +41,6 @@ class format_masonry_renderer extends format_section_renderer_base {
      */
     public function __construct(moodle_page $page, $target) {
         parent::__construct($page, $target);
-
         $page->set_other_editing_capability('moodle/course:setcurrentsection');
     }
 
@@ -83,6 +82,7 @@ class format_masonry_renderer extends format_section_renderer_base {
         if ($section->section == 0 && empty($section->sequence)) {
             return '';
         }
+        $context = context_course::instance($course->id);
         $class = 'section main';
         $style = 'background:' . $section->backcolor . ' !important;';
         if (!$section->visible) {
@@ -97,7 +97,6 @@ class format_masonry_renderer extends format_section_renderer_base {
         $o .= html_writer::start_tag('div', ['class' => 'summary']);
         $o .= $this->format_summary_text($section);
         $o .= html_writer::end_tag('div');
-        $context = context_course::instance($course->id);
         $o .= $this->section_availability_message($section, has_capability('moodle/course:viewhiddensections', $context));
         return $o;
     }

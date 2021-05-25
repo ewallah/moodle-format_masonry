@@ -37,7 +37,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, mysqli, gd, xmlrpc,zip
+          extensions: mbstring, mysqli, gd, xmlrpc, zip
           ini-values: max_input_vars=5000
 
       - name: composer
@@ -82,7 +82,7 @@ jobs:
         run: moodle-plugin-ci --ansi grunt
 
       - name: phpunit 
-        run: moodle-plugin-ci --ansi phpunit || true
+        run: moodle-plugin-ci --ansi phpunit --coverage-text || true
 
       - name: firefox
         run: moodle-plugin-ci --ansi behat
