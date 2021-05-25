@@ -204,7 +204,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $generator->enrol_user($USER->id, $this->course->id, 5);
-        $USER->editing = true;
+        $USER->editing = false;
         set_section_visible($this->course->id, 2, 0);
         $page = new \moodle_page();
         $page->set_course($this->course);
