@@ -39,6 +39,8 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: mbstring, mysqli, gd, xmlrpc, zip
           ini-values: max_input_vars=5000
+          tools: composer, behat, phpunit:8.5.14, phpmd, phpcbf, phpcpd, psalm, phpcs
+          coverage: xdebug2
 
       - name: composer
         run: |
