@@ -31,8 +31,7 @@ Installation
 --------------------------------------------------------------------------------
 Todo
 --------------------------------------------------------------------------------
-1. Move to AMD
-2. Verify input
+1. Verify color input
 
 --------------------------------------------------------------------------------
 Done
@@ -43,6 +42,6 @@ Done
 4. Behat integration
 5. Docking event removed
 6. Prepare for PHPUnit 9
-
+7. PHP 8.0
 
 [![Build Status](https://github.com/ewallah/moodle-format_masonry/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-format_masonry/actions)
