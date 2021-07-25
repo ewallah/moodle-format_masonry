@@ -10,28 +10,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['master', 'MOODLE_311_STABLE', 'MOODLE_310_STABLE', 'MOODLE_39_STABLE']
+        moodle-branch: ['MOODLE_311_STABLE', 'MOODLE_310_STABLE', 'MOODLE_39_STABLE']
         php: ['7.4']
         database: ['mysqli']
-        include:
-        - php: 8.0
-          moodle-branch: master
-          database: mysqli
 
     steps:
       - name: checkout plugin
         uses: actions/checkout@v2
-        if: ${{ matrix.moodle-branch != 'master' }}
         with:
           path: this-plugin
           ref: main
-
-      - name: checkout plugin
-        uses: actions/checkout@v2
-        if: ${{ matrix.moodle-branch == 'master' }}
-        with:
-          path: this-plugin
-          ref: dev
 
       - name: setup PHP
         uses: shivammathur/setup-php@v2
@@ -39,8 +27,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: mbstring, mysqli, gd, xmlrpc, zip
           ini-values: max_input_vars=5000
-          tools: composer, behat, phpunit:8.5.14, phpmd, phpcbf, phpcpd, psalm, phpcs
-          coverage: xdebug2
 
       - name: composer
         run: |
@@ -84,7 +70,7 @@ jobs:
         run: moodle-plugin-ci --ansi grunt
 
       - name: phpunit 
-        run: moodle-plugin-ci --ansi phpunit --coverage-text || true
+        run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover || true
 
       - name: firefox
         run: moodle-plugin-ci --ansi behat
@@ -105,3 +91,10 @@ jobs:
       - name: privacy
         run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
         working-directory: moodle
+
+      - name: coveralls
+        if: ${{ matrix.moodle-branch == 'MOODLE_311_STABLE' }}
+        env:
+          COVERALLS_RUN_LOCALLY: true
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: moodle-plugin-ci --ansi coveralls-upload

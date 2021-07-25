@@ -23,7 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot. '/course/format/topics/lib.php');
+require_once($CFG->dirroot . '/course/format/topics/lib.php');
 
 /**
  * Main class for the masonry course format
@@ -203,12 +203,11 @@ class format_masonry extends format_topics {
  * @return \core\output\inplace_editable
  */
 function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
-    global $DB, $CFG;
+    global $CFG, $DB;
     require_once($CFG->dirroot . '/course/lib.php');
-    if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
-        $section = $DB->get_record_sql(
-            'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
-            [$itemid, 'masonry'], MUST_EXIST);
+    if ($itemtype == 'sectionname' || $itemtype == 'sectionnamenl') {
+        $sql = 'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?';
+        $section = $DB->get_record_sql($sql, [$itemid, 'masonry'], MUST_EXIST);
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

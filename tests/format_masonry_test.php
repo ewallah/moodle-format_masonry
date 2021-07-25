@@ -45,15 +45,15 @@ class course_format_masonry_testcase extends \advanced_testcase {
         require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
-        $params = ['format' => 'masonry', 'numsections' => 5, 'startdate' => 1445644800];
+        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => 1445644800];
         $this->course = $generator->create_course($params, ['createsections' => true]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 0]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 1]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 2]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 3]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 4]);
-        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 5]);
+        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 5]);
         $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 6]);
+        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 7]);
     }
 
     /**
@@ -218,6 +218,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
              'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']]);
         $renderer = new \format_masonry_renderer($page, null);
         ob_start();
+        $renderer->print_single_section_page($this->course, null, null, null, null, 0);
         $renderer->print_single_section_page($this->course, null, null, null, null, 1);
         $out1 = ob_get_contents();
         $renderer->print_multiple_section_page($this->course, null, null, null, null, null);
@@ -258,11 +259,12 @@ class course_format_masonry_testcase extends \advanced_testcase {
         $this->setAdminUser();
         $USER->editing = true;
         $PAGE->set_course($this->course);
-        $PAGE->get_renderer('core', 'course');
+        $PAGE->get_renderer('format_masonry');
         $course = $this->course;
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
+        $this->assertEquals($course, $this->course);
     }
 
     /**
@@ -283,11 +285,13 @@ class course_format_masonry_testcase extends \advanced_testcase {
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
+        $this->assertEquals($course, $this->course);
     }
 
     /**
      * Test other.
      * @covers format_masonry
+     * @covers format_masonry_inplace_editable
      */
     public function test_other() {
         $this->setAdminUser();
@@ -300,6 +304,7 @@ class course_format_masonry_testcase extends \advanced_testcase {
         $this->assertCount(6, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
         $this->assertCount(6, $format->get_config_for_external());
-        $this->assertNotEmpty(format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
+        $this->assertInstanceOf('\core\output\inplace_editable',
+           format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
     }
 }

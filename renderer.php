@@ -113,9 +113,6 @@ class format_masonry_renderer extends format_section_renderer_base {
         $str = $this->section_header($section, $course, false, 0);
         if ($section->uservisible) {
             $str .= $this->courserenderer->course_section_cm_list($course, $section, 0);
-            if ($this->page->user_is_editing()) {
-                $str .= $this->courserenderer->course_section_add_cm_control($course, $section, 0);
-            }
         }
         $str .= $this->section_footer();
         return $str;
