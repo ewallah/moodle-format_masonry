@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace format_masonry;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -32,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @coversDefaultClass format_masonry
  */
-class course_format_masonry_testcase extends \advanced_testcase {
+class masonry_test extends \advanced_testcase {
 
     /** @var stdClass Course. */
     private $course;
