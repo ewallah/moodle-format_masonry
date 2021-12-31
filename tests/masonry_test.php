@@ -47,13 +47,14 @@ class masonry_test extends \advanced_testcase {
         require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
-        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => 1445644800];
+        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => time() - 3000,
+                   'completion' => true, 'showactivitydates' => true];
         $this->course = $generator->create_course($params, ['createsections' => true]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 1]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 2]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 3]);
         $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 4]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 5]);
+        $generator->get_plugin_generator('mod_label')->create_instance(['course' => $this->course->id, 'section' => 5]);
         $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 6]);
         $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 7]);
     }
@@ -187,10 +188,10 @@ class masonry_test extends \advanced_testcase {
 
         $courseform = new \testable_course_edit_form(null, $args);
         $courseform->definition_after_data();
-        $enddate = 1445644800 + (int)get_config('moodlecourse', 'courseduration');
+        $enddate = time() - 3000 + (int)get_config('moodlecourse', 'courseduration');
         $masonryformat = course_get_format($this->course->id);
         $form = $courseform->get_quick_form();
-        $this->assertEquals($enddate, $masonryformat->get_default_course_enddate($form));
+        $this->assertGreaterThan($masonryformat->get_default_course_enddate($form), $enddate);
         $format = course_get_format($this->course);
         $format->create_edit_form_elements($form, $this->course);
         $format->create_edit_form_elements($form, null);
@@ -199,7 +200,8 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test renderer.
-     * @covers format_masonry_renderer
+     * @covers format_masonry\output\renderer
+     * @covers format_masonry\output\courseformat\content\cm
      */
     public function test_renderer() {
         global $USER;
@@ -218,16 +220,7 @@ class masonry_test extends \advanced_testcase {
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
              'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']]);
-        $renderer = new \format_masonry_renderer($page, null);
-        ob_start();
-        $renderer->print_single_section_page($this->course, null, null, null, null, 0);
-        $renderer->print_single_section_page($this->course, null, null, null, null, 1);
-        $out1 = ob_get_contents();
-        $renderer->print_multiple_section_page($this->course, null, null, null, null, null);
-        $out2 = ob_get_contents();
-        ob_end_clean();
-        $this->assertStringContainsString('Topic 1', $out1);
-        $this->assertStringContainsString('Topic 1', $out2);
+        $renderer = new \format_masonry\output\renderer($page, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
@@ -235,6 +228,10 @@ class masonry_test extends \advanced_testcase {
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
         set_section_visible($this->course->id, 2, 0);
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
+        $format = course_get_format($this->course);
+        $outputclass = $format->get_output_classname('content');
+        $widget = new $outputclass($format);
+        $this->assertStringContainsString('Topic 2', $renderer->render($widget));
     }
 
     /**
@@ -253,6 +250,7 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test format.
      * @covers format_masonry
+     * @covers format_masonry\output\courseformat\content\cm
      */
     public function test_format() {
         global $CFG, $PAGE, $USER;
@@ -272,15 +270,17 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test format editing.
      * @covers format_masonry
+     * @covers format_masonry\output\courseformat\content\cm
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
         $format = course_get_format($this->course);
         $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
-        $USER->editing = true;
+        $USER->editing = false;
         $PAGE->set_context(\context_course::instance($this->course->id));
         $PAGE->get_renderer('core', 'course');
+        $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
         sesskey();
         $_POST['marker'] = 2;
@@ -305,8 +305,9 @@ class masonry_test extends \advanced_testcase {
         $format->update_course_format_options($data, $this->course);
         $this->assertCount(6, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
+        $this->assertFalse($format->uses_indentation());
         $this->assertCount(6, $format->get_config_for_external());
         $this->assertInstanceOf('\core\output\inplace_editable',
-           format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
+            format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
     }
 }

@@ -15,35 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy main class.
+ * Contains the default content output class.
  *
  * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2021 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_masonry\privacy;
+namespace format_masonry\output\courseformat;
 
-defined('MOODLE_INTERNAL') || die();
-
-use \core_privacy\local\metadata\null_provider;
+use core_courseformat\output\local\content as content_base;
 
 /**
- * Privacy main class.
+ * Base class to render a course content.
  *
  * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2021 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements null_provider {
+class content extends content_base {
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * @var bool Topic format has add section after each topic.
      *
-     * @return  string
+     * The responsible for the buttons is core_courseformat\output\local\content\section.
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
-    }
+    protected $hasaddsection = false;
+
 }

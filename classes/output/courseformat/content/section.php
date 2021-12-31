@@ -15,35 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy main class.
+ * Contains the default section controls output class.
  *
  * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2021 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_masonry\privacy;
+namespace format_masonry\output\courseformat\content;
 
-defined('MOODLE_INTERNAL') || die();
-
-use \core_privacy\local\metadata\null_provider;
+use core_courseformat\base as course_format;
+use core_courseformat\output\local\content\section as section_base;
+use stdClass;
 
 /**
- * Privacy main class.
+ * Base class to render a course section.
  *
  * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
+ * @copyright 2021 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements null_provider {
+class section extends section_base {
 
-    /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
-     *
-     * @return  string
-     */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
-    }
 }

@@ -35,6 +35,16 @@ require_once($CFG->dirroot . '/course/format/topics/lib.php');
 class format_masonry extends format_topics {
 
     /**
+     * Returns instance of page renderer used by this plugin
+     *
+     * @param moodle_page $page
+     * @return renderer_base
+     */
+    public function get_renderer(moodle_page $page) {
+        return $page->get_renderer('format_masonry');
+    }
+
+    /**
      * The URL to use for the specified course (with section)
      *
      * @param int|stdClass $section Section object from database or just field course_sections.section
@@ -181,6 +191,15 @@ class format_masonry extends format_topics {
      */
     public function allow_stealth_module_visibility($cm, $section) {
         return true;
+    }
+
+    /**
+     * This course format does not support activity indentation.
+     *
+     * @return bool if the course format uses indentation.
+     */
+    public function uses_indentation(): bool {
+        return false;
     }
 
     /**

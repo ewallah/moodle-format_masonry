@@ -26,7 +26,8 @@ namespace format_masonry\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-use \core_privacy\tests\provider_testcase;
+use core_privacy\tests\provider_testcase;
+use core_privacy\local\metadata\collection;
 
 /**
  * Course format masonry privacy tests.
@@ -34,7 +35,6 @@ use \core_privacy\tests\provider_testcase;
  * @package   format_masonry
  * @copyright 2017 eWallah.net <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass format_masonry\privacy\provider
  */
 class privacy_test extends provider_testcase {
 
@@ -43,8 +43,8 @@ class privacy_test extends provider_testcase {
      * @covers format_masonry\privacy\provider
      */
     public function test_get_metadata() {
-        $collection = new \core_privacy\local\metadata\collection('format_masonry');
-        $reason = \format_masonry\privacy\provider::get_reason($collection);
+        $collection = new collection('format_masonry');
+        $reason = provider::get_reason($collection);
         $this->assertEquals($reason, 'privacy:metadata');
         $this->assertStringContainsString('does not store', get_string($reason, 'format_masonry'));
     }
