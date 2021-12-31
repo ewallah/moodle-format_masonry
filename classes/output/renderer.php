@@ -60,10 +60,10 @@ class renderer extends section_renderer {
     }
 
     /**
-     * Generate the section title to be displayed on the section page, without a link.
+     * Render the content.
      *
-     * @param section_info|stdClass $section The course_section entry from DB
-     * @param int|stdClass $course The course entry from DB
+     * @param renderable $widget
+     * @return string
      * @return string HTML to output.
      */
     public function render_content($widget) {

@@ -40,8 +40,8 @@ use \core_availability\info_module;
 /**
  * Base class to render a course module inside masonry format.
  *
- * @package   core_courseformat
- * @copyright 2020 Ferran Recio <ferran@moodle.com>
+ * @package   format_masonry
+ * @copyright 2021 Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cm extends cm_baseclass {

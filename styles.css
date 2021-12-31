@@ -8,16 +8,16 @@
     width: auto;
 }
 
-#page-course-view-masonry #coursecontentmasonry #completionprogressid {
+#page-course-view-masonry .coursecontentmasonry #completionprogressid {
     display: none;
 }
 
-#page-course-view-masonry #coursecontentmasonry .activity-item {
-    border: 0px solid transparent;
+#page-course-view-masonry .coursecontentmasonry .activity-item {
+    border: 0 solid transparent;
     padding: 1px;
 }
 
-#page-course-view-masonry #coursecontentmasonry .summary {
+#page-course-view-masonry .coursecontentmasonry .summary {
     overflow: visible;
     padding-bottom: 0;
 }
@@ -48,11 +48,11 @@
 }
 
 
-#page-course-view-masonry #coursecontentmasonry .p {
+#page-course-view-masonry .coursecontentmasonry .p {
     white-space: normal;
 }
 
-#page-course-view-masonry #coursecontentmasonry .mod-indent {
+#page-course-view-masonry .coursecontentmasonry .mod-indent {
     padding-left: 0;
     width: 100%;
     overflow: hidden;
