@@ -293,7 +293,6 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test other.
      * @covers format_masonry
-     * @covers format_masonry_inplace_editable
      */
     public function test_other() {
         $this->setAdminUser();
