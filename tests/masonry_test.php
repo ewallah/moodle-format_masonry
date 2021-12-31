@@ -43,8 +43,6 @@ class masonry_test extends \advanced_testcase {
      * Load required classes.
      */
     public function setUp(): void {
-        global $CFG;
-        require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
         $this->resetAfterTest(true);
         $generator = $this->getDataGenerator();
         $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => time() - 3000,
