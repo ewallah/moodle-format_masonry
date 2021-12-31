@@ -10,7 +10,7 @@
         processIsolation="false"
         backupGlobals="false"
         backupStaticAttributes="false"
-        forceCoversAnnotation="true"
+        forceCoversAnnotation="false"
         stopOnError="false"
         stopOnFailure="false"
         stopOnIncomplete="false"
@@ -34,11 +34,8 @@
         </include>
         <exclude>
             <directory suffix="_test.php">.</directory>
-            <directory>tests</directory>
             <file>db/upgrade.php</file>
             <file>version.php</file>
-            <file>format.php</file>
-            <file>settings.php</file>
         </exclude>
     </coverage>
 </phpunit>

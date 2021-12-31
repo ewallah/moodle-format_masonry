@@ -227,6 +227,7 @@ function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
     if ($itemtype == 'sectionname' || $itemtype == 'sectionnamenl') {
         $sql = 'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?';
         $section = $DB->get_record_sql($sql, [$itemid, 'masonry'], MUST_EXIST);
-        return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
+        $format = course_get_format($section->course);
+        return $format->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

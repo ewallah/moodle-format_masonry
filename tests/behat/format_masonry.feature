@@ -29,11 +29,13 @@ Feature: format_masonry
       | choice   | choice 1  | Test choice description  | C1     | choice1     | 4       | 1       |
       | choice   | choice 2  | Test choice description  | C1     | choice2     | 4       | 1       |
       | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
+      | page     | page 1    | Test page description    | C1     | page1       | 5       | 1       |
+      | page     | page 2    | Test page description    | C1     | page1       | 5       | 1       |
+      | page     | page 3    | Test page description    | C1     | page1       | 5       | 0       |
 
   Scenario: Empty section 0 stays hidden in masonry topics
     Given I am on the "C1" "Course" page logged in as "teacher1"
-    # TODO:
-    Then I should see "General" in the ".course-content" "css_element"
+    Then I should not see "General" in the ".course-content" "css_element"
 
   @javascript
   Scenario: Non empty section 0 is shown in masonry topics
@@ -53,11 +55,21 @@ Feature: format_masonry
     Then I should see "lesson 1"
     And I should see "lesson 2"
     And I should see "lesson 3"
+    And I should see "page 1"
+    And I should see "page 2"
+    And I should see "page 3"
     And I log out
     When I am on the "C1" "Course" page logged in as "student1"
-    Then I should see "book 1"
+    Then I should see "lesson 1"
+    And I should see "lesson 2"
+    And I should not see "lesson 3"
+    And I should see "book 1"
     And I should see "book 2"
     And I should not see "book 3"
+    # TODO: Stealth section
+    And I should see "page 1"
+    And I should see "page 2"
+    And I should not see "page 3"
 
   Scenario: Modify section summary - title - background color in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"

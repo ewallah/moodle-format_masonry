@@ -112,6 +112,7 @@ class cm extends cm_baseclass {
             $this->displayoptions
         );
 
+        // TODO: Labels.
         $modavailability = $availability->export_for_template($output);
 
         $data = (object)[
@@ -126,30 +127,15 @@ class cm extends cm_baseclass {
             'activityinfo' => $activityinfodata,
             'activityname' => $mod->get_formatted_name(),
             'textclasses' => $displayoptions['textclasses'],
-            'classlist' => []
-        ];
-        $data->altcontent = (empty($data->altcontent)) ? false : $data->altcontent;
-        $data->hasname = !empty($data->cmname['displayvalue']);
+            'classlist' => [], 
+            'altcontent' => (empty($data->altcontent)) ? false : $data->altcontent,
+            'hasname' => !empty($data->cmname['displayvalue']),
+            'hasurl' => !empty($data->url),
+            'modhiddenfromstudents' => !$mod->visible,
+            'modstealth' => $mod->is_stealth(),
+            'modlinline' => ($mod->modname == 'label' && !$modavailability->hasmodavailability &&
+               !$activityinfodata->hascompletion && !isset($data->modhiddenfromstudents) && !isset($data->modstealth))];
 
-        if (!empty($data->url)) {
-            $data->hasurl = true;
-        }
-
-        if (!$mod->visible) {
-            $data->modhiddenfromstudents = true;
-        } else if ($mod->is_stealth()) {
-            $data->modstealth = true;
-        }
-
-        if ($mod->modname == 'label' &&
-            !$modavailability->hasmodavailability &&
-            !$activityinfodata->hascompletion &&
-            !isset($data->modhiddenfromstudents) &&
-            !isset($data->modstealth) &&
-            !$format->show_editor()
-            ) {
-            $data->modinline = true;
-        }
         return $data;
     }
 }

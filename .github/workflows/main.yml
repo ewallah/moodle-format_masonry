@@ -111,6 +111,7 @@ jobs:
         working-directory: moodle
 
       - name: coveralls
+        if: ${{ always() }}
         env:
           COVERALLS_RUN_LOCALLY: true
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

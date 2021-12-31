@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for outputting the masonry course format.
+ * Strings for the masonry course format.
  *
  * @package    format_masonry
  * @copyright  2016 Renaat Debleu (www.eWallah.net)

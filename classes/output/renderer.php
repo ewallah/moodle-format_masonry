@@ -68,6 +68,10 @@ class renderer extends section_renderer {
      */
     public function render_content($widget) {
         $data = $widget->export_for_template($this);
+        // Empty first section is not displayed.
+        if (count($data->initialsection->cmlist->cms) == 0) {
+            $data->initialsection = null;
+        }
         $course = $this->page->course;
         $format = course_get_format($course);
         $options = (object) $format->get_format_options();
