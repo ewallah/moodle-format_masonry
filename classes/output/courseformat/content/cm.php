@@ -127,7 +127,7 @@ class cm extends cm_baseclass {
             'activityinfo' => $activityinfodata,
             'activityname' => $mod->get_formatted_name(),
             'textclasses' => $displayoptions['textclasses'],
-            'classlist' => [], 
+            'classlist' => [],
             'altcontent' => (empty($data->altcontent)) ? false : $data->altcontent,
             'hasname' => !empty($data->cmname['displayvalue']),
             'hasurl' => !empty($data->url),

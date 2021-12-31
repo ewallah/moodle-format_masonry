@@ -56,7 +56,8 @@ class masonry_test extends \advanced_testcase {
         $group = $gen->create_group(['courseid' => $course->id]);
         $user = $gen->create_and_enrol($course, 'student');
         groups_add_member($group->id, $user->id);
-        $assign = $gen->create_module('assign', ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]);
+        $assign = $gen->create_module('assign',
+            ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]);
         $modcontext = get_coursemodule_from_instance('assign', $assign->id, $course->id);
         $notavailable = '{"op":"|","show":true,"c":[{"type":"group","id":'. $group->id . '}]}';
         $DB->set_field('course_modules', 'availability', $notavailable, ['id' => $modcontext->id]);

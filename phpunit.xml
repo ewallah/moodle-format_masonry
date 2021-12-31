@@ -34,6 +34,7 @@
         </include>
         <exclude>
             <directory suffix="_test.php">.</directory>
+            <directory suffix=".php">tests</directory>
             <file>db/upgrade.php</file>
             <file>version.php</file>
         </exclude>
