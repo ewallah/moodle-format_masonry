@@ -56,7 +56,11 @@
 <ul class="section m-0 p-0" data-for="cmlist">
 {{#cms}}
     {{#cmitem}}
-        {{> format_masonry/cmitem}}
+        <li class="activity activity-wrapper p-1" id="module-{{id}}" data-for="cmitem" data-id="{{id}}">
+            {{#cmformat}}
+                {{> format_masonry/cm}}
+             {{/cmformat}}
+        </li>
     {{/cmitem}}
 {{/cms}}
  </ul>
