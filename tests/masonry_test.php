@@ -21,10 +21,7 @@
  * @copyright  2017 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace format_masonry;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * format_masonry related unit tests
