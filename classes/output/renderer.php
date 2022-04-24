@@ -79,10 +79,10 @@ class renderer extends section_renderer {
         $str .= 'background-color:' . $options->backcolor . ' !important;';
         $str .= 'border: ' . trim($options->borderwidth) . 'px solid '. $options->bordercolor . ' !important;}';
         $moduleinfo = $format->get_modinfo();
-        $sections = $moduleinfo->get_sections();
-        foreach ($sections as $sectionnumber => $section) {
-            $options = (object) $format->get_format_options($sectionnumber);
-            $str .= '#section-' . $sectionnumber . ' {';
+        $sections = array_keys($moduleinfo->get_sections());
+        foreach ($sections as $section) {
+            $options = (object) $format->get_format_options($section);
+            $str .= '#section-' . $section . ' {';
             $str .= 'background-color:' . $options->backcolor . ' !important;} ';
         }
         $extra = "<style>.masonry {margin: auto auto} $str</style>";

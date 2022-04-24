@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy main class.
+ * format_masonry related other unit tests
  *
  * @package   format_masonry
  * @copyright 2018 eWallah.net
@@ -23,27 +23,45 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_masonry\privacy;
-
-use \core_privacy\local\metadata\null_provider;
+namespace format_masonry;
 
 /**
- * Privacy main class.
+ * format_masonry related other unit tests
  *
  * @package   format_masonry
  * @copyright 2018 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements null_provider {
+class other_test extends \advanced_testcase {
+
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
-     *
-     * @return  string
+     * Test upgrade.
+     * @coversNothing
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public function test_upgrade() {
+        global $CFG;
+        $this->resetAfterTest(true);
+        require_once($CFG->dirroot . '/course/format/masonry/db/upgrade.php');
+        require_once($CFG->libdir . '/upgradelib.php');
+        $this->expectException(\moodle_exception::class);
+        $this->expectExceptionMessage('Cannot downgrade');
+        xmldb_format_masonry_upgrade(time());
+    }
+
+    /**
+     * Settings testcase.
+     * @covers \format_masonry
+     */
+    public function test_settings() {
+        global $ADMIN, $CFG, $USER;
+        $this->resetAfterTest(true);
+        $this->setAdminUser();
+        $ADMIN = $USER;
+        $ADMIN->fulltree = true;
+        $settings = new \admin_settingpage('test', 'test');
+        require_once($CFG->dirroot . '/course/format/masonry/settings.php');
+        $this->assertNotEmpty($settings);
     }
 }

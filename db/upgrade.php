@@ -19,11 +19,9 @@
  *
  * @package    format_masonry
  * @copyright  2018 eWallah.net
- * @author     Renaat Debleu (www.ewallah.net)
+ * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Upgrade script for format_masonry

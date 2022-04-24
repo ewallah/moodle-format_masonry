@@ -18,13 +18,12 @@
  * Course format masonry privacy tests.
  *
  * @package   format_masonry
- * @copyright 2017 eWallah.net <info@eWallah.net>
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace format_masonry\privacy;
-
-defined('MOODLE_INTERNAL') || die();
 
 use core_privacy\tests\provider_testcase;
 use core_privacy\local\metadata\collection;
@@ -33,14 +32,15 @@ use core_privacy\local\metadata\collection;
  * Course format masonry privacy tests.
  *
  * @package   format_masonry
- * @copyright 2017 eWallah.net <info@eWallah.net>
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class privacy_test extends provider_testcase {
 
     /**
      * Test returning metadata.
-     * @covers format_masonry\privacy\provider
+     * @covers \format_masonry\privacy\provider
      */
     public function test_get_metadata() {
         $collection = new collection('format_masonry');

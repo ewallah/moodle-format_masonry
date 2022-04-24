@@ -17,21 +17,21 @@
 /**
  * format_masonry related unit tests
  *
- * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   format_masonry
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace format_masonry;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * format_masonry related unit tests
  *
- * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   format_masonry
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class masonry_test extends \advanced_testcase {
 
@@ -74,6 +74,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
+     * @covers \format_masonry
      */
     public function test_get_section_name() {
         $sections = get_fast_modinfo($this->course)->get_section_info_all();
@@ -93,6 +94,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
+     * @covers \format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -115,6 +117,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test web service updating section name
+     * @covers \format_masonry_inplace_editable
      */
     public function test_update_inplace_editable() {
         global $CFG, $DB, $USER;
@@ -147,6 +150,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test callback updating section name
+     * @covers \format_masonry_inplace_editable
      */
     public function test_inplace_editable() {
         global $DB, $PAGE, $USER;
@@ -175,6 +179,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
+     * @covers \format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -208,6 +213,8 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test renderer.
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content\cm
      */
     public function test_renderer() {
         global $USER;
@@ -238,22 +245,17 @@ class masonry_test extends \advanced_testcase {
         $outputclass = $format->get_output_classname('content');
         $widget = new $outputclass($format);
         $this->assertStringContainsString('Topic 2', $renderer->render($widget));
-    }
-
-    /**
-     * Test upgrade.
-     */
-    public function test_upgrade() {
-        global $CFG;
-        require_once($CFG->dirroot . '/course/format/masonry/db/upgrade.php');
-        require_once($CFG->libdir . '/upgradelib.php');
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Cannot downgrade');
-        xmldb_format_masonry_upgrade(time());
+        $masonryformat = course_get_format($this->course->id);
+        $cms = $modinfo->get_cms();
+        foreach ($cms as $cm) {
+            $cmb = new \format_masonry\output\courseformat\content\cm($masonryformat, $section, $cm);
+            $cmb->export_for_template($renderer);
+        }
     }
 
     /**
      * Test format.
+     * @covers \format_masonry
      */
     public function test_format() {
         global $CFG, $PAGE, $USER;
@@ -265,12 +267,10 @@ class masonry_test extends \advanced_testcase {
         $PAGE->get_renderer('format_masonry');
         $course = $this->course;
         $_POST['sesskey'] = sesskey();
-        $marker = 1;
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
-        // Marker changed.
-        $this->assertNotEquals($course, $this->course);
+        $this->assertEquals($course, $this->course);
         $USER->editing = true;
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
@@ -279,8 +279,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test format editing.
-     * @covers format_masonry
-     * @covers format_masonry\output\courseformat\content\cm
+     * @covers \format_masonry
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -302,6 +301,7 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test other.
+     * @covers \format_masonry
      */
     public function test_other() {
         $this->setAdminUser();
@@ -320,15 +320,4 @@ class masonry_test extends \advanced_testcase {
         $this->assertNull(format_masonry_inplace_editable('othername', $sections[2]->id, 'newname'));
     }
 
-    /**
-     * Settings testcase.
-     */
-    public function test_settings() {
-        global $ADMIN, $CFG, $USER;
-        $this->setAdminUser();
-        $ADMIN = $USER;
-        $ADMIN->fulltree = true;
-        $settings = new \admin_settingpage('test', 'test');
-        require_once($CFG->dirroot . '/course/format/masonry/settings.php');
-    }
 }

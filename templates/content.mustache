@@ -138,10 +138,14 @@
     <h2 class="accesshide">{{{title}}}</h2>
     <ul class="masonry mb-5" data-for="course_sectionlist">
         {{#initialsection}}
-            {{> format_masonry/section }}
+            <li id="section-{{num}}" class="section masonry-brick course-section float-left pr-0 mt-2 mr-2 rounded">
+                {{> format_masonry/section }}
+            </li>
         {{/initialsection}}
         {{#sections}}
-            {{> format_masonry/section }}
+            <li id="section-{{num}}" class="section masonry-brick course-section float-left pr-0 mt-2 mr-2 rounded">
+                {{> format_masonry/section }}
+            </li>
         {{/sections}}
     </ul>
 </div>
