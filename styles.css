@@ -61,6 +61,10 @@
     padding-right: 1em;
 }
 
-#page-course-view-masonr .course-section-header {
+#page-course-view-masonry .course-section-header {
     white-space: nowrap;
+}
+
+#page-course-view-masonry .availabilityinfo {
+    background-color: transparent;
 }

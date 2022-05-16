@@ -42,12 +42,12 @@ if (isset($marker) && ($marker >= 0) && has_capability('moodle/course:setcurrent
 // Make sure all sections are created.
 course_create_sections_if_missing($course, range(0, $course->numsections));
 
-$sformat = $PAGE->user_is_editing() ? 'format_topics' : 'format_masonry';
-$renderer = $PAGE->get_renderer($sformat);
+$renderer = $PAGE->get_renderer('format_masonry');
 $outputclass = $format->get_output_classname('content');
 $widget = new $outputclass($format);
+echo $renderer->render($widget);
 if ($PAGE->user_is_editing()) {
-    $PAGE->requires->js('/course/format/topics/format.js');
+    $PAGE->requires->js('/course/format/masonry/formatedit.js');
 } else {
     $PAGE->requires->js_init_call('M.masonry.init',
         [[
@@ -65,4 +65,3 @@ if ($PAGE->user_is_editing()) {
         ]
     );
 }
-echo $renderer->render($widget);

@@ -45,7 +45,12 @@ class renderer extends section_renderer {
      * @return string HTML to output.
      */
     public function section_title($section, $course) {
-        return get_section_name($course, $section);
+        $new = get_section_name($course, $section);
+        if ($this->page->user_is_editing()) {
+            return $new;
+        }
+        $old = get_string('sectionname', 'format_topics');
+        return strpos($new, $old) === 0 ? '' : $new;
     }
 
     /**
@@ -56,7 +61,7 @@ class renderer extends section_renderer {
      * @return string HTML to output.
      */
     public function section_title_without_link($section, $course) {
-        return get_section_name($course, $section);
+        return $this->section_title($section, $course);
     }
 
     /**
@@ -68,6 +73,9 @@ class renderer extends section_renderer {
      */
     public function render_content($widget) {
         $data = $widget->export_for_template($this);
+        if ($this->page->user_is_editing()) {
+            return $this->render_from_template('core_courseformat/local/content', $data);
+        }
         // Empty first section is not displayed.
         if (count($data->initialsection->cmlist->cms) == 0) {
             $data->initialsection = null;

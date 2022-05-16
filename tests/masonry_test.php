@@ -116,68 +116,6 @@ class masonry_test extends \advanced_testcase {
     }
 
     /**
-     * Test web service updating section name
-     * @covers \format_masonry_inplace_editable
-     */
-    public function test_update_inplace_editable() {
-        global $CFG, $DB, $USER;
-        require_once($CFG->dirroot . '/lib/external/externallib.php');
-
-        $generator = $this->getDataGenerator();
-        $user = $generator->create_user();
-        $this->setUser($user);
-        $modinfo = get_fast_modinfo($this->course);
-        $section = $modinfo->get_section_info(2);
-        $USER->editing = true;
-
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Course or activity not accessible. (Not enrolled)');
-        \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-
-        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
-        $generator->enrol_user($user->id, $this->course->id, $teacherrole->id);
-
-        $res = \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-        $res = \external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
-        $this->assertEquals('New section name', $res['value']);
-        $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-
-        $section = $modinfo->get_section_info(1);
-        \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-        format_masonry_inplace_editable('sectionname', $section->id, 'New section name twice');
-        $this->assertEquals('New section name twice', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-    }
-
-    /**
-     * Test callback updating section name
-     * @covers \format_masonry_inplace_editable
-     */
-    public function test_inplace_editable() {
-        global $DB, $PAGE, $USER;
-
-        $generator = $this->getDataGenerator();
-        $user = $generator->create_user();
-        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
-        $generator->enrol_user($user->id, $this->course->id, $teacherrole->id);
-        $this->setUser($user);
-        $USER->editing = true;
-        $modinfo = get_fast_modinfo($this->course);
-        $section = $modinfo->get_section_info(2);
-
-        // Call callback format_masonry_inplace_editable() directly.
-        $tmpl = component_callback('format_masonry', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
-        $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
-        $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
-        $this->assertEquals('Rename me again', $res['value']);
-        $this->assertEquals('Rename me again', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-
-        // Try updating using callback from mismatching course format.
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Can\'t find data record in database');
-        component_callback('format_weeks', 'inplace_editable', ['sectionname', $section->id, 'New name']);
-    }
-
-    /**
      * Test get_default_course_enddate.
      * @covers \format_masonry
      */
@@ -236,15 +174,15 @@ class masonry_test extends \advanced_testcase {
         $renderer = new \format_masonry\output\renderer($page, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(1);
-        $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
+        $this->assertStringNotContainsString('Topic 1', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(2);
-        $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
+        $this->assertStringNotContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
         set_section_visible($this->course->id, 2, 0);
-        $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
+        $this->assertStringNotContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
         $format = course_get_format($this->course);
         $outputclass = $format->get_output_classname('content');
         $widget = new $outputclass($format);
-        $this->assertStringContainsString('Topic 2', $renderer->render($widget));
+        $this->assertStringNotContainsString('Topic 2', $renderer->render($widget));
         $masonryformat = course_get_format($this->course->id);
         $cms = $modinfo->get_cms();
         foreach ($cms as $cm) {
@@ -256,6 +194,8 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test format.
      * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content\cm
      */
     public function test_format() {
         global $CFG, $PAGE, $USER;
@@ -280,6 +220,8 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test format editing.
      * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content\cm
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -302,10 +244,11 @@ class masonry_test extends \advanced_testcase {
     /**
      * Test other.
      * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content\cm
      */
     public function test_other() {
         $this->setAdminUser();
-        $sections = get_fast_modinfo($this->course)->get_section_info_all();
         $format = course_get_format($this->course);
         $data = new \stdClass();
         $data->bordercolor = '#FFF';
@@ -314,10 +257,9 @@ class masonry_test extends \advanced_testcase {
         $this->assertCount(6, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
         $this->assertFalse($format->uses_indentation());
+        $this->assertFalse($format->supports_components());
+        $this->assertFalse($format->uses_course_index());
         $this->assertCount(6, $format->get_config_for_external());
-        $this->assertInstanceOf('\core\output\inplace_editable',
-            format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
-        $this->assertNull(format_masonry_inplace_editable('othername', $sections[2]->id, 'newname'));
     }
 
 }

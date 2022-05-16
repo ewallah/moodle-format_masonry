@@ -159,29 +159,6 @@ class format_masonry extends format_topics {
     }
 
     /**
-     * Prepares the templateable object to display section name
-     *
-     * @param \section_info|\stdClass $section
-     * @param bool $linkifneeded
-     * @param bool $editable
-     * @param null|lang_string|string $edithint
-     * @param null|lang_string|string $editlabel
-     * @return \core\output\inplace_editable
-     */
-    public function inplace_editable_render_section_name(
-        $section, $linkifneeded = true, $editable = null, $edithint = null, $editlabel = null) {
-
-        if (empty($edithint)) {
-            $edithint = new \lang_string('editsectionname', 'format_topics');
-        }
-        if (empty($editlabel)) {
-            $title = get_section_name($section->course, $section);
-            $editlabel = new \lang_string('newsectionname', 'format_topics', $title);
-        }
-        return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
-    }
-
-    /**
      * Returns whether this course format allows the activity to
      * have "triple visibility state" - visible always, hidden on course page but available, hidden.
      *
@@ -203,6 +180,24 @@ class format_masonry extends format_topics {
     }
 
     /**
+     * This course format does not support drag and drop.
+     *
+     * @return bool if the course format uses components.
+     */
+    public function supports_components() {
+        return false;
+    }
+
+    /**
+     * This course format does not support course index.
+     *
+     * @return bool if the course format uses course index.
+     */
+    public function uses_course_index() {
+        return false;
+    }
+
+    /**
      * Return the plugin configs for external functions.
      *
      * @return array the list of configuration settings
@@ -210,24 +205,5 @@ class format_masonry extends format_topics {
     public function get_config_for_external() {
         // Return everything (nothing to hide).
         return $this->get_format_options();
-    }
-}
-
-/**
- * Implements callback inplace_editable() allowing to edit values in-place
- *
- * @param string $itemtype
- * @param int $itemid
- * @param mixed $newvalue
- * @return \core\output\inplace_editable
- */
-function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
-    global $CFG, $DB;
-    require_once($CFG->dirroot . '/course/lib.php');
-    if ($itemtype == 'sectionname' || $itemtype == 'sectionnamenl') {
-        $sql = 'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?';
-        $section = $DB->get_record_sql($sql, [$itemid, 'masonry'], MUST_EXIST);
-        $format = course_get_format($section->course);
-        return $format->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

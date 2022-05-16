@@ -37,7 +37,14 @@
 {{#url}}
     <div class="activity-instance">
         <div class="activityname">
-            <span class="instancename">{{{instancename}}} {{{altname}}}</span>
+           {{#uservisible}}
+                <a href="{{url}}" class="{{linkclasses}} aalink stretched-link" onclick="{{{onclick}}}">
+                    <span class="instancename">{{{instancename}}} {{{altname}}}</span>
+                </a>
+            {{/uservisible}}
+            {{^uservisible}}
+                <span class="instancename">{{{instancename}}} {{{altname}}}</span>
+            {{/uservisible}}
         </div>
     </div>
 {{/url}}

@@ -58,11 +58,15 @@ class cm extends cm_baseclass {
         $this->format = $format;
         $this->section = $section;
         $this->mod = $mod;
+
+        // Add extra display options.
+        $this->load_classes();
+        $displayoptions['linkclasses'] = $this->get_link_classes();
+        $displayoptions['textclasses'] = $this->get_text_classes();
         $this->displayoptions = $displayoptions;
 
-        $this->load_classes();
-
         // Get the necessary classes.
+        $this->controlmenuclass = $format->get_output_classname('content\\cm\\controlmenu');
         $this->availabilityclass = $format->get_output_classname('content\\cm\\availability');
     }
 
@@ -73,13 +77,19 @@ class cm extends cm_baseclass {
      * @return stdClass data context for a mustache template
      */
     public function export_for_template(\renderer_base $output): stdClass {
-        global $USER;
+        global $PAGE, $USER;
 
-        $format = $this->format;
         $mod = $this->mod;
+        $vis = $mod->visible;
         $displayoptions = $this->displayoptions;
         $course = $mod->get_course();
 
+        // Handle labels.
+        if ($mod->modname == 'label') {
+            $dvalue = $mod->get_formatted_content(['overflowdiv' => false, 'noclean' => true]);
+        } else {
+            $dvalue = $output->pix_icon('icon', $mod->modname, $mod->modname) . ' ' . \html_writer::link($mod->url, $mod->name);
+        }
         // Fetch completion details.
         $showcompletion = $course->showcompletionconditions == COMPLETION_SHOW_CONDITIONS;
         $completiondetails = cm_completion_details::get_instance($mod, $USER->id, $showcompletion);
@@ -90,12 +100,6 @@ class cm extends cm_baseclass {
             $activitydates = activity_dates::get_dates_for_module($mod, $USER->id);
         }
 
-        $displayoptions['linkclasses'] = $this->get_link_classes();
-        $displayoptions['textclasses'] = $this->get_text_classes();
-
-        // Grouping activity.
-        $groupinglabel = $mod->get_grouping_label($displayoptions['textclasses']);
-
         $activityinfodata = (object) ['hasdates' => false, 'hascompletion' => false];
         $showcompletioninfo = $completiondetails->has_completion() && ($showcompletion ||
                         (!$completiondetails->is_automatic() && $completiondetails->show_manual_completion()));
@@ -104,38 +108,30 @@ class cm extends cm_baseclass {
             $activityinfodata = $activityinfo->export_for_template($output);
         }
 
+        // Editing buttons.
+        $controlmenu = new $this->controlmenuclass($this->format, $this->section, $mod, $displayoptions);
+        $menu = $PAGE->user_is_editing() ? $controlmenu->export_for_template($output) : '';
         // Mod availability.
-        $availability = new $this->availabilityclass(
-            $format,
-            $this->section,
-            $mod,
-            $this->displayoptions
-        );
+        $availability = new $this->availabilityclass($this->format, $this->section, $mod, $displayoptions);
 
-        // TODO: Labels.
-        $modavailability = $availability->export_for_template($output);
-
-        $data = (object)[
-            'cmname' => ['displayvalue' =>
-                $output->pix_icon('icon', $mod->modname, $mod->modname) . ' ' . \html_writer::link($mod->url, $mod->name)],
-            'grouping' => $groupinglabel,
+        return (object)[
+            'cmname' => ['displayvalue' => $dvalue],
+            'grouping' => $mod->get_grouping_label($displayoptions['textclasses']),
             'afterlink' => $mod->afterlink,
             'altcontent' => $mod->get_formatted_content(['overflowdiv' => true, 'noclean' => true]),
-            'modavailability' => $mod->visible ? $modavailability : null,
+            'modavailability' => $vis ? $availability->export_for_template($output) : null,
             'modname' => get_string('pluginname', 'mod_' . $mod->modname),
             'url' => $mod->url,
             'activityinfo' => $activityinfodata,
+            'controlmenu' => $menu,
             'activityname' => $mod->get_formatted_name(),
             'textclasses' => $displayoptions['textclasses'],
             'classlist' => [],
             'altcontent' => (empty($data->altcontent)) ? false : $data->altcontent,
             'hasname' => !empty($data->cmname['displayvalue']),
             'hasurl' => !empty($data->url),
-            'modhiddenfromstudents' => !$mod->visible,
+            'modhiddenfromstudents' => !$vis,
             'modstealth' => $mod->is_stealth(),
-            'modlinline' => ($mod->modname == 'label' && !$modavailability->hasmodavailability &&
-               !$activityinfodata->hascompletion && !isset($data->modhiddenfromstudents) && !isset($data->modstealth))];
-
-        return $data;
+            'modlinline' => false];
     }
 }
