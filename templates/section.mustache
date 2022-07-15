@@ -89,7 +89,11 @@
 <div class="coursecontentmasonry content show">
      <div class="{{#hasavailability}}description small{{/hasavailability}}">
         {{#summary}}
-            {{> core_courseformat/local/content/section/summary }}
+            {{#summarytext}}
+                <div class="course-description-item summarytext m-1">
+                    <div class="description-inner">{{{summarytext}}}</div>
+                </div>
+            {{/summarytext}}
         {{/summary}}
         {{#availability}}
             {{> core_courseformat/local/content/section/availability }}

@@ -206,4 +206,36 @@ class format_masonry extends format_topics {
         // Return everything (nothing to hide).
         return $this->get_format_options();
     }
+
+    /**
+     * Whether this format allows to delete sections.
+     *
+     * @param int|stdClass|section_info $section
+     * @return bool
+     */
+    public function can_delete_section($section) {
+        return true;
+    }
+
+    /**
+     * Callback used in WS core_course_edit_section when teacher performs an AJAX action on a section (show/hide).
+     *
+     * @param section_info|stdClass $section
+     * @param string $action
+     * @param int $sr
+     * @return null|array any data for the Javascript post-processor (must be json-encodeable)
+     */
+    public function section_action($section, $action, $sr) {
+        global $PAGE;
+
+        if ($action === 'deleteSection') {
+            // Format 'topics' allows to set and remove markers in addition to common section actions.
+            require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
+            $rv = parent::delete_section($section);
+        } else {
+            $rv = parent::section_action($section, $action, $sr);
+        }
+        return $rv;
+    }
+
 }
