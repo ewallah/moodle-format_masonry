@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->requires = 2022041900;
 $plugin->component = 'format_masonry';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release = 'v4.0.2';
-$plugin->version = 2022051600;
+$plugin->release = 'v4.0.3';
+$plugin->version = 2022072100;
 $plugin->dependencies = ['format_topics' => 2022041900];
