@@ -231,7 +231,7 @@ class masonry_test extends \advanced_testcase {
         $USER->editing = true;
         $PAGE->set_context(\context_course::instance($this->course->id));
         $PAGE->get_renderer('core', 'course');
-        $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
+        $this->assertInstanceOf('format_topics\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
         sesskey();
         $_POST['marker'] = 2;
@@ -257,7 +257,7 @@ class masonry_test extends \advanced_testcase {
         $this->assertCount(6, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
         $this->assertFalse($format->uses_indentation());
-        $this->assertFalse($format->supports_components());
+        $this->assertTrue($format->supports_components());
         $this->assertFalse($format->uses_course_index());
         $this->assertCount(6, $format->get_config_for_external());
     }

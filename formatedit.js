@@ -34,14 +34,14 @@ M.course.format.get_config = function() {
  */
 M.course.format.swap_sections = function(Y, node1, node2) {
     var CSS = {
-        COURSECONTENT: 'course-content',
-        SECTIONADDMENUS: 'section_add_menus'
+        COURSECONTENT: '.course-content',
+        SECTIONADDMENUS: '.section_add_menus'
     };
 
-    var sectionlist = Y.Node.all('.' + CSS.COURSECONTENT + ' ' + M.course.format.get_section_selector(Y));
+    var sectionlist = Y.Node.all(CSS.COURSECONTENT + M.course.format.get_section_selector(Y));
     // Swap the non-ajax menus, noting these are not always present (depends on theme and user prefs).
-    if (sectionlist.item(node1).one('.' + CSS.SECTIONADDMENUS)) {
-        sectionlist.item(node1).one('.' + CSS.SECTIONADDMENUS).swap(sectionlist.item(node2).one('.' + CSS.SECTIONADDMENUS));
+    if (sectionlist.item(node1).one(CSS.SECTIONADDMENUS)) {
+        sectionlist.item(node1).one(CSS.SECTIONADDMENUS).swap(sectionlist.item(node2).one(CSS.SECTIONADDMENUS));
     }
 };
 

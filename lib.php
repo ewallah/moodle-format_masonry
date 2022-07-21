@@ -41,6 +41,9 @@ class format_masonry extends format_topics {
      * @return renderer_base
      */
     public function get_renderer(moodle_page $page) {
+        if ($page->user_is_editing()) {
+            return $page->get_renderer('format_topics');
+        }
         return $page->get_renderer('format_masonry');
     }
 
@@ -180,12 +183,35 @@ class format_masonry extends format_topics {
     }
 
     /**
+     * Prepares the templateable object to display section name.
+     *
+     * @param \section_info|\stdClass $section
+     * @param bool $linkifneeded
+     * @param bool $editable
+     * @param null|lang_string|string $edithint
+     * @param null|lang_string|string $editlabel
+     * @return inplace_editable
+     */
+    public function inplace_editable_render_section_name($section, $linkifneeded = true,
+            $editable = null, $edithint = null, $editlabel = null) {
+        if (empty($edithint)) {
+            $edithint = new lang_string('editsectionname', 'format_topics');
+        }
+        if (empty($editlabel)) {
+            $title = get_section_name($section->course, $section);
+            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
+        }
+        return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
+    }
+
+    /**
      * This course format does not support drag and drop.
      *
      * @return bool if the course format uses components.
      */
     public function supports_components() {
-        return false;
+        // Needed for Moving modules.
+        return true;
     }
 
     /**
@@ -216,26 +242,23 @@ class format_masonry extends format_topics {
     public function can_delete_section($section) {
         return true;
     }
+}
 
-    /**
-     * Callback used in WS core_course_edit_section when teacher performs an AJAX action on a section (show/hide).
-     *
-     * @param section_info|stdClass $section
-     * @param string $action
-     * @param int $sr
-     * @return null|array any data for the Javascript post-processor (must be json-encodeable)
-     */
-    public function section_action($section, $action, $sr) {
-        global $PAGE;
-
-        if ($action === 'deleteSection') {
-            // Format 'topics' allows to set and remove markers in addition to common section actions.
-            require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
-            $rv = parent::delete_section($section);
-        } else {
-            $rv = parent::section_action($section, $action, $sr);
-        }
-        return $rv;
+/**
+ * Implements callback inplace_editable() allowing to edit values in-place.
+ *
+ * @param string $itemtype
+ * @param int $itemid
+ * @param mixed $newvalue
+ * @return inplace_editable
+ */
+function format_masonry_inplace_editable($itemtype, $itemid, $newvalue) {
+    global $DB, $CFG;
+    require_once($CFG->dirroot . '/course/lib.php');
+    if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
+        $section = $DB->get_record_sql(
+            'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
+            [$itemid, 'masonry'], MUST_EXIST);
+        return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
-
 }
