@@ -89,6 +89,7 @@ class masonry_test extends \advanced_testcase {
                 $sectionname = get_string('sectionname', 'format_masonry') . ' ' . $section->section;
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
+            $this->assertNotEmpty($courseformat->inplace_editable_render_section_name($section));
         }
     }
 
@@ -204,7 +205,9 @@ class masonry_test extends \advanced_testcase {
         $this->setAdminUser();
         $USER->editing = false;
         $PAGE->set_course($this->course);
-        $PAGE->get_renderer('format_masonry');
+        $PAGE->set_context(\context_course::instance($this->course->id));
+        $PAGE->get_renderer('core', 'course');
+        $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
         $_POST['sesskey'] = sesskey();
         ob_start();
@@ -258,6 +261,7 @@ class masonry_test extends \advanced_testcase {
         $this->assertTrue($format->allow_stealth_module_visibility(null, null));
         $this->assertFalse($format->uses_indentation());
         $this->assertTrue($format->supports_components());
+        $this->assertTrue($format->can_delete_section(null));
         $this->assertFalse($format->uses_course_index());
         $this->assertCount(6, $format->get_config_for_external());
     }
