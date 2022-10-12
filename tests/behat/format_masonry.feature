@@ -8,9 +8,9 @@ Feature: format_masonry
       | fullname | shortname | format  | coursedisplay | numsections |
       | Course 1 | C1        | masonry | 0             | 4           |
     And the following "users" exist:
-      | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | 1        | teacher1@example.com |
-      | student1 | Student   | 1        | student1@example.com |
+      | username |
+      | teacher1 |
+      | student1 |
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
@@ -29,22 +29,22 @@ Feature: format_masonry
       | choice   | choice 1  | Test choice description  | C1     | choice1     | 4       | 1       |
       | choice   | choice 2  | Test choice description  | C1     | choice2     | 4       | 1       |
       | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
+      | page     | page 1    | Test page description    | C1     | page1       | 5       | 1       |
+      | page     | page 2    | Test page description    | C1     | page1       | 5       | 1       |
+      | page     | page 3    | Test page description    | C1     | page1       | 5       | 0       |
 
   Scenario: Empty section 0 stays hidden in masonry topics
     Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should not see "General" in the ".course-content" "css_element"
 
-  @javascript
   Scenario: Non empty section 0 is shown in masonry topics
-    Given I log in as "teacher1"
-    And I am on "Course 1" course homepage with editing mode on
-    And I add a "Page" to section "0"
-    And I set the following fields to these values:
-      | Name         | P1 |
-      | Description  | x  |
-      | Page content | x  |
-    And I click on "Save and return to course" "button"
-    And I turn editing mode off
+    Given the following "activities" exist:
+      | activity | name      | intro                    | course | idnumber | section | visible |
+      | page     | page 4    | Test lesson description  | C1     | page4    | 0       | 1       |
+    And  I am on the "C1" "Course" page logged in as "teacher1"
+    Then I should see "General" in the "li#section-0" "css_element"
+    And I log out
+    And  I am on the "C1" "Course" page logged in as "student1"
     Then I should see "General" in the "li#section-0" "css_element"
 
   Scenario: The modules should be visible and hidden in masonry format
@@ -52,11 +52,21 @@ Feature: format_masonry
     Then I should see "lesson 1"
     And I should see "lesson 2"
     And I should see "lesson 3"
+    And I should see "page 1"
+    And I should see "page 2"
+    And I should see "page 3"
     And I log out
     When I am on the "C1" "Course" page logged in as "student1"
-    Then I should see "book 1"
+    Then I should see "lesson 1"
+    And I should see "lesson 2"
+    And I should not see "lesson 3"
+    And I should see "book 1"
     And I should see "book 2"
     And I should not see "book 3"
+    # TODO: Stealth section
+    And I should see "page 1"
+    And I should see "page 2"
+    And I should not see "page 3"
 
   Scenario: Modify section summary - title - background color in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
@@ -92,10 +102,28 @@ Feature: format_masonry
   Scenario: Inline edit section name in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
     And I turn editing mode on
-    And I set the field "Edit topic name" in the "li#section-1" "css_element" to "Masonry"
+    And I set the field "Topic" in the "li#section-1" "css_element" to "Masonry"
     Then I should not see "Topic 1" in the "region-main" "region"
     And "New name for topic" "field" should not exist
     And I should see "Masonry" in the "li#section-1" "css_element"
     And I am on "Course 1" course homepage
     And I should not see "Topic 1" in the "region-main" "region"
     And I should see "Masonry" in the "li#section-1" "css_element"
+
+  Scenario: Deleting the last section in masonry format
+    Given I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
+    And I delete section "5"
+    Then I should see "Are you absolutely sure you want to completely delete \"Topic 5\" and all the activities it contains?"
+    And I press "Delete"
+    And I should not see "Topic 5"
+    And I should see "Topic 4"
+
+  Scenario: Deleting the middle section in masonry format
+    Given I am on the "C1" "Course" page logged in as "teacher1"
+    And I turn editing mode on
+    When I delete section "4"
+    And I press "Delete"
+    Then I should not see "Topic 5"
+    And I should not see "Page 1"
+    And I should see "Orphaned activities (section 4)"

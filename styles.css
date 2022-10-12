@@ -1,3 +1,52 @@
+#page-course-view-masonry .activity-item:not(.activityinline) {
+    border: none;
+    padding: .2rem;
+}
+
+#page-course-view-masonry .activity-item.hiddenactivity {
+    background-color: transparent;
+}
+#page-course-view-masonry .activityiconcontainer {
+    background-color: transparent;
+}
+
+#page-course-view-masonry .activityiconcontainer .activityicon {
+    color: #000;
+    filter: none;
+}
+
+#page-course-view-masonry .activityiconcontainer {
+    width: 25px;
+    height: 25px;
+}
+
+#page-course-view-masonry .editing .activity-item:hover,
+#page-course-view-masonry .description .course-description-item {
+    background-color: transparent;
+}
+
+#page-course-view-masonry div.text-uppercase.small,
+#page-course-view-masonry  #collapssesection0,
+#page-course-view-masonry  #collapssesection1,
+#page-course-view-masonry  #collapssesection2,
+#page-course-view-masonry  #collapssesection3,
+#page-course-view-masonry  #collapssesection4,
+#page-course-view-masonry  #collapssesection5,
+#page-course-view-masonry  #collapssesection6,
+#page-course-view-masonry  #collapssesection7,
+#page-course-view-masonry  #collapssesection8,
+#page-course-view-masonry  #collapssesection9,
+#page-course-view-masonry  #collapssesection10,
+#page-course-view-masonry  #collapssesection11,
+#page-course-view-masonry  #collapssesection12,
+#page-course-view-masonry  #collapssesection13,
+#page-course-view-masonry  #collapssesection14,
+#page-course-view-masonry  #collapssesection15,
+#page-course-view-masonry  #collapssesection16 {
+    display: none;
+}
+
+
 #page-course-view-masonry #completionprogressid {
     display: none;
 }
@@ -95,10 +144,6 @@
     background-color: transparent;
 }
 
-#page-course-view-masonry .course-content .section-summary .section-summary-activities .activity-count {
-    color: #000;
-}
-
 #page-course-view-masonry .course-content .sectionname,
 #page-course-view-masonry .course-content .section .activity .instancename {
     white-space: nowrap;
@@ -123,7 +168,6 @@
     list-style: none;
     margin: 10px 10px 0 0;
     padding: 4px 4px 0 0;
-    background: #f0f0f0;
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
@@ -133,7 +177,6 @@
     list-style: none;
     margin: 10px 0 20px 0;
     padding: 0;
-    background: #f0f0f0;
     -moz-border-radius: 5px;
     border-radius: 5px;
 }

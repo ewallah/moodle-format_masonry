@@ -15,18 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Format masonry content class.
  *
  * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
+ * @copyright  2022 Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace format_masonry\output\courseformat;
 
-$plugin->requires = 2022041900;
-$plugin->component = 'format_masonry';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release = 'v4.0.4';
-$plugin->version = 2022101000;
-$plugin->dependencies = ['format_topics' => 2022041900];
+use core_courseformat\output\local\content as content_base;
+
+/**
+ * Format masonry content class.
+ *
+ * @package    format_masonry
+ * @copyright  2022 Renaat Debleu (www.eWallah.net)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class content extends content_base {
+}

@@ -25,10 +25,10 @@ M.masonry.init = function(Y, cfg) {
             setter: function(node) {
                 var n = Y.one(node);
                 if (!n) {
-                    n = Y.one('#coursemasonry');
+                    n = Y.one('.masonry');
                 }
                 if (!n) {
-                    Y.fail('Masonry: Invalid Node Given: ' + node);
+                    alert('Masonry: Invalid Node Given: ' + node);
                 }
                 return n;
             }
@@ -40,8 +40,8 @@ M.masonry.init = function(Y, cfg) {
         isRTL: {value: false},
         isFitWidth: {value: true},
         containerStyle: {value: {position: 'relative'}},
-        columnWidth: {value: 2},
-        itemSelector: {value: '.section.main'}
+        columnWidth: {value: 10},
+        itemSelector: {value: '.masonry-brick'}
     };
 
     Y.extend(Masonry, Y.Base, {
@@ -49,6 +49,7 @@ M.masonry.init = function(Y, cfg) {
         initializer: function() {
             this._create();
             this._init();
+            this._reLayout();
         },
 
         destructor: function() {
@@ -96,7 +97,7 @@ M.masonry.init = function(Y, cfg) {
         _getBricks: function(elems) {
             var bricks = this._filterFindBricks(elems)
                              .setStyle('position', 'absolute')
-                             .addClass('masonry-brick');
+                             .addClass('masonry-brick m-2 p-2');
             return bricks;
         },
 

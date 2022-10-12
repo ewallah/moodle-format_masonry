@@ -17,22 +17,24 @@
 /**
  * format_masonry related unit tests
  *
- * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   format_masonry
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace format_masonry;
 
-defined('MOODLE_INTERNAL') || die();
+use context_course;
+
 
 /**
  * format_masonry related unit tests
  *
- * @package    format_masonry
- * @copyright  2017 Renaat Debleu (www.eWallah.net)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @coversDefaultClass format_masonry
+ * @package   format_masonry
+ * @copyright 2018 eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class masonry_test extends \advanced_testcase {
 
@@ -43,24 +45,39 @@ class masonry_test extends \advanced_testcase {
      * Load required classes.
      */
     public function setUp(): void {
-        global $CFG;
-        require_once($CFG->dirroot . '/course/format/masonry/renderer.php');
+        global $CFG, $DB;
         $this->resetAfterTest(true);
-        $generator = $this->getDataGenerator();
-        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => 1445644800];
-        $this->course = $generator->create_course($params, ['createsections' => true]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 1]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 2]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 3]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 4]);
-        $generator->get_plugin_generator('mod_page')->create_instance(['course' => $this->course->id, 'section' => 5]);
-        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 6]);
-        $generator->get_plugin_generator('mod_forum')->create_instance(['course' => $this->course->id, 'section' => 7]);
+        $CFG->enablecompletion = true;
+        $CFG->enableavailability = true;
+        $gen = $this->getDataGenerator();
+        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => time() - 3000,
+                   'enablecompletion' => 1, 'showactivitydates' => true];
+        $course = $gen->create_course($params, ['createsections' => true]);
+        $DB->set_field('course', 'groupmode', SEPARATEGROUPS);
+        $DB->set_field('course', 'groupmodeforce', 1);
+
+        $group = $gen->create_group(['courseid' => $course->id]);
+        $user = $gen->create_and_enrol($course, 'student');
+        groups_add_member($group->id, $user->id);
+        $assign = $gen->create_module('assign',
+            ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]);
+        $modcontext = get_coursemodule_from_instance('assign', $assign->id, $course->id);
+        $notavailable = '{"op":"|","show":true,"c":[{"type":"group","id":'. $group->id . '}]}';
+        $DB->set_field('course_modules', 'availability', $notavailable, ['id' => $modcontext->id]);
+
+        $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 1]);
+        $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 2]);
+        $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 3]);
+        $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 4]);
+        $gen->get_plugin_generator('mod_label')->create_instance(['course' => $course->id, 'section' => 5]);
+        $gen->get_plugin_generator('mod_forum')->create_instance(['course' => $course->id, 'section' => 6]);
+        $gen->get_plugin_generator('mod_forum')->create_instance(['course' => $course->id, 'section' => 7]);
+        $this->course = $course;
     }
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_get_section_name() {
         $sections = get_fast_modinfo($this->course)->get_section_info_all();
@@ -75,12 +92,13 @@ class masonry_test extends \advanced_testcase {
                 $sectionname = get_string('sectionname', 'format_masonry') . ' ' . $section->section;
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
+            $this->assertNotEmpty($courseformat->inplace_editable_render_section_name($section));
         }
     }
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_get_section_name_customised() {
         global $DB;
@@ -102,70 +120,8 @@ class masonry_test extends \advanced_testcase {
     }
 
     /**
-     * Test web service updating section name
-     * @covers format_masonry
-     */
-    public function test_update_inplace_editable() {
-        global $CFG, $DB, $USER;
-        require_once($CFG->dirroot . '/lib/external/externallib.php');
-
-        $generator = $this->getDataGenerator();
-        $user = $generator->create_user();
-        $this->setUser($user);
-        $modinfo = get_fast_modinfo($this->course);
-        $section = $modinfo->get_section_info(2);
-        $USER->editing = true;
-
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Course or activity not accessible. (Not enrolled)');
-        \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-
-        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
-        $generator->enrol_user($user->id, $this->course->id, $teacherrole->id);
-
-        $res = \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-        $res = \external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
-        $this->assertEquals('New section name', $res['value']);
-        $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-
-        $section = $modinfo->get_section_info(1);
-        \core_external::update_inplace_editable('format_masonry', 'sectionname', $section->id, 'New section name');
-        format_masonry_inplace_editable('sectionname', $section->id, 'New section name twice');
-        $this->assertEquals('New section name twice', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-    }
-
-    /**
-     * Test callback updating section name
-     * @covers format_masonry
-     */
-    public function test_inplace_editable() {
-        global $DB, $PAGE, $USER;
-
-        $generator = $this->getDataGenerator();
-        $user = $generator->create_user();
-        $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
-        $generator->enrol_user($user->id, $this->course->id, $teacherrole->id);
-        $this->setUser($user);
-        $USER->editing = true;
-        $modinfo = get_fast_modinfo($this->course);
-        $section = $modinfo->get_section_info(2);
-
-        // Call callback format_masonry_inplace_editable() directly.
-        $tmpl = component_callback('format_masonry', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
-        $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
-        $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
-        $this->assertEquals('Rename me again', $res['value']);
-        $this->assertEquals('Rename me again', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
-
-        // Try updating using callback from mismatching course format.
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Can\'t find data record in database');
-        component_callback('format_weeks', 'inplace_editable', ['sectionname', $section->id, 'New name']);
-    }
-
-    /**
      * Test get_default_course_enddate.
-     * @covers format_masonry
+     * @covers \format_masonry
      */
     public function test_default_course_enddate() {
         global $CFG, $DB;
@@ -178,7 +134,7 @@ class masonry_test extends \advanced_testcase {
             'course' => $this->course,
             'category' => $category,
             'editoroptions' => [
-                'context' => \context_course::instance($this->course->id),
+                'context' => context_course::instance($this->course->id),
                 'subdirs' => 0
             ],
             'returnto' => new \moodle_url('/'),
@@ -187,10 +143,10 @@ class masonry_test extends \advanced_testcase {
 
         $courseform = new \testable_course_edit_form(null, $args);
         $courseform->definition_after_data();
-        $enddate = 1445644800 + (int)get_config('moodlecourse', 'courseduration');
+        $enddate = time() - 3000 + (int)get_config('moodlecourse', 'courseduration');
         $masonryformat = course_get_format($this->course->id);
         $form = $courseform->get_quick_form();
-        $this->assertEquals($enddate, $masonryformat->get_default_course_enddate($form));
+        $this->assertGreaterThan($masonryformat->get_default_course_enddate($form), $enddate);
         $format = course_get_format($this->course);
         $format->create_edit_form_elements($form, $this->course);
         $format->create_edit_form_elements($form, null);
@@ -199,7 +155,9 @@ class masonry_test extends \advanced_testcase {
 
     /**
      * Test renderer.
-     * @covers format_masonry_renderer
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content
+     * @covers \format_masonry\output\courseformat\content\section
      */
     public function test_renderer() {
         global $USER;
@@ -218,16 +176,7 @@ class masonry_test extends \advanced_testcase {
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
              'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']]);
-        $renderer = new \format_masonry_renderer($page, null);
-        ob_start();
-        $renderer->print_single_section_page($this->course, null, null, null, null, 0);
-        $renderer->print_single_section_page($this->course, null, null, null, null, 1);
-        $out1 = ob_get_contents();
-        $renderer->print_multiple_section_page($this->course, null, null, null, null, null);
-        $out2 = ob_get_contents();
-        ob_end_clean();
-        $this->assertStringContainsString('Topic 1', $out1);
-        $this->assertStringContainsString('Topic 1', $out2);
+        $renderer = new \format_masonry\output\renderer($page, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
@@ -235,43 +184,54 @@ class masonry_test extends \advanced_testcase {
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
         set_section_visible($this->course->id, 2, 0);
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
-    }
-
-    /**
-     * Test upgrade.
-     * @covers format_masonry
-     */
-    public function test_upgrade() {
-        global $CFG;
-        require_once($CFG->dirroot . '/course/format/masonry/db/upgrade.php');
-        require_once($CFG->libdir . '/upgradelib.php');
-        $this->expectException(\moodle_exception::class);
-        $this->expectExceptionMessage('Cannot downgrade');
-        xmldb_format_masonry_upgrade(time());
+        $format = course_get_format($this->course);
+        $outputclass = $format->get_output_classname('content');
+        $widget = new $outputclass($format);
+        $this->assertStringContainsString('Topic 2', $renderer->render($widget));
+        $format = course_get_format($this->course->id);
+        $modinfo = $format->get_modinfo();
+        $sections = $modinfo->get_section_info_all();
+        foreach ($sections as $section) {
+            $cmb = new \format_masonry\output\courseformat\content\section($format, $section);
+            $cmb->export_for_template($renderer);
+        }
     }
 
     /**
      * Test format.
-     * @covers format_masonry
+     * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content
+     * @covers \format_masonry\output\courseformat\content\section
      */
     public function test_format() {
         global $CFG, $PAGE, $USER;
         $format = course_get_format($this->course);
         $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
-        $USER->editing = true;
+        $USER->editing = false;
         $PAGE->set_course($this->course);
-        $PAGE->get_renderer('format_masonry');
+        $PAGE->set_context(context_course::instance($this->course->id));
+        $PAGE->get_renderer('core', 'course');
+        $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
+        $_POST['sesskey'] = sesskey();
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
         $this->assertEquals($course, $this->course);
+        $USER->editing = true;
+        ob_start();
+        include_once($CFG->dirroot . '/course/format/masonry/format.php');
+        ob_end_clean();
     }
 
     /**
      * Test format editing.
-     * @covers format_masonry
+     * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content
+     * @covers \format_masonry\output\courseformat\content\section
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
@@ -279,8 +239,9 @@ class masonry_test extends \advanced_testcase {
         $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
         $USER->editing = true;
-        $PAGE->set_context(\context_course::instance($this->course->id));
+        $PAGE->set_context(context_course::instance($this->course->id));
         $PAGE->get_renderer('core', 'course');
+        $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
         sesskey();
         $_POST['marker'] = 2;
@@ -288,25 +249,35 @@ class masonry_test extends \advanced_testcase {
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
         $this->assertEquals($course, $this->course);
+        $modinfo = $format->get_modinfo();
+        $sections = $modinfo->get_section_info_all();
+        $format->section_action($sections[1], 'hide', 1);
     }
 
     /**
      * Test other.
-     * @covers format_masonry
-     * @covers format_masonry_inplace_editable
+     * @covers \format_masonry
+     * @covers \format_masonry\output\renderer
+     * @covers \format_masonry\output\courseformat\content
+     * @covers \format_masonry\output\courseformat\content\section
      */
     public function test_other() {
         $this->setAdminUser();
-        $sections = get_fast_modinfo($this->course)->get_section_info_all();
         $format = course_get_format($this->course);
+        $section = $format->get_modinfo()->get_section_info_all()[1];
         $data = new \stdClass();
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $this->course);
         $this->assertCount(6, $format->course_format_options());
-        $this->assertTrue($format->allow_stealth_module_visibility(null, null));
+        $this->assertTrue($format->allow_stealth_module_visibility(null, $section));
+        $this->assertTrue($format->uses_sections());
+        $this->assertFalse($format->uses_indentation());
+        $this->assertTrue($format->supports_components());
+        $this->assertTrue($format->can_delete_section($section));
+        $this->assertTrue($format->uses_course_index());
         $this->assertCount(6, $format->get_config_for_external());
-        $this->assertInstanceOf('\core\output\inplace_editable',
-           format_masonry_inplace_editable('sectionname', $sections[1]->id, 'newname'));
+        $this->assertCount(2, $format->ajax_section_move());
+        $this->assertTrue($format->supports_ajax()->capable);
     }
 }

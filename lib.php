@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * lib for masonry course format.
+ * Lib for masonry course format.
  *
  * @package    format_masonry
  * @copyright  2016 Renaat Debleu (www.eWallah.net)
@@ -23,7 +23,9 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/course/format/topics/lib.php');
+require_once($CFG->dirroot. '/course/format/lib.php');
+
+use core\output\inplace_editable;
 
 /**
  * Main class for the masonry course format
@@ -32,13 +34,64 @@ require_once($CFG->dirroot . '/course/format/topics/lib.php');
  * @copyright  Renaat Debleu (www.eWallah.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_masonry extends format_topics {
+class format_masonry extends core_courseformat\base {
+
+    /**
+     * Returns instance of page renderer used by this plugin
+     *
+     * @param moodle_page $page
+     * @return renderer_base
+     */
+    public function get_renderer(moodle_page $page) {
+        return $page->get_renderer('format_masonry');
+    }
+
+    /**
+     * Returns the default section name for the topics course format.
+     *
+     * @param stdClass $section Section object from database or just field course_sections section
+     * @return string The default value for the section name.
+     */
+    public function get_default_section_name($section) {
+        if ($section->section == 0) {
+            // Return the general section.
+            return get_string('section0name', 'format_masonry');
+        } else {
+            // Use course_format::get_default_section_name implementation which
+            // will display the section name in "Topic n" format.
+            return parent::get_default_section_name($section);
+        }
+    }
+
+    /**
+     * Returns the display name of the given section that the course prefers.
+     *
+     * @param int|stdClass $section Section object from database or just field section.section
+     * @return string Display name that the course format prefers, e.g. "Topic 2"
+     */
+    public function get_section_name($section) {
+        $section = $this->get_section($section);
+        if ((string)$section->name !== '') {
+            // Return the name the user set.
+            return format_string($section->name, true, ['context' => context_course::instance($this->courseid)]);
+        } else {
+            return $this->get_default_section_name($section);
+        }
+    }
+
+    /**
+     * This course format supports components.
+     *
+     * @return boolean
+     */
+    public function supports_components() {
+        return true;
+    }
 
     /**
      * The URL to use for the specified course (with section)
      *
      * @param int|stdClass $section Section object from database or just field course_sections.section
-     *     if omitted the course view page is returned
      * @param array $options options for view URL. ignored
      * @return null|moodle_url
      */
@@ -70,13 +123,6 @@ class format_masonry extends format_topics {
 
     /**
      * Definitions of the additional options that this course format uses for course
-     *
-     * Topics format uses the following options:
-     * - coursedisplay : hidden and forced to be single_page_view
-     * - numsections
-     * - hiddensections : hidden and forced to be 1
-     * - borderwith
-     * - backgroundcolor
      *
      * @param bool $foreditform
      * @return array of options
@@ -149,38 +195,130 @@ class format_masonry extends format_topics {
     }
 
     /**
-     * Prepares the templateable object to display section name
+     * Prepares the templateable object to display section name.
      *
      * @param \section_info|\stdClass $section
      * @param bool $linkifneeded
      * @param bool $editable
      * @param null|lang_string|string $edithint
      * @param null|lang_string|string $editlabel
-     * @return \core\output\inplace_editable
+     * @return inplace_editable
      */
-    public function inplace_editable_render_section_name(
-        $section, $linkifneeded = true, $editable = null, $edithint = null, $editlabel = null) {
-
+    public function inplace_editable_render_section_name($section, $linkifneeded = false,
+            $editable = null, $edithint = null, $editlabel = null) {
         if (empty($edithint)) {
-            $edithint = new \lang_string('editsectionname', 'format_topics');
+            $edithint = ($section->section == 0) ? 'section0name' : 'sectionname';
+            $edithint = new lang_string($edithint, 'format_masonry');
         }
         if (empty($editlabel)) {
             $title = get_section_name($section->course, $section);
-            $editlabel = new \lang_string('newsectionname', 'format_topics', $title);
+            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
         }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }
 
     /**
-     * Returns whether this course format allows the activity to
-     * have "triple visibility state" - visible always, hidden on course page but available, hidden.
+     * Returns whether this course format allows the activity to be hidden on course page but available.
      *
      * @param stdClass|cm_info $cm course module (may be null if we are displaying a form for adding a module)
      * @param stdClass|section_info $section section where this module is located or will be added to
      * @return bool
      */
     public function allow_stealth_module_visibility($cm, $section) {
+        return !$section->section || $section->visible;
+    }
+
+    /**
+     * Returns true if this course format uses sections.
+     *
+     * @return bool
+     */
+    public function uses_sections() {
         return true;
+    }
+
+    /**
+     * Whether this format allows to delete sections.
+     *
+     * @param int|stdClass|section_info $section
+     * @return bool
+     */
+    public function can_delete_section($section) {
+        return ($this->get_section($section)->section != 0);
+    }
+
+    /**
+     * Whether this format allows course index.
+     *
+     * @return bool
+     */
+    public function uses_course_index() {
+        return true;
+    }
+
+    /**
+     * Whether this format allows to indentation.
+     *
+     * @return bool
+     */
+    public function uses_indentation(): bool {
+        return false;
+    }
+
+    /**
+     * Custom action after section has been moved in AJAX mode.
+     *
+     * @return array This will be passed in ajax respose
+     */
+    public function ajax_section_move() {
+        global $PAGE;
+        $titles = [];
+        $course = $this->get_course();
+        $modinfo = get_fast_modinfo($course);
+        $renderer = $this->get_renderer($PAGE);
+        if ($renderer && ($sections = $modinfo->get_section_info_all())) {
+            foreach ($sections as $number => $section) {
+                $titles[$number] = $renderer->section_title($section, $course);
+            }
+        }
+        return ['sectiontitles' => $titles, 'action' => 'move'];
+    }
+
+    /**
+     * Callback used in WS core_course_edit_section when teacher performs an AJAX action on a section (show/hide).
+     *
+     * @param section_info|stdClass $section
+     * @param string $action
+     * @param int $sr
+     * @return null|array any data for the Javascript post-processor (must be json-encodeable)
+     */
+    public function section_action($section, $action, $sr) {
+        global $PAGE;
+
+        // For show/hide actions call the parent method and return the new content for .section_availability element.
+        $rv = parent::section_action($section, $action, $sr);
+        $renderer = $PAGE->get_renderer('format_masonry');
+
+        if (!($section instanceof section_info)) {
+            $modinfo = course_modinfo::instance($this->courseid);
+            $section = $modinfo->get_section_info($section->section);
+        }
+        $elementclass = $this->get_output_classname('content\\section\\availability');
+        $availability = new $elementclass($this, $section);
+
+        $rv['section_availability'] = $renderer->render($availability);
+        return $rv;
+    }
+
+    /**
+     * Returns the information about the ajax support in the given source format.
+     *
+     * @return stdClass
+     */
+    public function supports_ajax() {
+        $ajaxsupport = new stdClass();
+        $ajaxsupport->capable = true;
+        return $ajaxsupport;
     }
 
     /**
