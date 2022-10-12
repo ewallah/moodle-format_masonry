@@ -17,21 +17,25 @@
 /**
  * Privacy main class.
  *
- * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_masonry
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace format_masonry\privacy;
 
+use \core_privacy\local\metadata\null_provider;
+
 /**
  * Privacy main class.
  *
- * @package   format_masonry
- * @copyright 2018 Renaat Debleu (www.eWallah.net)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_masonry
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class provider implements null_provider {
 
     /**
      * Get the language string identifier with the component's language
@@ -39,7 +43,7 @@ class provider implements \core_privacy\local\metadata\null_provider {
      *
      * @return  string
      */
-    public static function get_reason() : string {
+    public static function get_reason(): string {
         return 'privacy:metadata';
     }
 }

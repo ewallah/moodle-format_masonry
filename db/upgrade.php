@@ -18,8 +18,8 @@
  * Upgrade scripts for course format "masonry"
  *
  * @package    format_masonry
- * @copyright  2018 eWallah.net
- * @author     Renaat Debleu (www.ewallah.net)
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

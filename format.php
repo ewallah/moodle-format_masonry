@@ -19,9 +19,10 @@
  *
  * Display the course topics as bricks using a dynamic grid layout.
  *
- * @package format_masonry
- * @copyright 2016 Renaat Debleu info@ewallah.net
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    format_masonry
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -31,13 +32,7 @@ require_once($CFG->libdir . '/completionlib.php');
 
 $format = course_get_format($course);
 $course = $format->get_course();
-$context = context_course::instance($course->id);
-
-// Handle currentsection.
-if (isset($marker) && ($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context) && confirm_sesskey()) {
-    $course->marker = $marker;
-    course_set_marker($course->id, $marker);
-}
+$context = \context_course::instance($course->id);
 
 // Make sure all sections are created.
 course_create_sections_if_missing($course, 0);

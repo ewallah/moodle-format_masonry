@@ -18,7 +18,8 @@
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright  2022 Renaat Debleu (www.eWallah.net)
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace format_masonry\output;
@@ -32,21 +33,11 @@ use moodle_page;
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright  2022 Renaat Debleu (www.eWallah.net)
+ * @copyright  2022 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends section_renderer {
-
-    /**
-     * Constructor method, calls the parent constructor
-     *
-     * @param moodle_page $page
-     * @param string $target one of rendering target constants
-     */
-    public function __construct(moodle_page $page, $target) {
-        parent::__construct($page, $target);
-        $page->set_other_editing_capability('moodle/course:setcurrentsection');
-    }
 
     /**
      * Generate the section title, wraps it in a link to the section page if page is to be displayed on a separate page.
