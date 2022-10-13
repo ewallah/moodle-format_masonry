@@ -25,7 +25,9 @@
 
 namespace format_masonry;
 
+use advanced_testcase;
 use context_course;
+use stdClass;
 
 
 /**
@@ -36,7 +38,7 @@ use context_course;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class masonry_test extends \advanced_testcase {
+class masonry_test extends advanced_testcase {
 
     /** @var stdClass Course. */
     private $course;
@@ -235,14 +237,14 @@ class masonry_test extends \advanced_testcase {
      */
     public function test_format_editing() {
         global $CFG, $PAGE, $USER;
-        $format = course_get_format($this->course);
+        $course = $this->course;
+        $format = course_get_format($course);
         $this->assertEquals('masonry', $format->get_format());
         $this->setAdminUser();
         $USER->editing = true;
         $PAGE->set_context(context_course::instance($this->course->id));
         $PAGE->get_renderer('core', 'course');
         $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
-        $course = $this->course;
         sesskey();
         $_POST['marker'] = 2;
         ob_start();
@@ -251,7 +253,9 @@ class masonry_test extends \advanced_testcase {
         $this->assertEquals($course, $this->course);
         $modinfo = $format->get_modinfo();
         $sections = $modinfo->get_section_info_all();
-        $format->section_action($sections[1], 'hide', 1);
+        $section = new stdClass();
+        $section->section = $sections[1]->section;
+        $format->section_action($section, 'hide', 1);
     }
 
     /**
@@ -265,7 +269,7 @@ class masonry_test extends \advanced_testcase {
         $this->setAdminUser();
         $format = course_get_format($this->course);
         $section = $format->get_modinfo()->get_section_info_all()[1];
-        $data = new \stdClass();
+        $data = new stdClass();
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $this->course);
