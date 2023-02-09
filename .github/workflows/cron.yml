@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_400_STABLE']
+        moodle-branch: ['MOODLE_401_STABLE']
         php: ['8.0']
         database: ['mysqli']
 
@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: this-plugin
+          ref: MOODLE_400_STABLE
 
       - name: setup PHP
         uses: shivammathur/setup-php@v2
@@ -81,16 +82,15 @@ jobs:
         run: moodle-plugin-ci --ansi mustache
 
       - name: phpunit
-        continue-on-error: true
         if: ${{ always() }}
-        run: moodle-plugin-ci --ansi phpunit --coverage-text
+        run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
       - name: behat
         if: ${{ always() }}
         run: moodle-plugin-ci --ansi behat --profile=chrome
 
       - name: coveralls
+        if: ${{ always() }}
+        run: moodle-plugin-ci coveralls-upload
         env:
-          COVERALLS_RUN_LOCALLY: true
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: moodle-plugin-ci --ansi coveralls-upload
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
