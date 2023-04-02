@@ -57,8 +57,6 @@ class section extends section_base {
         $data->contentcollapsed = 0;
         // Hide collapse all message.
         $data->collapsemenu = 0;
-        // Only show blocks containing data.
-        // TODO: if (property_exists($data,'cmlist') && is_array($data->cmlist->cms) && count($data->cmlist->cms) > 0).
         return $data;
     }
 }

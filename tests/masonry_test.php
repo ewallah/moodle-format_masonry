@@ -162,7 +162,7 @@ class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content\section
      */
     public function test_renderer() {
-        global $USER;
+        global $PAGE, $USER;
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $generator->enrol_user($USER->id, $this->course->id, 5);
@@ -173,6 +173,7 @@ class masonry_test extends advanced_testcase {
         $page->set_pagelayout('standard');
         $page->set_pagetype('course-view');
         $page->set_url('/course/view.php?id=' . $this->course->id);
+        $PAGE->set_url('/course/view.php?id=' . $this->course->id);
         $page->requires->js_init_call('M.masonry.init', [[
             'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left()]],
             false,
@@ -215,6 +216,7 @@ class masonry_test extends advanced_testcase {
         $PAGE->set_course($this->course);
         $PAGE->set_context(context_course::instance($this->course->id));
         $PAGE->get_renderer('core', 'course');
+        $PAGE->set_url('/course/view.php?id=' . $this->course->id);
         $this->assertInstanceOf('format_masonry\output\renderer', $format->get_renderer($PAGE));
         $course = $this->course;
         $_POST['sesskey'] = sesskey();
