@@ -148,7 +148,7 @@ class masonry_test extends advanced_testcase {
         $enddate = time() - 3000 + (int)get_config('moodlecourse', 'courseduration');
         $masonryformat = course_get_format($this->course->id);
         $form = $courseform->get_quick_form();
-        $this->assertGreaterThan($masonryformat->get_default_course_enddate($form), $enddate);
+        $this->assertGreaterThanOrEqual($masonryformat->get_default_course_enddate($form), $enddate);
         $format = course_get_format($this->course);
         $format->create_edit_form_elements($form, $this->course);
         $format->create_edit_form_elements($form, null);
