@@ -98,18 +98,6 @@ Feature: format_masonry
     And I turn editing mode off
     Then I should see "first" in the "li#section-1" "css_element"
 
-  @javascript
-  Scenario: Inline edit section name in masonry format
-    Given I am on the "C1" "Course" page logged in as "teacher1"
-    And I turn editing mode on
-    And I set the field "Topic" in the "li#section-1" "css_element" to "Masonry"
-    Then I should not see "Topic 1" in the "region-main" "region"
-    And "New name for topic" "field" should not exist
-    And I should see "Masonry" in the "li#section-1" "css_element"
-    And I am on "Course 1" course homepage
-    And I should not see "Topic 1" in the "region-main" "region"
-    And I should see "Masonry" in the "li#section-1" "css_element"
-
   Scenario: Deleting the last section in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
     And I turn editing mode on

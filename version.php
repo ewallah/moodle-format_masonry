@@ -29,6 +29,6 @@ $plugin->requires = 2022041900;
 $plugin->component = 'format_masonry';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = 'v4.0.5';
-$plugin->supported = [400, 401];
+$plugin->supported = [400, 403];
 $plugin->version = 2022102500;
 $plugin->dependencies = ['format_topics' => 2022041900];
