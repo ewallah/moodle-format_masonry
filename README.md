@@ -45,3 +45,4 @@ Done
 7. PHP 8.0
 
 [![Build Status](https://github.com/ewallah/moodle-format_masonry/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-format_masonry/actions)
+[![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-format_masonry/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-format_masonry?branch=main)
