@@ -105,7 +105,7 @@ jobs:
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
       - name: coveralls
-        if: env.moodle-branch == 'MOODLE_402_STABLE'
+        if: matrix.moodle-branch == 'MOODLE_402_STABLE'
         run: moodle-plugin-ci coveralls-upload
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
