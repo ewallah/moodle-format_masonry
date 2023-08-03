@@ -22,7 +22,7 @@ Course Format topics
 Installation
 --------------------------------------------------------------------------------
 
-1. copy the folder named "masonry" into the moodle/course/format folder.
+1. Copy the folder named "masonry" into the moodle/course/format folder.
 2. Login to Moodle with admin rights. 
 3. The notification for the installation of the new course format is shown
 4. Click on Install
@@ -43,6 +43,7 @@ Done
 5. Docking event removed
 6. Prepare for PHPUnit 9
 7. PHP 8.0
+8. PHP 8.1
 
 [![Build Status](https://github.com/ewallah/moodle-format_masonry/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-format_masonry/actions)
 [![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-format_masonry/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-format_masonry?branch=main)
