@@ -179,7 +179,7 @@ class masonry_test extends advanced_testcase {
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
              'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']]);
-        $renderer = new \format_masonry\output\renderer($page, null);
+        $renderer = new \format_masonry\output\renderer($PAGE, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));

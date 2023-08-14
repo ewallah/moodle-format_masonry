@@ -78,15 +78,19 @@ class renderer extends section_renderer {
         $format = course_get_format($course);
         $options = (object) $format->get_format_options();
         $str = '.masonry-brick {';
-        $str .= 'background-color:' . $options->backcolor . ' !important;';
-        $str .= 'border: ' . trim($options->borderwidth) . 'px solid '. $options->bordercolor . ' !important;}';
+        if (property_exists($options, 'backcolor')) {
+            $str .= 'background-color:' . $options->backcolor . ' !important;';
+            $str .= 'border: ' . trim($options->borderwidth) . 'px solid '. $options->bordercolor . ' !important;}';
+        }
         $moduleinfo = $format->get_modinfo();
         $sections = array_keys($moduleinfo->get_sections());
         foreach ($sections as $section) {
             $options = (object) $format->get_format_options($section);
-            // Give a backgroun color.
             $str .= '#section-' . $section . ' {';
-            $str .= 'background-color:' . $options->backcolor . ' !important;} ';
+            if (property_exists($options, 'backcolor')) {
+                // Give a background color.
+                $str .= 'background-color:' . $options->backcolor . ' !important;} ';
+            }
             // Hide collapse.
             $str .= '#collapssesection' . $section . '{display: none !important;} ';
         }
