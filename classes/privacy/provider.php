@@ -25,7 +25,7 @@
 
 namespace format_masonry\privacy;
 
-use \core_privacy\local\metadata\null_provider;
+use core_privacy\local\metadata\null_provider;
 
 /**
  * Privacy main class.

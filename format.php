@@ -53,13 +53,13 @@ if ($PAGE->user_is_editing()) {
                'itemSelector' => '.section.main',
                'columnWidth' => 1,
                'isRTL' => right_to_left(),
-               'gutterWidth' => 0
-            ]],
+               'gutterWidth' => 0,
+            ], ],
             false,
             [
                'name' => 'course_format_masonry',
                'fullpath' => '/course/format/masonry/format.js',
-               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']
+               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'],
             ]
     );
 }

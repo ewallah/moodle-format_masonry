@@ -53,7 +53,7 @@ class masonry_test extends advanced_testcase {
         $CFG->enableavailability = true;
         $gen = $this->getDataGenerator();
         $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => time() - 3000,
-                   'enablecompletion' => 1, 'showactivitydates' => true];
+                   'enablecompletion' => 1, 'showactivitydates' => true, ];
         $course = $gen->create_course($params, ['createsections' => true]);
         $DB->set_field('course', 'groupmode', SEPARATEGROUPS);
         $DB->set_field('course', 'groupmodeforce', 1);
@@ -137,7 +137,7 @@ class masonry_test extends advanced_testcase {
             'category' => $category,
             'editoroptions' => [
                 'context' => context_course::instance($this->course->id),
-                'subdirs' => 0
+                'subdirs' => 0,
             ],
             'returnto' => new \moodle_url('/'),
             'returnurl' => new \moodle_url('/'),
@@ -175,10 +175,10 @@ class masonry_test extends advanced_testcase {
         $page->set_url('/course/view.php?id=' . $this->course->id);
         $PAGE->set_url('/course/view.php?id=' . $this->course->id);
         $page->requires->js_init_call('M.masonry.init', [[
-            'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left()]],
+            'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left(), ], ],
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
-             'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io']]);
+             'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'], ]);
         $renderer = new \format_masonry\output\renderer($PAGE, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(1);

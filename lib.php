@@ -120,7 +120,7 @@ class format_masonry extends core_courseformat\base {
                 'cache' => true,
                 'cachedefault' => $color,
                 'help' => 'colordisplay',
-                'help_component' => 'format_masonry']];
+                'help_component' => 'format_masonry', ], ];
     }
 
     /**
@@ -139,7 +139,7 @@ class format_masonry extends core_courseformat\base {
                 'coursedisplay' => ['type' => PARAM_INT, 'default' => 1],
                 'borderwidth' => ['type' => PARAM_INT, 'default' => 1],
                 'bordercolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0'],
-                'backcolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0']];
+                'backcolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0'], ];
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseconfig = get_config('moodlecourse');
@@ -152,29 +152,29 @@ class format_masonry extends core_courseformat\base {
                 'numsections' => [
                     'label' => new \lang_string('numberweeks'),
                     'element_type' => 'select',
-                    'element_attributes' => [$sectionmenu]],
+                    'element_attributes' => [$sectionmenu], ],
                 'hiddensections' => [
                     'label' => 'hidden1',
                     'element_type' => 'hidden',
-                    'element_attributes' => [[1 => new \lang_string('hiddensectionsinvisible')]]],
+                    'element_attributes' => [[1 => new \lang_string('hiddensectionsinvisible')]], ],
                 'coursedisplay' => [
                     'label' => 'hidden2',
                     'element_type' => 'hidden',
-                    'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new \lang_string('coursedisplay_single')]]],
+                    'element_attributes' => [[COURSE_DISPLAY_SINGLEPAGE => new \lang_string('coursedisplay_single')]], ],
                 'borderwidth' => [
                     'label' => new \lang_string('borderwidth', 'format_masonry'),
                     'element_type' => 'select',
-                    'element_attributes' => [[0 => '0', 1 => '1', 2 => '2']]],
+                    'element_attributes' => [[0 => '0', 1 => '1', 2 => '2']], ],
                 'bordercolor' => [
                     'label' => new \lang_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
-                    'element_type' => 'hidden'],
+                    'element_type' => 'hidden', ],
                 'backcolor' => [
                     'label' => new \lang_string('bordercolor', 'format_masonry'),
                     'element_type' => 'text',
                     'help' => 'colordisplay',
                     'help_component' => 'format_masonry',
-                    'element_attributes' => [['value' => $courseformatoptions['bordercolor']['default']]]]];
+                    'element_attributes' => [['value' => $courseformatoptions['bordercolor']['default']]], ], ];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseoptionsedit);
         }
         return $courseformatoptions;
