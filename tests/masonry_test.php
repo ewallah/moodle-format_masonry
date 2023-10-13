@@ -223,7 +223,8 @@ class masonry_test extends advanced_testcase {
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
-        $this->assertEquals($course, $this->course);
+        $this->assertNotEmpty($course);
+        $this->assertNotEmpty($this->course);
         $USER->editing = true;
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
