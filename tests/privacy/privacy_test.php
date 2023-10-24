@@ -42,7 +42,7 @@ class privacy_test extends provider_testcase {
      * Test returning metadata.
      * @covers \format_masonry\privacy\provider
      */
-    public function test_get_metadata() {
+    public function test_get_metadata(): void {
         $collection = new collection('format_masonry');
         $reason = provider::get_reason($collection);
         $this->assertEquals($reason, 'privacy:metadata');

@@ -40,7 +40,7 @@ class other_test extends \advanced_testcase {
      * Test upgrade.
      * @coversNothing
      */
-    public function test_upgrade() {
+    public function test_upgrade(): void {
         global $CFG;
         $this->resetAfterTest(true);
         require_once($CFG->dirroot . '/course/format/masonry/db/upgrade.php');
@@ -54,7 +54,7 @@ class other_test extends \advanced_testcase {
      * Settings testcase.
      * @covers \format_masonry
      */
-    public function test_settings() {
+    public function test_settings(): void {
         global $ADMIN, $CFG, $USER;
         $this->resetAfterTest(true);
         $this->setAdminUser();

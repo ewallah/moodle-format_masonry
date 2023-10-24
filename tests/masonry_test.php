@@ -81,7 +81,7 @@ class masonry_test extends advanced_testcase {
      * Tests for format_masonry::get_section_name method with default section names.
      * @covers \format_masonry
      */
-    public function test_get_section_name() {
+    public function test_get_section_name(): void {
         $sections = get_fast_modinfo($this->course)->get_section_info_all();
         $courseformat = course_get_format($this->course);
         foreach ($sections as $section) {
@@ -102,7 +102,7 @@ class masonry_test extends advanced_testcase {
      * Tests for format_masonry::get_section_name method with modified section names.
      * @covers \format_masonry
      */
-    public function test_get_section_name_customised() {
+    public function test_get_section_name_customised(): void {
         global $DB;
         $coursesections = $DB->get_records('course_sections', ['course' => $this->course->id]);
         // Modify section names.
@@ -125,7 +125,7 @@ class masonry_test extends advanced_testcase {
      * Test get_default_course_enddate.
      * @covers \format_masonry
      */
-    public function test_default_course_enddate() {
+    public function test_default_course_enddate(): void {
         global $CFG, $DB;
 
         require_once($CFG->dirroot . '/course/tests/fixtures/testable_course_edit_form.php');
@@ -161,7 +161,7 @@ class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      */
-    public function test_renderer() {
+    public function test_renderer(): void {
         global $PAGE, $USER;
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
@@ -207,7 +207,7 @@ class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      */
-    public function test_format() {
+    public function test_format(): void {
         global $CFG, $PAGE, $USER;
         $format = course_get_format($this->course);
         $this->assertEquals('masonry', $format->get_format());
@@ -238,7 +238,7 @@ class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      */
-    public function test_format_editing() {
+    public function test_format_editing(): void {
         global $CFG, $PAGE, $USER;
         $course = $this->course;
         $format = course_get_format($course);
@@ -268,7 +268,7 @@ class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      */
-    public function test_other() {
+    public function test_other(): void {
         $this->setAdminUser();
         $format = course_get_format($this->course);
         $section = $format->get_modinfo()->get_section_info_all()[1];

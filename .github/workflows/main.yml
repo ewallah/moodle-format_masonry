@@ -109,7 +109,7 @@ jobs:
 
       - name: coveralls
         if: matrix.moodle-branch == 'MOODLE_402_STABLE'
-        run: moodle-plugin-ci coveralls-upload
+        run: moodle-plugin-ci coveralls-upload || true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
