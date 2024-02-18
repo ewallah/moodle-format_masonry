@@ -49,7 +49,7 @@ class format_masonry extends core_courseformat\base {
     }
 
     /**
-     * Returns the default section name for the topics course format.
+     * Returns the default section name for the masonry course format.
      *
      * @param stdClass $section Section object from database or just field course_sections section
      * @return string The default value for the section name.
@@ -223,7 +223,7 @@ class format_masonry extends core_courseformat\base {
         }
         if (empty($editlabel)) {
             $title = get_section_name($section->course, $section);
-            $editlabel = new lang_string('newsectionname', 'format_topics', $title);
+            $editlabel = new lang_string('newsectionname', 'format_masonry', $title);
         }
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }

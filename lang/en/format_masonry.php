@@ -36,6 +36,7 @@ $string['defaultcolordesc'] = 'The default background color for the section.';
 $string['defaultbordercolor'] = 'Default border color';
 $string['defaultbordercolordesc'] = 'The default border color for the section.';
 $string['hidefromothers'] = 'Hide Topic';
+$string['newsectionname'] = 'New Topic';
 $string['package'] = 'Masonry Topics';
 $string['pluginname'] = 'Masonry Topics format';
 $string['privacy:metadata'] = 'The format_masonry plugin does not store any personal data.';
