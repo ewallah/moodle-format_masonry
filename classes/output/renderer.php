@@ -38,7 +38,6 @@ use moodle_page;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends section_renderer {
-
     /**
      * Generate the section title, wraps it in a link to the section page if page is to be displayed on a separate page.
      *
@@ -69,32 +68,40 @@ class renderer extends section_renderer {
      * @return string HTML to output.
      */
     public function render_content($widget) {
+        global $CFG;
         $data = $widget->export_for_template($this);
-        // Empty first section is not displayed.
-        if (count($data->initialsection->cmlist->cms) == 0) {
-            $data->initialsection = null;
-        }
         $course = $this->page->course;
+        if (is_object($course)) {
+            if ($course->id == 1) {
+                return '';
+            }
+            $course = $course->id;
+        }
         $format = course_get_format($course);
         $options = (object) $format->get_format_options();
         $str = '.masonry-brick {';
         if (property_exists($options, 'backcolor')) {
             $str .= 'background-color:' . $options->backcolor . ' !important;';
-            $str .= 'border: ' . trim($options->borderwidth) . 'px solid '. $options->bordercolor . ' !important;}';
+            $str .= 'border: ' . trim($options->borderwidth) . 'px solid ' . $options->bordercolor . ' !important;}';
         }
         $moduleinfo = $format->get_modinfo();
         $sections = array_keys($moduleinfo->get_sections());
         foreach ($sections as $section) {
-            $options = (object) $format->get_format_options($section);
             $str .= '#section-' . $section . ' {';
-            if (property_exists($options, 'backcolor')) {
+            $sectionops = (object) $format->get_format_options($section);
+            $data->sections[$section]->backcolor = property_exists($sectionops, 'backcolor') ? $options->backcolor : '#FFF';
+            if (property_exists($sectionops, 'backcolor')) {
                 // Give a background color.
-                $str .= 'background-color:' . $options->backcolor . ' !important;} ';
+                $str .= 'background-color:' . $sectionops->backcolor . ' !important;} ';
             }
             // Hide collapse.
             $str .= '#collapssesection' . $section . '{display: none !important;} ';
         }
         $extra = "<style>.masonry {margin: auto auto} $str</style>";
-        return $this->render_from_template('core_courseformat/local/content', $data) . $extra;
+        $template = 'core_courseformat/local/content';
+        if ($CFG->version > 2024022200) {
+            $template = 'format_masonry/course';
+        }
+        return $this->render_from_template($template, $data) . $extra;
     }
 }

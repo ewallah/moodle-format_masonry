@@ -25,7 +25,7 @@ M.masonry.init = function(Y, cfg) {
             setter: function(node) {
                 var n = Y.one(node);
                 if (!n) {
-                    n = Y.one('.masonry');
+                    n = Y.one('.format-masonry');
                 }
                 if (!n) {
                     alert('Masonry: Invalid Node Given: ' + node);
@@ -39,7 +39,7 @@ M.masonry.init = function(Y, cfg) {
         gutterWidth: {value: 0},
         isRTL: {value: false},
         isFitWidth: {value: true},
-        containerStyle: {value: {position: 'relative'}},
+        containerStyle: {value: {position: 'relative', width: '890px'}},
         columnWidth: {value: 10},
         itemSelector: {value: '.masonry-brick'}
     };
@@ -211,6 +211,7 @@ M.masonry.init = function(Y, cfg) {
             var node = this.get('node'),
                 container = this.get('isFitWidth') ? node.get('parentNode') : node,
                 containerWidth = parseInt(container.getStyle('width'), 10) || 0,
+                containerWidth = 893,
                 columnWidth = this.get('columnWidth'),
                 gutterWidth = this.get('gutterWidth');
             this.columnWidth = this.isFluid ? columnWidth(containerWidth) : columnWidth ||

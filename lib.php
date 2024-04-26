@@ -24,7 +24,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot. '/course/format/lib.php');
+require_once($CFG->dirroot . '/course/format/lib.php');
 
 use core\output\inplace_editable;
 
@@ -37,7 +37,6 @@ use core\output\inplace_editable;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_masonry extends core_courseformat\base {
-
     /**
      * Returns instance of page renderer used by this plugin
      *
@@ -215,8 +214,13 @@ class format_masonry extends core_courseformat\base {
      * @param null|lang_string|string $editlabel
      * @return inplace_editable
      */
-    public function inplace_editable_render_section_name($section, $linkifneeded = false,
-            $editable = null, $edithint = null, $editlabel = null) {
+    public function inplace_editable_render_section_name(
+        $section,
+        $linkifneeded = false,
+        $editable = null,
+        $edithint = null,
+        $editlabel = null
+    ) {
         if (empty($edithint)) {
             $edithint = ($section->section == 0) ? 'section0name' : 'sectionname';
             $edithint = new lang_string($edithint, 'format_masonry');

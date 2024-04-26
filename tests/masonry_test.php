@@ -38,8 +38,7 @@ use stdClass;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class masonry_test extends advanced_testcase {
-
+final class masonry_test extends advanced_testcase {
     /** @var stdClass Course. */
     private $course;
 
@@ -61,10 +60,12 @@ class masonry_test extends advanced_testcase {
         $group = $gen->create_group(['courseid' => $course->id]);
         $user = $gen->create_and_enrol($course, 'student');
         groups_add_member($group->id, $user->id);
-        $assign = $gen->create_module('assign',
-            ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]);
+        $assign = $gen->create_module(
+            'assign',
+            ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]
+        );
         $modcontext = get_coursemodule_from_instance('assign', $assign->id, $course->id);
-        $notavailable = '{"op":"|","show":true,"c":[{"type":"group","id":'. $group->id . '}]}';
+        $notavailable = '{"op":"|","show":true,"c":[{"type":"group","id":' . $group->id . '}]}';
         $DB->set_field('course_modules', 'availability', $notavailable, ['id' => $modcontext->id]);
 
         $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 1]);
@@ -174,13 +175,24 @@ class masonry_test extends advanced_testcase {
         $page->set_pagetype('course-view');
         $page->set_url('/course/view.php?id=' . $this->course->id);
         $PAGE->set_url('/course/view.php?id=' . $this->course->id);
-        $page->requires->js_init_call('M.masonry.init', [[
+        $page->requires->js_init_call(
+            'M.masonry.init',
+            [[
             'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left(), ], ],
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
-             'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'], ]);
+            'requires' => ['base',
+            'node',
+            'transition',
+            'event',
+            'io-base',
+            'moodle-core-io'],
+            ]
+        );
         $renderer = new \format_masonry\output\renderer($PAGE, null);
         $modinfo = get_fast_modinfo($this->course);
+        $section = $modinfo->get_section_info(0);
+        $this->assertEquals('General', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(2);
@@ -190,7 +202,7 @@ class masonry_test extends advanced_testcase {
         $format = course_get_format($this->course);
         $outputclass = $format->get_output_classname('content');
         $widget = new $outputclass($format);
-        $this->assertStringContainsString('Topic 2', $renderer->render($widget));
+        $this->assertEquals('', $renderer->render($widget));
         $format = course_get_format($this->course->id);
         $modinfo = $format->get_modinfo();
         $sections = $modinfo->get_section_info_all();

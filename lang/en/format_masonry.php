@@ -31,16 +31,17 @@ $string['colordisplay_help'] = '
 <ul><li>white</li><li>#FFF</li><li>#FFFFFF</li><li>rgb(200, 54, 54)</li><li>rgba(200, 54, 54, 0.2)</li>
 <li>transparent</li><li>currentColor</li><li>hsl(207,38%,47%)</li><li>hsla(207,38%,47%,0.8)<li>...</li></ul>';
 $string['currentsection'] = 'Current section';
-$string['defaultcolor'] = 'Default background color';
-$string['defaultcolordesc'] = 'The default background color for the section.';
 $string['defaultbordercolor'] = 'Default border color';
 $string['defaultbordercolordesc'] = 'The default border color for the section.';
+$string['defaultcolor'] = 'Default background color';
+$string['defaultcolordesc'] = 'The default background color for the section.';
 $string['hidefromothers'] = 'Hide Topic';
 $string['newsectionname'] = 'New Topic';
 $string['package'] = 'Masonry Topics';
+$string['plugin_description'] = 'The masonry course format displays all sections like a masonry build brick wall.';
 $string['pluginname'] = 'Masonry Topics format';
 $string['privacy:metadata'] = 'The format_masonry plugin does not store any personal data.';
 $string['section0name'] = 'General';
 $string['sectionname'] = 'Topic';
-$string['showfromothers'] = 'Show Topic';
 $string['showalltopics'] = 'Show all topics';
+$string['showfromothers'] = 'Show Topic';

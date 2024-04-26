@@ -45,21 +45,21 @@ echo $renderer->render($widget);
 if ($PAGE->user_is_editing()) {
     // Rely on the standard topics rendering.
     $PAGE->requires->js('/course/format/masonry/edit.js');
-} else {
-    // Render using the masonry js.
-    $PAGE->requires->js_init_call('M.masonry.init',
-            [[
-               'node' => 'masonry',
-               'itemSelector' => '.section.main',
-               'columnWidth' => 1,
-               'isRTL' => right_to_left(),
-               'gutterWidth' => 0,
-            ], ],
-            false,
-            [
-               'name' => 'course_format_masonry',
-               'fullpath' => '/course/format/masonry/format.js',
-               'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'],
-            ]
-    );
 }
+// Render using the masonry js.
+$PAGE->requires->js_init_call(
+    'M.masonry.init',
+    [[
+           'node' => 'masonry',
+           'itemSelector' => '.masonry-brick',
+           'columnWidth' => 1,
+           'isRTL' => right_to_left(),
+           'gutterWidth' => 0,
+        ], ],
+    false,
+    [
+           'name' => 'course_format_masonry',
+           'fullpath' => '/course/format/masonry/format.js',
+           'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'],
+        ]
+);

@@ -20,22 +20,22 @@
  * @package    format_masonry
  * @copyright  2022 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or late
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
         $settings->add(new admin_setting_configcolourpicker(
-        'format_masonry/defaultbackgroundcolor',
-        get_string('defaultcolor', 'format_masonry'),
-        get_string('defaultcolordesc', 'format_masonry'),
-        '#F9F9F9')
-    );
+            'format_masonry/defaultbackgroundcolor',
+            get_string('defaultcolor', 'format_masonry'),
+            get_string('defaultcolordesc', 'format_masonry'),
+            '#F9F9F9'
+        ));
     $settings->add(new admin_setting_configcolourpicker(
         'format_masonry/defaultbordercolor',
         get_string('defaultbordercolor', 'format_masonry'),
         get_string('defaultbordercolordesc', 'format_masonry'),
-        '#9A9B9C')
-    );
+        '#9A9B9C'
+    ));
 }

@@ -6,6 +6,7 @@
 #page-course-view-masonry .activity-item.hiddenactivity {
     background-color: transparent;
 }
+
 #page-course-view-masonry .activityiconcontainer {
     background-color: transparent;
 }
@@ -129,8 +130,19 @@
     display: table-cell;
 }
 
-#page-course-view-masonry .course-content .section li.activity {
-    background-color: transparent;
+#page-course-view-masonry .course-content .section .activity,
+#page-course-view-masonry .activity-item {
+    background-color: transparent !important; /* stylelint-disable-line declaration-no-important */
+    border: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+#page-course-view-masonry .section_action_menu {
+    float: right !important; /* stylelint-disable-line declaration-no-important */
+    margin-top: -2em !important; /* stylelint-disable-line declaration-no-important */
+}
+
+#page-course-view-masonry #page-footer {
+    display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 #page-course-view-masonry .course-content .section li.activity.label,
