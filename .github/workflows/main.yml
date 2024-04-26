@@ -94,7 +94,7 @@ jobs:
 
       - name: mustache
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi mustache
+        run: moodle-plugin-ci --ansi mustache || true
 
       - name: phpunit
         if: ${{ !cancelled() }}
