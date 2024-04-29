@@ -30,5 +30,5 @@ $plugin->component = 'format_masonry';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = 'v4.4.1';
 $plugin->supported = [404, 404];
-$plugin->version = 2024042900;
+$plugin->version = 2024042901;
 $plugin->dependencies = ['format_topics' => 2024042200];
