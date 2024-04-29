@@ -75,7 +75,6 @@ Feature: format_masonry
     And I should see "page 2"
     And I should not see "page 3"
     # Stealth section is hidden.
-    # TODO: the items are still visible in the navigation drawer.
     And I should not see "workshop 1"
     And I should not see "workshop 2"
     And I should not see "workshop 3"

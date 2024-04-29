@@ -86,6 +86,7 @@ M.masonry.init = function(Y, cfg) {
         _getBricks: function(elems) {
             var bricks = this._filterFindBricks(elems)
                              .setStyle('position', 'absolute')
+                             .setStyle('border-style', 'solid')
                              .addClass('masonry-brick m-2 p-2');
             return bricks;
         },

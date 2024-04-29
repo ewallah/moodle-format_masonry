@@ -50,10 +50,11 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Settings testcase.
-     * @covers \format_masonry
+     * @coversNothing
      */
     public function test_settings(): void {
         global $ADMIN, $CFG, $USER;
+        require_once($CFG->libdir . '/adminlib.php');
         $this->resetAfterTest(true);
         $this->setAdminUser();
         $ADMIN = $USER;

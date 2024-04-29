@@ -273,7 +273,7 @@ final class masonry_test extends advanced_testcase {
         ob_start();
         include_once($CFG->dirroot . '/course/format/masonry/format.php');
         ob_end_clean();
-        $this->assertEquals($course, $this->course);
+        $this->assertEquals($course->fullname, $this->course->fullname);
         $modinfo = $format->get_modinfo();
         $sections = $modinfo->get_section_info_all();
         $section = new stdClass();

@@ -36,4 +36,36 @@ use core_courseformat\output\local\content as content_base;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class content extends content_base {
+    /**
+     * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
+     *
+     * @param renderer_base $output typically, the renderer that's calling this function
+     * @return stdClass data context for a mustache template
+     */
+    public function export_for_template(\renderer_base $output) {
+        global $PAGE;
+        $colwidth = 1;
+        if ($PAGE->user_is_editing()) {
+            $PAGE->requires->js('/course/format/masonry/edit.js');
+            $colwidth = 20;
+        }
+        // Render using the masonry js.
+        $PAGE->requires->js_init_call(
+            'M.masonry.init',
+            [[
+                   'node' => '.masonry',
+                   'itemSelector' => '.masonry-brick',
+                   'columnWidth' => $colwidth,
+                   'isRTL' => right_to_left(),
+                   'gutterWidth' => 0,
+                ], ],
+            false,
+            [
+                   'name' => 'course_format_masonry',
+                   'fullpath' => '/course/format/masonry/format.js',
+                   'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'],
+                ]
+        );
+        return parent::export_for_template($output);
+    }
 }

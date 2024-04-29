@@ -27,41 +27,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filelib.php');
-require_once($CFG->libdir . '/completionlib.php');
-
 $format = course_get_format($course);
 $course = $format->get_course();
-$context = \context_course::instance($course->id);
 
 // Make sure all sections are created.
 course_create_sections_if_missing($course, 0);
 
-// All course rendering is controlled by the content output class.
-$renderer = $format->get_renderer($PAGE);
+$renderer = $PAGE->get_renderer('format_masonry');
 $outputclass = $format->get_output_classname('content');
 $widget = new $outputclass($format);
 echo $renderer->render($widget);
-$colwidth = 1;
-if ($PAGE->user_is_editing()) {
-    // Rely on the standard topics rendering.
-    $PAGE->requires->js('/course/format/masonry/edit.js');
-    $colwidth = 20;
-}
-// Render using the masonry js.
-$PAGE->requires->js_init_call(
-    'M.masonry.init',
-    [[
-           'node' => '.masonry',
-           'itemSelector' => '.masonry-brick',
-           'columnWidth' => $colwidth,
-           'isRTL' => right_to_left(),
-           'gutterWidth' => 0,
-        ], ],
-    false,
-    [
-           'name' => 'course_format_masonry',
-           'fullpath' => '/course/format/masonry/format.js',
-           'requires' => ['base', 'node', 'transition', 'event', 'io-base', 'moodle-core-io'],
-        ]
-);

@@ -31,11 +31,14 @@ Installation
 --------------------------------------------------------------------------------
 Todo
 --------------------------------------------------------------------------------
+
 1. Verify color input
+2. Re-layout on drawer events
 
 --------------------------------------------------------------------------------
 Done
 --------------------------------------------------------------------------------
+
 1. Re-layout on docking events
 2. Travis integration
 3. PHP 7.0
@@ -44,6 +47,9 @@ Done
 6. Prepare for PHPUnit 9
 7. PHP 8.0
 8. PHP 8.1
+9. PHP 8.2
+10. PHP 8.3
+11. Infection testing
 
 [![Build Status](https://github.com/ewallah/moodle-format_masonry/workflows/Tests/badge.svg)](https://github.com/ewallah/moodle-format_masonry/actions)
 [![Coverage Status](https://coveralls.io/repos/github/ewallah/moodle-format_masonry/badge.svg?branch=main)](https://coveralls.io/github/ewallah/moodle-format_masonry?branch=main)
