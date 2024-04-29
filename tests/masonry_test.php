@@ -161,13 +161,14 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\renderer
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
+     * @covers \format_masonry\output\courseformat\content\section\controlmenu
      */
     public function test_renderer(): void {
         global $PAGE, $USER;
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $generator->enrol_user($USER->id, $this->course->id, 5);
-        $USER->editing = false;
+        $USER->editing = true;
         set_section_visible($this->course->id, 2, 0);
         $page = new \moodle_page();
         $page->set_course($this->course);
@@ -178,7 +179,7 @@ final class masonry_test extends advanced_testcase {
         $page->requires->js_init_call(
             'M.masonry.init',
             [[
-            'node' => '#coursemasonry', 'itemSelector' => '.section.main', 'columnWidth' => 1, 'isRTL' => right_to_left(), ], ],
+            'node' => '.masonry', 'itemSelector' => '.masonry-brick', 'columnWidth' => 1, 'isRTL' => right_to_left(), ], ],
             false,
             ['name' => 'course_format_masonry', 'fullpath' => '/course/format/masonry/format.js',
             'requires' => ['base',
@@ -192,7 +193,7 @@ final class masonry_test extends advanced_testcase {
         $renderer = new \format_masonry\output\renderer($PAGE, null);
         $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(0);
-        $this->assertEquals('General', $renderer->section_title($section, $this->course));
+        $this->assertStringContainsString('General', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(2);
@@ -210,6 +211,11 @@ final class masonry_test extends advanced_testcase {
             $cmb = new \format_masonry\output\courseformat\content\section($format, $section);
             $cmb->export_for_template($renderer);
         }
+        $this->setUser($generator->create_and_enrol($this->course, 'student'));
+        foreach ($sections as $section) {
+            $cmb = new \format_masonry\output\courseformat\content\section($format, $section);
+            $cmb->export_for_template($renderer);
+        }
     }
 
     /**
@@ -218,6 +224,7 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\renderer
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
+     * @covers \format_masonry\output\courseformat\content\section\controlmenu
      */
     public function test_format(): void {
         global $CFG, $PAGE, $USER;
@@ -249,6 +256,7 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\renderer
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
+     * @covers \format_masonry\output\courseformat\content\section\controlmenu
      */
     public function test_format_editing(): void {
         global $CFG, $PAGE, $USER;
@@ -279,6 +287,7 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\renderer
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
+     * @covers \format_masonry\output\courseformat\content\section\controlmenu
      */
     public function test_other(): void {
         $this->setAdminUser();
@@ -294,7 +303,7 @@ final class masonry_test extends advanced_testcase {
         $this->assertFalse($format->uses_indentation());
         $this->assertTrue($format->supports_components());
         $this->assertTrue($format->can_delete_section($section));
-        $this->assertTrue($format->uses_course_index());
+        $this->assertFalse($format->uses_course_index());
         $this->assertCount(6, $format->get_config_for_external());
         $this->assertCount(2, $format->ajax_section_move());
         $this->assertTrue($format->supports_ajax()->capable);

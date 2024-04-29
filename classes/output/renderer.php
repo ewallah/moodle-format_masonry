@@ -89,15 +89,15 @@ class renderer extends section_renderer {
         foreach ($sections as $section) {
             $str .= '#section-' . $section . ' {';
             $sectionops = (object) $format->get_format_options($section);
-            $data->sections[$section]->backcolor = property_exists($sectionops, 'backcolor') ? $options->backcolor : '#FFF';
-            if (property_exists($sectionops, 'backcolor')) {
-                // Give a background color.
-                $str .= 'background-color:' . $sectionops->backcolor . ' !important;} ';
+            if (array_key_exists($section, $data->sections)) {
+                $data->sections[$section]->backcolor = property_exists($sectionops, 'backcolor') ? $sectionops->backcolor : '#FFF';
+                if (property_exists($sectionops, 'backcolor')) {
+                    // Give a background color.
+                    $str .= 'background-color:' . $sectionops->backcolor . ' !important;} ';
+                }
             }
-            // Hide collapse.
-            $str .= '#collapssesection' . $section . '{display: none !important;} ';
         }
-        $extra = "<style>.masonry {margin: auto auto} $str</style>";
+        $extra = "<style>.masonry {margin: 0} $str</style>";
         $template = 'core_courseformat/local/content';
         if ($CFG->version > 2024022200) {
             $template = 'format_masonry/course';

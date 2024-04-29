@@ -25,7 +25,7 @@ M.masonry.init = function(Y, cfg) {
             setter: function(node) {
                 var n = Y.one(node);
                 if (!n) {
-                    n = Y.one('.format-masonry');
+                    n = Y.one('.masonry');
                 }
                 if (!n) {
                     alert('Masonry: Invalid Node Given: ' + node);
@@ -35,12 +35,12 @@ M.masonry.init = function(Y, cfg) {
         },
         isResizable: {value: true},
         isAnimated: {value: true},
-        animationOptions: {value: {duration: 0.5}},
+        animationOptions: {value: {duration: 0.9}},
         gutterWidth: {value: 0},
         isRTL: {value: false},
         isFitWidth: {value: true},
-        containerStyle: {value: {position: 'relative', width: '890px'}},
-        columnWidth: {value: 10},
+        containerStyle: {value: {position: 'relative', width: '830x'}},
+        columnWidth: {value: 1},
         itemSelector: {value: '.masonry-brick'}
     };
 
@@ -50,17 +50,6 @@ M.masonry.init = function(Y, cfg) {
             this._create();
             this._init();
             this._reLayout();
-        },
-
-        destructor: function() {
-            this.bricks
-                .removeClass('masonry-brick')
-                .setStyles({position: '', top: '', left: ''});
-            this.get('node')
-                .detach('masonry|*')
-                .removeClass('masonry')
-                .setStyles(this.originalStyle);
-            Y.detach('masonry|*');
         },
 
         _outerWidth: function(node) {
@@ -209,9 +198,8 @@ M.masonry.init = function(Y, cfg) {
 
         _getColumns: function() {
             var node = this.get('node'),
-                container = this.get('isFitWidth') ? node.get('parentNode') : node,
-                containerWidth = parseInt(container.getStyle('width'), 10) || 0,
-                containerWidth = 893,
+                container = this.get('isFitWidth') ? Y.one('section#region-main') : node,
+                containerWidth = parseInt(container.getStyle('width'), 10) || 999,
                 columnWidth = this.get('columnWidth'),
                 gutterWidth = this.get('gutterWidth');
             this.columnWidth = this.isFluid ? columnWidth(containerWidth) : columnWidth ||

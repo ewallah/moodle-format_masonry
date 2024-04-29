@@ -268,7 +268,7 @@ class format_masonry extends core_courseformat\base {
      * @return bool
      */
     public function uses_course_index() {
-        return true;
+        return false;
     }
 
     /**

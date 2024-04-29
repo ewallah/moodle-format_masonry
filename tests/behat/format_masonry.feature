@@ -16,26 +16,34 @@ Feature: format_masonry
       | teacher1 | C1     | editingteacher |
       | student1 | C1     | student        |
     And the following "activities" exist:
-      | activity | name      | intro                    | course | idnumber    | section | visible |
-      | lesson   | lesson 1  | Test lesson description  | C1     | lesson1     | 1       | 1       |
-      | lesson   | lesson 2  | Test lesson description  | C1     | lesson2     | 1       | 1       |
-      | lesson   | lesson 3  | Test lesson description  | C1     | lesson3     | 1       | 0       |
-      | book     | book 1    | Test book description    | C1     | book1       | 2       | 1       |
-      | book     | book 2    | Test book description    | C1     | book2       | 2       | 1       |
-      | book     | book 3    | Test book description    | C1     | book3       | 2       | 0       |
-      | data     | data 1    | Test data description    | C1     | data1       | 3       | 1       |
-      | data     | data 2    | Test data description    | C1     | data2       | 3       | 1       |
-      | data     | data 3    | Test data description    | C1     | data3       | 3       | 0       |
-      | choice   | choice 1  | Test choice description  | C1     | choice1     | 4       | 1       |
-      | choice   | choice 2  | Test choice description  | C1     | choice2     | 4       | 1       |
-      | choice   | choice 3  | Test choice description  | C1     | choice3     | 4       | 0       |
-      | page     | page 1    | Test page description    | C1     | page1       | 5       | 1       |
-      | page     | page 2    | Test page description    | C1     | page1       | 5       | 1       |
-      | page     | page 3    | Test page description    | C1     | page1       | 5       | 0       |
+      | activity | name       | intro                     | course | idnumber  | section | visible |
+      | lesson   | lesson 1   | Test lesson description   | C1     | lesson1   | 1       | 1       |
+      | lesson   | lesson 2   | Test lesson description   | C1     | lesson2   | 1       | 1       |
+      | lesson   | lesson 3   | Test lesson description   | C1     | lesson3   | 1       | 0       |
+      | book     | book 1     | Test book description     | C1     | book1     | 2       | 1       |
+      | book     | book 2     | Test book description     | C1     | book2     | 2       | 1       |
+      | book     | book 3     | Test book description     | C1     | book3     | 2       | 0       |
+      | data     | data 1     | Test data description     | C1     | data1     | 3       | 1       |
+      | data     | data 2     | Test data description     | C1     | data2     | 3       | 1       |
+      | data     | data 3     | Test data description     | C1     | data3     | 3       | 0       |
+      | choice   | choice 1   | Test choice description   | C1     | choice1   | 4       | 1       |
+      | choice   | choice 2   | Test choice description   | C1     | choice2   | 4       | 1       |
+      | choice   | choice 3   | Test choice description   | C1     | choice3   | 4       | 0       |
+      | page     | page 1     | Test page description     | C1     | page1     | 5       | 1       |
+      | page     | page 2     | Test page description     | C1     | page2     | 5       | 1       |
+      | page     | page 3     | Test page description     | C1     | page3     | 5       | 0       |
+      | workshop | workshop 1 | Test workshop description | C1     | workshop1 | 6       | 1       |
+      | workshop | workshop 2 | Test workshop description | C1     | workshop2 | 6       | 1       |
+      | workshop | workshop 3 | Test workshop description | C1     | workshop3 | 6       | 0       |
 
-  Scenario: Empty section 0 stays hidden in masonry topics
+  Scenario: Empty section 0 stays visible for teachers in masonry topics
     Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should see "General" in the ".course-content" "css_element"
+
+  Scenario: Students doe not see stealth topics in masonry topics
+    Given I am on the "C1" "Course" page logged in as "student1"
+    Then I should not see "General" in the ".course-content" "css_element"
+    And I should not see "workshop 1" in the ".course-content" "css_element"
 
   Scenario: Non empty section 0 is shown in masonry topics
     Given the following "activities" exist:
@@ -63,10 +71,14 @@ Feature: format_masonry
     And I should see "book 1"
     And I should see "book 2"
     And I should not see "book 3"
-    # TODO: Stealth section
     And I should see "page 1"
     And I should see "page 2"
     And I should not see "page 3"
+    # Stealth section is hidden.
+    # TODO: the items are still visible in the navigation drawer.
+    And I should not see "workshop 1"
+    And I should not see "workshop 2"
+    And I should not see "workshop 3"
 
   Scenario: Modify section summary - title - background color in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
@@ -116,4 +128,4 @@ Feature: format_masonry
     When I delete section "4"
     And I press "Delete"
     Then I should not see "Page 1"
-    And I should not see "Orphaned activities"
+    And I should see "Orphaned activities"

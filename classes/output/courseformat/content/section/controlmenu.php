@@ -15,20 +15,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Format masonry controlmentu class.
  *
  * @package    format_masonry
- * @copyright  2022 eWallah.net
+ * @copyright  2024 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace format_masonry\output\courseformat\content\section;
 
-$plugin->requires = 2024041600;
-$plugin->component = 'format_masonry';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v4.4.1';
-$plugin->supported = [404];
-$plugin->version = 2024031000;
-$plugin->dependencies = ['format_topics' => 2024042200];
+use core_courseformat\output\local\content\section\controlmenu as controlmenu_base;
+
+/**
+ * Format masonry controlmentu class.
+ *
+ * @package    format_masonry
+ * @copyright  2024 eWallah.net
+ * @author     Renaat Debleu <info@eWallah.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class controlmenu extends controlmenu_base {
+
+    /**
+     * Generate the edit control items of a section.
+     *
+     * @return array of edit control items
+     */
+    public function section_control_items() {
+        $controls = parent::section_control_items();
+        unset($controls['view']);
+        unset($controls['permalink']);
+        return $controls;
+    }
+}

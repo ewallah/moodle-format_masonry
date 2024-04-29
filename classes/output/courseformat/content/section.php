@@ -56,18 +56,23 @@ class section extends section_base {
         $format = $this->format;
         $course = $format->get_course();
         $section = $this->section;
+        $context = context_course::instance($course->id);
+
         $summary = new $this->summaryclass($format, $section);
+        $isediting = $PAGE->user_is_editing();
 
         $data = (object)[
-            'num' => $section->section ?? '0',
+            'num' => $section->section ?? 0,
             'id' => $section->id,
-            'sectionreturnid' => $format->get_sectionnum(),
             'insertafter' => true,
             'sitehome' => $course->id == SITEID,
-            'editing' => $PAGE->user_is_editing(),
+            'editing' => $isediting,
             'summary' => $summary->export_for_template($output),
             'displayonesection' => false,
         ];
+        if ($this->isstealth && !has_capability('moodle/course:sectionvisibility', $context)) {
+            return $data;
+        }
 
         $haspartials = [];
         $haspartials['availability'] = $this->add_availability_data($data, $output);
@@ -76,8 +81,6 @@ class section extends section_base {
         $haspartials['header'] = $this->add_header_data($data, $output);
         $haspartials['cm'] = $this->add_cm_data($data, $output);
         $this->add_format_data($data, $haspartials, $output);
-        // Moodle 404.
-        $data->onlysummary = 0;
         return $data;
     }
 
@@ -110,6 +113,36 @@ class section extends section_base {
             $result = true;
         }
         return $result;
+    }
+
+    /**
+     * Add the section format attributes to the data structure.
+     *
+     * @param stdClass $data the current cm data reference
+     * @param bool[] $haspartials the result of loading partial data elements
+     * @param renderer_base $output typically, the renderer that's calling this function
+     * @return bool if the cm has name data
+     */
+    protected function add_format_data(stdClass &$data, array $haspartials, renderer_base $output): bool {
+        $course = $this->format->get_course();
+        $coursecontext = context_course::instance($course->id);
+        $data->onlysummary = 0;
+        $data->iscoursedisplaymultipage = true;
+        $data->sectionbulk = false;
+        $data->uservisible = true;
+        if ($data->num === 0) {
+            if (count($data->cmlist->cms) == 0) {
+                $data->uservisible = false;
+            }
+        }
+        if ($this->isstealth) {
+            $data->uservisible = false;
+        }
+        if (has_capability('moodle/course:sectionvisibility', $coursecontext)) {
+            $data->uservisible = true;
+        }
+        $data->contentcollapsed = $this->is_section_collapsed();
+        return true;
     }
 
     /**

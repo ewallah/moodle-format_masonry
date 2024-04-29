@@ -42,17 +42,19 @@ $renderer = $format->get_renderer($PAGE);
 $outputclass = $format->get_output_classname('content');
 $widget = new $outputclass($format);
 echo $renderer->render($widget);
+$colwidth = 1;
 if ($PAGE->user_is_editing()) {
     // Rely on the standard topics rendering.
     $PAGE->requires->js('/course/format/masonry/edit.js');
+    $colwidth = 20;
 }
 // Render using the masonry js.
 $PAGE->requires->js_init_call(
     'M.masonry.init',
     [[
-           'node' => 'masonry',
+           'node' => '.masonry',
            'itemSelector' => '.masonry-brick',
-           'columnWidth' => 1,
+           'columnWidth' => $colwidth,
            'isRTL' => right_to_left(),
            'gutterWidth' => 0,
         ], ],

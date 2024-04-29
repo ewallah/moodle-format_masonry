@@ -21,38 +21,15 @@
 
     Example context (json):
     {
-        "initialsection": {
-                "num": 0,
-                "id": 34,
-                "cmlist": {
-                    "cms": [
-                        {
-                            "cmitem": {
-                                "cmformat": {
-                                    "cmname": "<a class=\"aalink\" href=\"#\"><span class=\"instancename\">Forum example</span></a>",
-                                    "hasname": "true"
-                                },
-                                "id": 3,
-                                "module": "forum",
-                                "extraclasses": "newmessages"
-                            }
-                        }
-                    ],
-                    "hascms": true
-                },
-                "iscurrent": true,
-                "summary": {
-                    "summarytext": "Summary text!"
-                }
-            },
         "sections": [
             {
+                "uservisible": 1,
                 "num": 1,
                 "id": 35,
                 "borderwidth": 1,
                 "bordercolor": "#FFF",
                 "backgroundcolor": "#000",
-                "contentcollapsed": true,
+                "contentcollapsed": false,
                 "header": {
                     "name": "Section title",
                     "url": "#"
@@ -62,12 +39,13 @@
                         {
                             "cmitem": {
                                 "cmformat": {
-                                    "cmname": "<a class=\"aalink\" href=\"#\"><span class=\"instancename\">Another forum</span></a>",
+                                    "cmname": "<span class=\"instancename\">Another forum</span>",
                                     "hasname": "true"
                                 },
+                                "cmid": 35,
+                                "anchor": "forum-2",
                                 "id": 3,
-                                "module": "forum",
-                                "extraclasses": "newmessages"
+                                "module": "forum"
                             }
                         }
                     ],
@@ -80,6 +58,7 @@
             },
             {
                 "num": 4,
+                "uservisible": 1,
                 "id": 36,
                 "header": {
                     "name": "Section 2 title",
@@ -90,12 +69,13 @@
                         {
                             "cmitem": {
                                 "cmformat": {
-                                    "cmname": "<a class=\"aalink\" href=\"#\"><span class=\"instancename\">Forum example</span></a>",
+                                    "cmname": "<span class=\"instancename\">Forum example</span>",
                                     "hasname": "true"
                                 },
-                                "id": 5,
-                                "module": "forum",
-                                "extraclasses": "newmessages"
+                                "anchor": "forum-1",
+                                "cmid": 33,
+                                "id": 995,
+                                "module": "forum"
                             }
                         }
                     ],
@@ -120,86 +100,51 @@
             "nexturl": "#",
             "nextname": "Section 5"
         },
-        "sectionselector": {
-            "hasprevious": true,
-            "previousurl": "#",
-            "larrow": "&#x25C4;",
-            "previousname": "Section 3",
-            "hasnext": true,
-            "rarrow": "&#x25BA;",
-            "nexturl": "#",
-            "nextname": "Section 5",
-            "selector": "<select><option>Section 4</option></select>"
-        },
         "borderwidth": 1,
         "bordercolor": "#FFF",
+        "backgroundcolor": "#FFF",
         "sectionreturn": 1,
-        "singlesection": {
-            "num": 1,
-            "id": 35,
-            "header": {
-                "name": "Single Section Example",
-                "url": "#"
-            },
-            "cmlist": {
-                "cms": [
-                    {
-                        "cmitem": {
-                            "cmformat": {
-                                "cmname": "<a class=\"aalink\" href=\"#\"><span class=\"instancename\">Assign example</span></a>",
-                                "hasname": "true"
-                            },
-                            "id": 4,
-                            "module": "assign",
-                            "extraclasses": ""
-                        }
-                    }
-                ],
-                "hascms": true
-            },
-            "iscurrent": true,
-            "summary": {
-                "summarytext": "Summary text!"
-            }
-        }
+        "displayonesection": 1
     }
 }}
-<div id="course-format-{{uniqid}}" style="margin: 0 0 0 -60px; display: flow; position: absolute; max-width: 893px; width: 100%; flex-shrink: 0">
+<div id="course-format-{{uniqid}}" style="margin: 0; display: contents; position: absolute; flex-shrink: 0">
     <ul class="masonry" style="max-width: 893px;">
         {{#sections}}
-        <li id="section-{{num}}" class="masonry-brick m-2 p-2 rounded course-section main clearfix"
-            style="position: absolute; border-width: {{borderwidth}}px; border-color: {{bordercolor}}; background-color: {{backgroundcolor}}">
-            <div class="course-section-header">
-                {{#header}}
-                    {{$ core_courseformat/local/content/section/header }}
-                        {{> core_courseformat/local/content/section/header }}
-                    {{/ core_courseformat/local/content/section/header }}
-                    {{#controlmenu}}
-                        {{$ core_courseformat/local/content/section/controlmenu }}
-                            {{> core_courseformat/local/content/section/controlmenu }}
-                        {{/ core_courseformat/local/content/section/controlmenu }}
-                    {{/controlmenu}}
-                    {{#summary}}
-                        {{$ core_courseformat/local/content/section/summary }}
-                            {{> core_courseformat/local/content/section/summary }}
-                        {{/ core_courseformat/local/content/section/summary }}
-                    {{/summary}}
-                    {{#availability}}
-                        {{$ core_courseformat/local/content/section/availability }}
-                            {{> core_courseformat/local/content/section/availability }}
-                        {{/ core_courseformat/local/content/section/availability }}
-                    {{/availability}}
-                {{/header}}
-            </div>
-            <div class="course-content">
-                {{#cmlist}}
-                    {{$ core_courseformat/local/content/section/cmlist }}
-                        {{> core_courseformat/local/content/section/cmlist }}
-                    {{/ core_courseformat/local/content/section/cmlist }}
-                {{/cmlist}}
-                {{{cmcontrols}}}
-            </div>
-        </li>
+            {{#uservisible}}
+                <li id="section-{{num}}" class="masonry-brick m-2 p-2 rounded course-section main clearfix"
+                    style="position: absolute; border-width: {{borderwidth}}px; border-color: {{bordercolor}}; background-color: {{backgroundcolor}}">
+                    <div class="course-section-header">
+                        {{#header}}
+                            {{$ core_courseformat/local/content/section/header }}
+                                {{> core_courseformat/local/content/section/header }}
+                            {{/ core_courseformat/local/content/section/header }}
+                            {{#controlmenu}}
+                                {{$ core_courseformat/local/content/section/controlmenu }}
+                                    {{> core_courseformat/local/content/section/controlmenu }}
+                                {{/ core_courseformat/local/content/section/controlmenu }}
+                            {{/controlmenu}}
+                            {{#summary}}
+                                {{$ core_courseformat/local/content/section/summary }}
+                                    {{> core_courseformat/local/content/section/summary }}
+                                {{/ core_courseformat/local/content/section/summary }}
+                            {{/summary}}
+                            {{#availability}}
+                                {{$ core_courseformat/local/content/section/availability }}
+                                    {{> core_courseformat/local/content/section/availability }}
+                                {{/ core_courseformat/local/content/section/availability }}
+                            {{/availability}}
+                        {{/header}}
+                    </div>
+                    <div class="course-content">
+                        {{#cmlist}}
+                            {{$ core_courseformat/local/content/section/cmlist }}
+                                {{> core_courseformat/local/content/section/cmlist }}
+                            {{/ core_courseformat/local/content/section/cmlist }}
+                        {{/cmlist}}
+                        {{{cmcontrols}}}
+                    </div>
+                </li>
+            {{/uservisible}}
         {{/sections}}
     </ul>
 </div>

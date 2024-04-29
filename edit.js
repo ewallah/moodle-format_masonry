@@ -21,7 +21,7 @@ M.course.format.get_config = function() {
         container_node: 'ul',
         container_class: 'masonry',
         section_node: 'li',
-        section_class: 'section'
+        section_class: 'masonry-brick'
     };
 };
 

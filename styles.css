@@ -58,7 +58,7 @@
 }
 
 #page-course-view-masonry #coursemasonry {
-    margin: auto auto;
+    margin: 0;
     margin-bottom: 10px;
 }
 
@@ -130,6 +130,10 @@
     display: table-cell;
 }
 
+#page-course-view-masonry .bulkEnable {
+    display: none;
+}
+
 #page-course-view-masonry .course-content .section .activity,
 #page-course-view-masonry .activity-item {
     background-color: transparent !important; /* stylelint-disable-line declaration-no-important */
@@ -139,10 +143,6 @@
 #page-course-view-masonry .section_action_menu {
     float: right !important; /* stylelint-disable-line declaration-no-important */
     margin-top: -2em !important; /* stylelint-disable-line declaration-no-important */
-}
-
-#page-course-view-masonry #page-footer {
-    display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 #page-course-view-masonry .course-content .section li.activity.label,
