@@ -68,7 +68,6 @@ class renderer extends section_renderer {
      * @return string HTML to output.
      */
     public function render_content($widget) {
-        global $CFG;
         $data = $widget->export_for_template($this);
         $course = $this->page->course;
         if (is_object($course)) {
@@ -98,10 +97,6 @@ class renderer extends section_renderer {
             }
         }
         $extra = "<style>.masonry {margin: 0} $str</style>";
-        $template = 'core_courseformat/local/content';
-        if ($CFG->version > 2024022200) {
-            $template = 'format_masonry/course';
-        }
-        return $this->render_from_template($template, $data) . $extra;
+        return $this->render_from_template('format_masonry/course', $data) . $extra;
     }
 }

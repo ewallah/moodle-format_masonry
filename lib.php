@@ -90,7 +90,7 @@ class format_masonry extends core_courseformat\base {
     }
 
     /**
-     * The URL to use for the specified course (with section)
+     * The URL to use for the specified course (without section)
      *
      * @param int|stdClass $section Section object from database or just field course_sections.section
      * @param array $options options for view URL. ignored
