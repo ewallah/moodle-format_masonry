@@ -57,18 +57,27 @@ final class masonry_test extends advanced_testcase {
         $DB->set_field('course', 'groupmode', SEPARATEGROUPS);
         $DB->set_field('course', 'groupmodeforce', 1);
 
-        $group = $gen->create_group(['courseid' => $course->id]);
+        $group1 = $gen->create_group(['courseid' => $course->id])->id;
+        $group2 = $gen->create_group(['courseid' => $course->id])->id;
         $user = $gen->create_and_enrol($course, 'student');
-        groups_add_member($group->id, $user->id);
+        groups_add_member($group1, $user->id);
         $assign = $gen->create_module(
             'assign',
             ['name' => "Test assign 1", 'course' => $course->id, 'section' => 1, 'completion' => 1]
         );
-        $modcontext = get_coursemodule_from_instance('assign', $assign->id, $course->id);
-        $notavailable = '{"op":"|","show":true,"c":[{"type":"group","id":' . $group->id . '}]}';
-        $DB->set_field('course_modules', 'availability', $notavailable, ['id' => $modcontext->id]);
+        $not1 = '{"op":"|","show":true,"c":[{"type":"group","id":' . $group1 . '}]}';
+        $not2 = '{"op":"|","show":true,"c":[{"type":"group","id":' . $group1 . '}, {"type":"group","id":' . $group2 . '}]}';
 
-        $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 1]);
+        $modcontext = get_coursemodule_from_instance('assign', $assign->id, $course->id);
+        $DB->set_field('course_modules', 'availability', $not1, ['id' => $modcontext->id]);
+        $section = $DB->get_field('course_sections', 'id', ['course' => $course->id, 'section' => 2]);
+        $DB->set_field('course_sections', 'availability', $not1, ['id' => $section]);
+        $section = $DB->get_field('course_sections', 'id', ['course' => $course->id, 'section' => 1]);
+        $DB->set_field('course_sections', 'availability', $not2, ['id' => $section]);
+
+        $page = $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 1]);
+        $modcontext = get_coursemodule_from_instance('page', $page->id, $course->id);
+        $DB->set_field('course_modules', 'availability', $not2, ['id' => $modcontext->id]);
         $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 2]);
         $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 3]);
         $gen->get_plugin_generator('mod_page')->create_instance(['course' => $course->id, 'section' => 4]);
@@ -162,6 +171,8 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      * @covers \format_masonry\output\courseformat\content\section\controlmenu
+     * @covers \format_masonry\output\courseformat\content\section\availability
+     * @covers \format_masonry\output\courseformat\content\cm\availability
      */
     public function test_renderer(): void {
         global $PAGE, $USER;
@@ -225,6 +236,8 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      * @covers \format_masonry\output\courseformat\content\section\controlmenu
+     * @covers \format_masonry\output\courseformat\content\section\availability
+     * @covers \format_masonry\output\courseformat\content\cm\availability
      */
     public function test_format(): void {
         global $CFG, $PAGE, $USER;
@@ -257,6 +270,8 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      * @covers \format_masonry\output\courseformat\content\section\controlmenu
+     * @covers \format_masonry\output\courseformat\content\section\availability
+     * @covers \format_masonry\output\courseformat\content\cm\availability
      */
     public function test_format_editing(): void {
         global $CFG, $PAGE, $USER;
@@ -288,6 +303,8 @@ final class masonry_test extends advanced_testcase {
      * @covers \format_masonry\output\courseformat\content
      * @covers \format_masonry\output\courseformat\content\section
      * @covers \format_masonry\output\courseformat\content\section\controlmenu
+     * @covers \format_masonry\output\courseformat\content\section\availability
+     * @covers \format_masonry\output\courseformat\content\cm\availability
      */
     public function test_other(): void {
         $this->setAdminUser();
