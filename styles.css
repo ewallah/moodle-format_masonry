@@ -134,6 +134,14 @@
     display: none;
 }
 
+#page-course-view-masonry .availabilityinfo {
+    background-color: unset !important; /* stylelint-disable-line declaration-no-important */
+}
+
+#page-course-view-masonry .activity-item .activity-completion button.btn {
+    min-width: 10em !important; /* stylelint-disable-line declaration-no-important */
+}
+
 #page-course-view-masonry .course-content .section .activity,
 #page-course-view-masonry .activity-item {
     background-color: transparent !important; /* stylelint-disable-line declaration-no-important */
