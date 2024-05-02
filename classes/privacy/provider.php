@@ -18,7 +18,7 @@
  * Privacy main class.
  *
  * @package    format_masonry
- * @copyright  2022 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,7 +31,7 @@ use core_privacy\local\metadata\null_provider;
  * Privacy main class.
  *
  * @package    format_masonry
- * @copyright  2022 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

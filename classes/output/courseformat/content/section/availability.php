@@ -18,7 +18,7 @@
  * Contains the default section availability output class.
  *
  * @package   format_masonry
- * @copyright 2024 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ use stdClass;
  * Base class to render section availability.
  *
  * @package   format_masonry
- * @copyright 2024 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

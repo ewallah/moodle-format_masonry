@@ -18,7 +18,7 @@
  * Course format masonry privacy tests.
  *
  * @package   format_masonry
- * @copyright 2018 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +32,7 @@ use core_privacy\local\metadata\collection;
  * Course format masonry privacy tests.
  *
  * @package   format_masonry
- * @copyright 2018 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

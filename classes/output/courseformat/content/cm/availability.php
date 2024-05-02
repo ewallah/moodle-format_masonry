@@ -18,7 +18,7 @@
  * Contains the default activity availability information.
  *
  * @package   format_masonry
- * @copyright 2024 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,7 +37,7 @@ use core_availability\info;
  * Base class to render a course module availability inside a course format.
  *
  * @package   format_masonry
- * @copyright 2024 eWallah.net
+ * @copyright 2013-2024 eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
