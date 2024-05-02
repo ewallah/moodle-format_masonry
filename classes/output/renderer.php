@@ -18,7 +18,7 @@
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright 2013-2024 eWallah.net
+ * @copyright  2022 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ use moodle_page;
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright 2013-2024 eWallah.net
+ * @copyright  2022 eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -96,7 +96,7 @@ class renderer extends section_renderer {
                 }
             }
         }
-        $extra = "<style>.masonry {margin: 0} $str</style>";
+        $extra = "<style>.masonry {margin: 0; padding: 0;} $str</style>";
         return $this->render_from_template('format_masonry/course', $data) . $extra;
     }
 }
