@@ -63,4 +63,14 @@ final class other_test extends \advanced_testcase {
         require_once($CFG->dirroot . '/course/format/masonry/settings.php');
         $this->assertNotEmpty($settings);
     }
+
+    /**
+     * Inplace edit.
+     * @covers \format_masonry
+     */
+    public function test_inplace_edit(): void {
+        global $CFG;
+        require_once($CFG->libdir . '/adminlib.php');
+        format_masonry_inplace_editable('section', 1, 'newvalue');
+    }
 }
