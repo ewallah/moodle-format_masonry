@@ -71,6 +71,7 @@ final class other_test extends \advanced_testcase {
     public function test_inplace_edit(): void {
         global $CFG;
         require_once($CFG->libdir . '/adminlib.php');
+        require_once($CFG->dirroot . '/course/format/masonry/lib.php');
         format_masonry_inplace_editable('section', 1, 'newvalue');
     }
 }

@@ -7,7 +7,6 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
     processIsolation="false"
-    executionOrder="random" 
     backupGlobals="false"
     backupStaticAttributes="false"
     cacheResult="false"
