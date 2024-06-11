@@ -47,6 +47,7 @@ final class masonry_test extends advanced_testcase {
      */
     public function setUp(): void {
         global $CFG, $DB;
+        parent::setUp();
         $this->resetAfterTest(true);
         $CFG->enablecompletion = true;
         $CFG->enableavailability = true;
