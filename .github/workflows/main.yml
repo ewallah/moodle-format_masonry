@@ -30,17 +30,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.1']
-        moodle-branch: ['MOODLE_404_STABLE']
+        php: ['8.2']
+        moodle-branch: ['MOODLE_404_STABLE', 'MOODLE_405_STABLE']
         database: ['mariadb', 'pgsql']
         include:
-          - php: '8.2'
+          - php: '8.3'
             moodle-branch: 'main'
             database: 'pgsql'
 
     steps:
       - name: checkout plugin
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: this-plugin
           ref: MOODLE_404_STABLE
@@ -113,8 +113,18 @@ jobs:
         working-directory: moodle
 
       - name: firefox
+        id: behat
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi behat
+
+     - name: failures
+        if: ${{ failure() && steps.behat.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Behat Faildump (${{ join(matrix.*, ', ') }})
+          path: ${{ github.workspace }}/moodledata/behat_dump
+          retention-days: 7
+          if-no-files-found: ignore
       
       - name: chrome
         if: ${{ !cancelled() }}
@@ -127,3 +137,13 @@ jobs:
       - name: chrome classic
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
+
+      - name: admin bookmarks
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --auto-rerun=0 --profile chrome blocks/admin_bookmarks
+        working-directory: moodle
+
+      - name: admin xmldb
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --auto-rerun=0 --profile chrome admin/tool/xmldb
+        working-directory: moodle
