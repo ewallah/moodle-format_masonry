@@ -17,10 +17,10 @@
 /**
  * Version details
  *
- * @package    format_masonry
- * @copyright 2013-2024 eWallah.net
- * @author     Renaat Debleu <info@eWallah.net>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   format_masonry
+ * @copyright eWallah.net
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,5 +30,5 @@ $plugin->dependencies = ['format_topics' => 2024042200];
 $plugin->requires = 2024042200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [404, 405];
-$plugin->release = 'v4.5.22;
-$plugin->version = 2024101500;
+$plugin->release = 'v4.5.2';
+$plugin->version = 2024101501;
