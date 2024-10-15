@@ -30,5 +30,5 @@ $plugin->dependencies = ['format_topics' => 2024042200];
 $plugin->requires = 2024042200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [404, 405];
-$plugin->release = 'v4.5.2';
+$plugin->release = 'v4.5.3';
 $plugin->version = 2024101501;
