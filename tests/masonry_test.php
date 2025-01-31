@@ -90,7 +90,7 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with default section names.
-     * @covers \format_masonry
+     * #[CoversClass(format_masonry)]
      */
     public function test_get_section_name(): void {
         $sections = get_fast_modinfo($this->course)->get_section_info_all();
@@ -111,7 +111,7 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Tests for format_masonry::get_section_name method with modified section names.
-     * @covers \format_masonry
+     * #[CoversClass(format_masonry)]
      */
     public function test_get_section_name_customised(): void {
         global $DB;
@@ -134,7 +134,7 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Test get_default_course_enddate.
-     * @covers \format_masonry
+     * #[CoversClass(format_masonry)]
      */
     public function test_default_course_enddate(): void {
         global $CFG, $DB;
@@ -168,12 +168,12 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Test renderer.
-     * @covers \format_masonry\output\renderer
-     * @covers \format_masonry\output\courseformat\content
-     * @covers \format_masonry\output\courseformat\content\section
-     * @covers \format_masonry\output\courseformat\content\section\controlmenu
-     * @covers \format_masonry\output\courseformat\content\section\availability
-     * @covers \format_masonry\output\courseformat\content\cm\availability
+     * #[CoversClass(format_masonry\output\renderer)]
+     * #[CoversClass(format_masonry\output\courseformat\content)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\controlmenu)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\availability)]
+     * #[CoversClass(format_masonry\output\courseformat\content\cm\availability)]
      */
     public function test_renderer(): void {
         global $PAGE, $USER;
@@ -232,13 +232,13 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Test format.
-     * @covers \format_masonry
-     * @covers \format_masonry\output\renderer
-     * @covers \format_masonry\output\courseformat\content
-     * @covers \format_masonry\output\courseformat\content\section
-     * @covers \format_masonry\output\courseformat\content\section\controlmenu
-     * @covers \format_masonry\output\courseformat\content\section\availability
-     * @covers \format_masonry\output\courseformat\content\cm\availability
+     * #[CoversClass(format_masonry)]
+     * #[CoversClass(format_masonry\output\renderer)]
+     * #[CoversClass(format_masonry\output\courseformat\content)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\controlmenu)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\availability)]
+     * #[CoversClass(format_masonry\output\courseformat\content\cm\availability)]
      */
     public function test_format(): void {
         global $CFG, $PAGE, $USER;
@@ -266,13 +266,13 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Test format editing.
-     * @covers \format_masonry
-     * @covers \format_masonry\output\renderer
-     * @covers \format_masonry\output\courseformat\content
-     * @covers \format_masonry\output\courseformat\content\section
-     * @covers \format_masonry\output\courseformat\content\section\controlmenu
-     * @covers \format_masonry\output\courseformat\content\section\availability
-     * @covers \format_masonry\output\courseformat\content\cm\availability
+     * #[CoversClass(format_masonry)]
+     * #[CoversClass(format_masonry\output\renderer)]
+     * #[CoversClass(format_masonry\output\courseformat\content)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\controlmenu)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\availability)]
+     * #[CoversClass(format_masonry\output\courseformat\content\cm\availability)]
      */
     public function test_format_editing(): void {
         global $CFG, $PAGE, $USER;
@@ -299,13 +299,13 @@ final class masonry_test extends advanced_testcase {
 
     /**
      * Test other.
-     * @covers \format_masonry
-     * @covers \format_masonry\output\renderer
-     * @covers \format_masonry\output\courseformat\content
-     * @covers \format_masonry\output\courseformat\content\section
-     * @covers \format_masonry\output\courseformat\content\section\controlmenu
-     * @covers \format_masonry\output\courseformat\content\section\availability
-     * @covers \format_masonry\output\courseformat\content\cm\availability
+     * #[CoversClass(format_masonry)]
+     * #[CoversClass(format_masonry\output\renderer)]
+     * #[CoversClass(format_masonry\output\courseformat\content)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\controlmenu)]
+     * #[CoversClass(format_masonry\output\courseformat\content\section\availability)]
+     * #[CoversClass(format_masonry\output\courseformat\content\cm\availability)]
      */
     public function test_other(): void {
         $this->setAdminUser();

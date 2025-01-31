@@ -36,7 +36,7 @@ namespace format_masonry;
 final class other_test extends \advanced_testcase {
     /**
      * Test upgrade.
-     * @coversNothing
+     * #[CoversNothing]
      */
     public function test_upgrade(): void {
         global $CFG;
@@ -50,7 +50,7 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Settings testcase.
-     * @coversNothing
+     * #[CoversNothing]
      */
     public function test_settings(): void {
         global $ADMIN, $CFG, $USER;
@@ -66,7 +66,7 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Inplace edit.
-     * @covers \format_masonry
+     * #[CoversClass(format_masonry)]
      */
     public function test_inplace_edit(): void {
         global $CFG;
