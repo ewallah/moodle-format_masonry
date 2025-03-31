@@ -199,7 +199,7 @@ M.masonry.init = function(Y, cfg) {
 
         _getColumns: function() {
             var node = this.get('node'),
-                container = this.get('isFitWidth') ? Y.one('section#region-main') : node,
+                container = this.get('isFitWidth') ? Y.one('#region-main') : node,
                 containerWidth = parseInt(container.getStyle('width'), 10) || 999,
                 columnWidth = this.get('columnWidth'),
                 gutterWidth = this.get('gutterWidth');
