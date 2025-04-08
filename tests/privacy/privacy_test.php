@@ -39,7 +39,7 @@ use core_privacy\local\metadata\collection;
 final class privacy_test extends provider_testcase {
     /**
      * Test returning metadata.
-     * #[CoversClass(format_masonry\privacy\provider)]
+     * @covers \format_masonry\privacy\provider
      */
     public function test_get_metadata(): void {
         $collection = new collection('format_masonry');
