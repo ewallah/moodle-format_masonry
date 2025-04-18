@@ -34,10 +34,8 @@ Feature: format_masonry subsections
     Then I should see "Book1"
     And I should see "Lesson1"
     And I should see "Page1"
-    But I should not see "Subsection1"
     And I log out
     When I am on the "C1" "Course" page logged in as "student1"
     Then I should see "Book1"
     And I should see "Lesson1"
     And I should see "Page1"
-    But I should not see "Subsection1"

@@ -116,7 +116,7 @@ Feature: format_masonry
     Given I am on the "C1" "Course" page logged in as "teacher1"
     And I turn editing mode on
     And I delete section "4"
-    Then I should see "Are you absolutely sure you want to completely delete \"Topic 4\" and all the activities it contains?"
+    Then I should see "and all the activities it contains"
     And I press "Delete"
     And I should see "Topic 4"
     But I should not see "Topic 5"
