@@ -24,7 +24,7 @@
  */
 
 namespace format_masonry;
-
+use PHPUnit\Framework\Attributes\CoversNothing;
 /**
  * format_masonry related other unit tests
  *
@@ -33,10 +33,10 @@ namespace format_masonry;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversNothing]
 final class other_test extends \advanced_testcase {
     /**
      * Test upgrade.
-     * @coversNothing
      */
     public function test_upgrade(): void {
         global $CFG;
@@ -50,7 +50,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Settings testcase.
-     * @coversNothing
      */
     public function test_settings(): void {
         global $ADMIN, $CFG, $USER;
@@ -66,7 +65,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Inplace edit.
-     * @covers \format_masonry
      */
     public function test_inplace_edit(): void {
         global $CFG;
