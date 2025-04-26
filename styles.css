@@ -48,8 +48,9 @@
 }
 
 #page-course-view-masonry .expanded-icon,
+#page-course-view-masonry .icons-collapse-expand,
 #page-course-view-masonry #completionprogressid {
-    display: none;
+    display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 #page-course-view-masonry #coursemasonry .section .content .summary .no-overflow {
