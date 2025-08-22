@@ -26,7 +26,6 @@
 namespace format_masonry\output\courseformat\content\section;
 
 use core_courseformat\output\local\content\section\availability as availability_base;
-
 use core_availability_multiple_messages;
 use core_availability\info;
 use stdClass;
@@ -40,7 +39,6 @@ use stdClass;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class availability extends availability_base {
-
     /**
      * Generate the basic availability information data from a string.
      * Do not shorten availability text to generate the excerpt text.

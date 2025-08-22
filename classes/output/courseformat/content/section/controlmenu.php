@@ -36,7 +36,6 @@ use core_courseformat\output\local\content\section\controlmenu as controlmenu_ba
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class controlmenu extends controlmenu_base {
-
     /**
      * Generate the edit control items of a section.
      *
