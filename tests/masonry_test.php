@@ -18,7 +18,7 @@
  * format_masonry related unit tests
  *
  * @package   format_masonry
- * @copyright 2013-2024 eWallah.net
+ * @copyright  eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * format_masonry related unit tests
  *
  * @package   format_masonry
- * @copyright 2013-2024 eWallah.net
+ * @copyright  eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
