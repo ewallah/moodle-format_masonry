@@ -4,10 +4,11 @@ Feature: format_masonry subsections
   In order to view my course contents with subsections, I have to browse
 
   Background:
-    Given the site is running Moodle version 4.5 or higher
-    When the following "courses" exist:
-      | fullname | shortname | format  | coursedisplay | numsections |
-      | Course 1 | C1        | masonry | 1             | 5           |
+    Given the following config values are set as admin:
+      | allowstealth | 1 |
+    And the following "courses" exist:
+      | fullname | shortname | format  | coursedisplay |
+      | Course 1 | C1        | masonry | 1             |
     And the following "users" exist:
       | username |
       | teacher1 |

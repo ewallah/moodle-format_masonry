@@ -64,7 +64,7 @@ class section extends section_base {
         $data = (object)[
             'num' => $section->section ?? 0,
             'id' => $section->id,
-            'insertafter' => true,
+            'insertafter' => false,
             'sitehome' => $course->id == SITEID,
             'editing' => $isediting,
             'summary' => $summary->export_for_template($output),
@@ -141,7 +141,7 @@ class section extends section_base {
         if (has_capability('moodle/course:sectionvisibility', $coursecontext)) {
             $data->uservisible = true;
         }
-        $data->contentcollapsed = $this->is_section_collapsed();
+        $data->contentcollapsed = false;
         return true;
     }
 

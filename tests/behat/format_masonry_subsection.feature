@@ -4,9 +4,11 @@ Feature: format_masonry
   In order to view my course contents I have to browse
 
   Background:
-    Given the following "courses" exist:
-      | fullname | shortname | format  | coursedisplay | numsections |
-      | Course 1 | C1        | masonry | 1             | 5           |
+    Given the following config values are set as admin:
+      | allowstealth | 1 |
+    And the following "courses" exist:
+      | fullname | shortname | format  | coursedisplay |
+      | Course 1 | C1        | masonry | 1             |
     And the following "users" exist:
       | username |
       | teacher1 |
@@ -40,10 +42,10 @@ Feature: format_masonry
     Given I am on the "C1" "Course" page logged in as "teacher1"
     Then I should see "General" in the ".course-content" "css_element"
 
-  Scenario: Students doe not see stealth topics in masonry topics
+  Scenario: Students do see stealth topics in masonry topics
     Given I am on the "C1" "Course" page logged in as "student1"
     Then I should not see "General" in the ".course-content" "css_element"
-    And I should not see "workshop 1" in the ".course-content" "css_element"
+    And I should see "workshop 1" in the ".course-content" "css_element"
 
   Scenario: Non empty section 0 is shown in masonry topics
     Given the following "activities" exist:
@@ -75,8 +77,8 @@ Feature: format_masonry
     And I should see "page 2"
     And I should not see "page 3"
     # Stealth section is hidden.
-    And I should not see "workshop 1"
-    And I should not see "workshop 2"
+    And I should see "workshop 1"
+    And I should see "workshop 2"
     And I should not see "workshop 3"
 
   Scenario: Modify section summary - title - background color in masonry format
@@ -119,7 +121,7 @@ Feature: format_masonry
     Then I should see "and all the activities it contains"
     And I press "Delete"
     And I should see "Topic 4"
-    But I should not see "Topic 5"
+    But I should not see "Topic 6"
 
   Scenario: Deleting the middle section in masonry format
     Given I am on the "C1" "Course" page logged in as "teacher1"
@@ -127,4 +129,4 @@ Feature: format_masonry
     When I delete section "4"
     And I press "Delete"
     Then I should not see "Page 1"
-    And I should see "Orphaned activities"
+    And I should not see "Orphaned activities"

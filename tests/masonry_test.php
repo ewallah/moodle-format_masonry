@@ -58,8 +58,7 @@ final class masonry_test extends advanced_testcase {
         $CFG->enablecompletion = true;
         $CFG->enableavailability = true;
         $gen = $this->getDataGenerator();
-        $params = ['format' => 'masonry', 'numsections' => 6, 'startdate' => time() - 3000,
-                   'enablecompletion' => 1, 'showactivitydates' => true, ];
+        $params = ['format' => 'masonry', 'startdate' => time() - 3000, 'enablecompletion' => 1, 'showactivitydates' => true];
         $course = $gen->create_course($params, ['createsections' => true]);
         $DB->set_field('course', 'groupmode', SEPARATEGROUPS);
         $DB->set_field('course', 'groupmodeforce', 1);
@@ -166,7 +165,7 @@ final class masonry_test extends advanced_testcase {
         $format = course_get_format($this->course);
         $format->create_edit_form_elements($form, $this->course);
         $format->create_edit_form_elements($form, null);
-        $this->assertCount(6, $format->course_format_options());
+        $this->assertCount(5, $format->course_format_options());
     }
 
     /**
@@ -291,14 +290,14 @@ final class masonry_test extends advanced_testcase {
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
         $format->update_course_format_options($data, $this->course);
-        $this->assertCount(6, $format->course_format_options());
+        $this->assertCount(5, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, $section));
         $this->assertTrue($format->uses_sections());
         $this->assertFalse($format->uses_indentation());
         $this->assertTrue($format->supports_components());
         $this->assertTrue($format->can_delete_section($section));
         $this->assertFalse($format->uses_course_index());
-        $this->assertCount(6, $format->get_config_for_external());
+        $this->assertCount(5, $format->get_config_for_external());
         $this->assertCount(2, $format->ajax_section_move());
         $this->assertTrue($format->supports_ajax()->capable);
     }

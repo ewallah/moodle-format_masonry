@@ -135,7 +135,6 @@ class format_masonry extends core_courseformat\base {
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
             $courseformatoptions = [
-                'numsections' => ['default' => $courseconfig->numsections, 'type' => PARAM_INT],
                 'hiddensections' => ['type' => PARAM_INT, 'default' => 1],
                 'coursedisplay' => ['type' => PARAM_INT, 'default' => 1],
                 'borderwidth' => ['type' => PARAM_INT, 'default' => 1],
@@ -150,11 +149,6 @@ class format_masonry extends core_courseformat\base {
                 $sectionmenu[$i] = "$i";
             }
             $courseoptionsedit = [
-                'numsections' => [
-                    'label' => new \lang_string('numberweeks'),
-                    'element_type' => 'select',
-                    'element_attributes' => [$sectionmenu],
-                ],
                 'hiddensections' => [
                     'label' => 'hidden1',
                     'element_type' => 'hidden',
