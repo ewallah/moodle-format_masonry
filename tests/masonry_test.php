@@ -34,7 +34,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * format_masonry related unit tests
  *
  * @package   format_masonry
- * @copyright  eWallah.net
+ * @copyright eWallah.net
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -57,6 +57,7 @@ final class masonry_test extends advanced_testcase {
         $this->resetAfterTest(true);
         $CFG->enablecompletion = true;
         $CFG->enableavailability = true;
+
         $gen = $this->getDataGenerator();
         $params = ['format' => 'masonry', 'startdate' => time() - 3000, 'enablecompletion' => 1, 'showactivitydates' => true];
         $course = $gen->create_course($params, ['createsections' => true]);
@@ -109,6 +110,7 @@ final class masonry_test extends advanced_testcase {
                 $sectionname = get_string('sectionname', 'format_masonry') . ' ' . $section->section;
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
+
             $this->assertNotEmpty($courseformat->inplace_editable_render_section_name($section));
         }
     }
@@ -122,7 +124,7 @@ final class masonry_test extends advanced_testcase {
         // Modify section names.
         $customname = "Custom Section";
         foreach ($coursesections as $section) {
-            $section->name = "$customname $section->section";
+            $section->name = "{$customname} $section->section";
             $DB->update_record('course_sections', $section);
         }
 
@@ -158,6 +160,7 @@ final class masonry_test extends advanced_testcase {
 
         $courseform = new \testable_course_edit_form(null, $args);
         $courseform->definition_after_data();
+
         $enddate = time() - 3000 + (int)get_config('moodlecourse', 'courseduration');
         $masonryformat = course_get_format($this->course->id);
         $form = $courseform->get_quick_form();
@@ -172,17 +175,22 @@ final class masonry_test extends advanced_testcase {
      * Test renderer.
      */
     public function test_renderer(): void {
-        global $PAGE, $USER;
+        global $CFG, $PAGE, $USER;
         $this->setAdminUser();
         $generator = $this->getDataGenerator();
         $generator->enrol_user($USER->id, $this->course->id, 5);
+
+        $modinfo = get_fast_modinfo($this->course);
+        $section = $modinfo->get_section_info(2);
+        $branch = (int)$CFG->branch;
         $USER->editing = true;
-        set_section_visible($this->course->id, 2, 0);
+
         $page = new \moodle_page();
         $page->set_course($this->course);
         $page->set_pagelayout('standard');
         $page->set_pagetype('course-view');
         $page->set_url('/course/view.php?id=' . $this->course->id);
+
         $PAGE->set_url('/course/view.php?id=' . $this->course->id);
         $page->requires->js_init_call(
             'M.masonry.init',
@@ -199,14 +207,18 @@ final class masonry_test extends advanced_testcase {
             ]
         );
         $renderer = new \format_masonry\output\renderer($PAGE, null);
-        $modinfo = get_fast_modinfo($this->course);
         $section = $modinfo->get_section_info(0);
         $this->assertStringContainsString('General', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(1);
         $this->assertStringContainsString('Topic 1', $renderer->section_title($section, $this->course));
         $section = $modinfo->get_section_info(2);
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
-        set_section_visible($this->course->id, 2, 0);
+        if ($branch > 501) {
+            \core_courseformat\formatactions::section($this->course->id)->set_visibility($section, false);
+        } else {
+            set_section_visible($this->course->id, 2, false);
+        }
+
         $this->assertStringContainsString('Topic 2', $renderer->section_title_without_link($section, $this->course));
         $format = course_get_format($this->course);
         $outputclass = $format->get_output_classname('content');
@@ -219,6 +231,7 @@ final class masonry_test extends advanced_testcase {
             $cmb = new \format_masonry\output\courseformat\content\section($format, $section);
             $cmb->export_for_template($renderer);
         }
+
         $this->setUser($generator->create_and_enrol($this->course, 'student'));
         foreach ($sections as $section) {
             $cmb = new \format_masonry\output\courseformat\content\section($format, $section);
@@ -276,6 +289,7 @@ final class masonry_test extends advanced_testcase {
         $sections = $modinfo->get_section_info_all();
         $section = new stdClass();
         $section->section = $sections[1]->section;
+
         $format->section_action($section, 'hide', 1);
     }
 
@@ -289,6 +303,7 @@ final class masonry_test extends advanced_testcase {
         $data = new stdClass();
         $data->bordercolor = '#FFF';
         $data->backcolor = '#000';
+
         $format->update_course_format_options($data, $this->course);
         $this->assertCount(5, $format->course_format_options());
         $this->assertTrue($format->allow_stealth_module_visibility(null, $section));

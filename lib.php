@@ -57,11 +57,11 @@ class format_masonry extends core_courseformat\base {
         if ($section->section == 0) {
             // Return the general section.
             return get_string('section0name', 'format_masonry');
-        } else {
-            // Use course_format::get_default_section_name implementation which
-            // will display the section name in "Topic n" format.
-            return parent::get_default_section_name($section);
         }
+
+        // Use course_format::get_default_section_name implementation which
+        // will display the section name in "Topic n" format.
+        return parent::get_default_section_name($section);
     }
 
     /**
@@ -75,9 +75,9 @@ class format_masonry extends core_courseformat\base {
         if ((string)$section->name !== '') {
             // Return the name the user set.
             return format_string($section->name, true, ['context' => context_course::instance($this->courseid)]);
-        } else {
-            return $this->get_default_section_name($section);
         }
+
+        return $this->get_default_section_name($section);
     }
 
     /**
@@ -141,13 +141,15 @@ class format_masonry extends core_courseformat\base {
                 'bordercolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0'],
                 'backcolor' => ['type' => PARAM_TEXT, 'default' => '#F0F0F0'], ];
         }
+
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
             $courseconfig = get_config('moodlecourse');
             $max = (int)$courseconfig->maxsections;
             $sectionmenu = [];
             for ($i = 0; $i <= $max; $i++) {
-                $sectionmenu[$i] = "$i";
+                $sectionmenu[$i] = "{$i}";
             }
+
             $courseoptionsedit = [
                 'hiddensections' => [
                     'label' => 'hidden1',
@@ -179,6 +181,7 @@ class format_masonry extends core_courseformat\base {
             ];
             $courseformatoptions = array_merge_recursive($courseformatoptions, $courseoptionsedit);
         }
+
         return $courseformatoptions;
     }
 
@@ -195,6 +198,7 @@ class format_masonry extends core_courseformat\base {
             $data->bordercolor = get_config('format_masonry', 'defaultbordercolor');
             return parent::update_course_format_options($data, $oldcourse);
         }
+
         return $this->update_format_options($data);
     }
 
@@ -219,10 +223,12 @@ class format_masonry extends core_courseformat\base {
             $edithint = ($section->section == 0) ? 'section0name' : 'sectionname';
             $edithint = new lang_string($edithint, 'format_masonry');
         }
+
         if (empty($editlabel)) {
             $title = get_section_name($section->course, $section);
             $editlabel = new lang_string('newsectionname', 'format_masonry', $title);
         }
+
         return parent::inplace_editable_render_section_name($section, $linkifneeded, $editable, $edithint, $editlabel);
     }
 
@@ -267,8 +273,6 @@ class format_masonry extends core_courseformat\base {
 
     /**
      * Whether this format allows to indentation.
-     *
-     * @return bool
      */
     public function uses_indentation(): bool {
         return false;
@@ -290,6 +294,7 @@ class format_masonry extends core_courseformat\base {
                 $titles[$number] = $renderer->section_title($section, $course);
             }
         }
+
         return ['sectiontitles' => $titles, 'action' => 'move'];
     }
 
@@ -312,6 +317,7 @@ class format_masonry extends core_courseformat\base {
             $modinfo = course_modinfo::instance($this->courseid);
             $section = $modinfo->get_section_info($section->section);
         }
+
         $elementclass = $this->get_output_classname('content\\section\\availability');
         $availability = new $elementclass($this, $section);
 

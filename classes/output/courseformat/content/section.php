@@ -112,6 +112,7 @@ class section extends section_base {
             $data->cmlist = $cmlist->export_for_template($output);
             $result = true;
         }
+
         return $result;
     }
 
@@ -131,24 +132,25 @@ class section extends section_base {
         $data->sectionbulk = false;
         $data->uservisible = true;
         if ($data->num === 0) {
-            if (count($data->cmlist->cms) == 0) {
+            if (count($data->cmlist->cms) === 0) {
                 $data->uservisible = false;
             }
         }
+
         if ($this->isstealth) {
             $data->uservisible = false;
         }
+
         if (has_capability('moodle/course:sectionvisibility', $coursecontext)) {
             $data->uservisible = true;
         }
+
         $data->contentcollapsed = false;
         return true;
     }
 
     /**
      * Returns true if the current section should be shown collapsed.
-     *
-     * @return bool
      */
     protected function is_section_collapsed(): bool {
         return false;

@@ -29,7 +29,7 @@
  * @param int $oldversion the version we are upgrading from
  * @return bool result
  */
-function xmldb_format_masonry_upgrade($oldversion) {
+function xmldb_format_masonry_upgrade($oldversion): bool {
     global $DB;
 
     if ($oldversion < 2018031900) {
@@ -40,5 +40,6 @@ function xmldb_format_masonry_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2018031900, 'format', 'masonry');
     }
+
     return true;
 }

@@ -18,7 +18,7 @@
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright   eWallah.net
+ * @copyright  eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ use moodle_page;
  * Format masonry renderer class.
  *
  * @package    format_masonry
- * @copyright   eWallah.net
+ * @copyright  eWallah.net
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -74,15 +74,18 @@ class renderer extends section_renderer {
             if ($course->id == 1) {
                 return '';
             }
+
             $course = $course->id;
         }
+
         $format = course_get_format($course);
         $options = (object) $format->get_format_options();
         $str = '.masonry-brick {';
         if (property_exists($options, 'backcolor')) {
             $str .= 'background-color:' . $options->backcolor . ' !important;';
-            $str .= 'border: ' . trim($options->borderwidth) . 'px solid ' . $options->bordercolor . ' !important;}';
+            $str .= 'border: ' . trim((string) $options->borderwidth) . 'px solid ' . $options->bordercolor . ' !important;}';
         }
+
         $moduleinfo = $format->get_modinfo();
         $sections = array_keys($moduleinfo->get_sections());
         foreach ($sections as $section) {
@@ -96,7 +99,8 @@ class renderer extends section_renderer {
                 }
             }
         }
-        $extra = "<style>.masonry {margin: 0; padding: 0;} $str</style>";
+
+        $extra = "<style>.masonry {margin: 0; padding: 0;} {$str}</style>";
         return $this->render_from_template('format_masonry/course', $data) . $extra;
     }
 }

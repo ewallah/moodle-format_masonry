@@ -49,6 +49,7 @@ class content extends content_base {
             $PAGE->requires->js('/course/format/masonry/edit.js');
             $colwidth = 20;
         }
+
         // Render using the masonry js.
         $PAGE->requires->js_init_call(
             'M.masonry.init',

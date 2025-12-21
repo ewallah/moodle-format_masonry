@@ -58,6 +58,7 @@ final class other_test extends \advanced_testcase {
         $this->setAdminUser();
         $ADMIN = $USER;
         $ADMIN->fulltree = true;
+
         $settings = new \admin_settingpage('test', 'test');
         require_once($CFG->dirroot . '/course/format/masonry/settings.php');
         $this->assertNotEmpty($settings);
